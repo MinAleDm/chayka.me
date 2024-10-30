@@ -1,0 +1,69 @@
+/* Сброс базовых стилей */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    background-color: #0d1117; /* Темный фон */
+    color: #c9d1d9; /* Светлый текст */
+    line-height: 1.6;
+}
+
+/* Заголовок */
+header {
+    display: flex; /* Используем flexbox для выравнивания элементов */
+    align-items: center; /* Центрируем по вертикали */
+    padding: 20px 40px; /* Отступы сверху и снизу, слева и справа */
+}
+
+h1 {
+    font-size: 2.5em; /* Размер заголовка */
+    color: #ffffff; /* Белый цвет заголовка */
+    margin: 0; /* Убираем отступы */
+    text-align: left; /* Выровнять текст влево */
+}
+
+nav {
+    margin-left: auto; /* Отодвигаем навигацию вправо */
+}
+
+nav ul {
+    list-style: none;
+    display: flex; /* Используем flexbox для горизонтального расположения */
+}
+
+nav ul li {
+    margin: 0 20px; /* Отступы между элементами навигации */
+}
+
+nav a {
+    text-decoration: none; /* Убираем подчеркивание */
+    color: #ffffff; /* Белый цвет ссылок */
+    font-weight: 600;
+    transition: color 0.3s; /* Плавный переход */
+}
+
+nav a:hover {
+    color: #58a6ff; /* Цвет при наведении */
+}
+
+/* Основной контент */
+main {
+    max-width: 900px;
+    margin: 40px auto; /* Центрирование */
+    padding: 30px;   
+}
+
+/* Секции */
+section {
+    margin-bottom: 60px; /* Отступы между секциями */
+}
+
+h2 {
+    font-size: 2.2em; /* Размер заголовка секций */
+    color: #ffffff; /* Цвет заголовка секций */
+    margin-bottom: 20px; /* Отступ снизу */
+}
