@@ -7,7 +7,7 @@ import './global.css';
 
 export const metadata: Metadata = {
   title: "Александр Минькин — Fullstack разработчик - ",
-  description: "Персональный сайт Алексей Минаева: проекты, блог, резюме и контакты."
+  description: "Персональный сайт: проекты, блог, резюме и контакты."
 };
 
 export default function Home() {
