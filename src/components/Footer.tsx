@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
-    <footer className="w-full border-t border-neutral-800 p-4 text-center text-neutral-400 text-sm">
-      © {new Date().getFullYear()} Александр Минькин. Все права защищены.
+    <footer className="w-full py-4 border-t border-gray-700 text-center text-gray-500 text-sm">
+      © 2025 MinAleDm. Все права защищены.
     </footer>
   );
 }

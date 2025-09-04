@@ -1,14 +1,16 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 export default function Header() {
   return (
-    <header className="w-full border-b border-neutral-800 p-4 flex justify-between items-center">
-      <Link href="/" className="font-bold text-lg text-blue-400">
-        AM.dev
-      </Link>
-      <nav className="flex gap-6 text-neutral-300">
-        <Link href="/projects" className="hover:text-white">Проекты</Link>
-        <Link href="/blog" className="hover:text-white">Блог</Link>
+    <header className="w-full py-6 px-8 flex items-center justify-between border-b border-gray-700">
+      <Link href="/" className="text-2xl font-bold text-white">MyLogo</Link>
+      <nav>
+        <ul className="flex space-x-8">
+          <li><Link href="#about" className="text-gray-300 hover:text-white">Обо мне</Link></li>
+          <li><Link href="#projects" className="text-gray-300 hover:text-white">Проекты</Link></li>
+          <li><Link href="#blog" className="text-gray-300 hover:text-white">Блог</Link></li>
+          <li><Link href="#contact" className="text-gray-300 hover:text-white">Контакты</Link></li>
+        </ul>
       </nav>
     </header>
   );
