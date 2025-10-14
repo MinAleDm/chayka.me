@@ -1,35 +1,294 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой сайт</title>
+    <title>Alexander D</title>
     <style>
+        :root {
+            --text-color: #ffffff;
+            --button-bg: rgba(255, 255, 255, 0.2);
+            --button-hover: rgba(255, 255, 255, 0.4);
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            color: var(--text-color);
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #a18cd1, #fbc2eb);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            scroll-behavior: smooth;
         }
-        h1 {
-            color: #333;
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
-        a {
-            display: block;
-            margin: 10px;
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            background: transparent;
+            z-index: 100;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+
+        nav.menu a {
+            color: white;
             text-decoration: none;
-            color: #0077cc;
+            margin-left: 20px;
+            font-weight: bold;
+            transition: color 0.2s;
         }
-        a:hover {
-            color: #005fa3;
+
+        nav.menu a:hover {
+            color: #ffcc00;
+        }
+
+        main {
+            padding: 50px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Соцсети */
+        .socials {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .socials a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            background: var(--button-bg);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.2s;
+            font-size: 24px;
+        }
+
+        .socials a:hover {
+            background: var(--button-hover);
+            transform: scale(1.1);
+        }
+
+        /* Навыки */
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .skill {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .skill:hover {
+            transform: translateY(-5px);
+        }
+
+        .skill svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            p {
+                font-size: 1em;
+            }
+
+            .skills {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
         }
     </style>
 </head>
+
 <body>
-    <h1>Привет! Это мой сайт 🌟</h1>
-    <p>Мои ссылки:</p>
-    <a href="https://github.com/твой_ник" target="_blank">GitHub</a>
-    <a href="https://t.me/твой_ник" target="_blank">Telegram</a>
-    <a href="https://linkedin.com/in/твой_ник" target="_blank">LinkedIn</a>
+
+    <header>
+        <h2>Alexander D.</h2>
+        <nav class="menu">
+            <a href="#about">Обо мне</a>
+            <a href="#skills">Навыки</a>
+            <a href="#contacts">Контакты</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="about">
+            <h1>Алекскандр Минькин</h1>
+            <p>
+                Я студент МИРЭА — Российского Технологического Университета по направлению «Программная инженерия».
+                Мой фокус — веб-разработка, опыт с JavaScript, TypeScript, React, Angular, Vue.js и современным стеком
+                технологий.
+            </p>
+            <p>
+                Работал как на фронтенде, так и на бэкенде, реализуя проектные решения с использованием различных
+                инструментов и подходов.
+            </p>
+        </section>
+
+        <section id="skills">
+            <p>Навыки и технологии, с которыми я работаю:</p>
+            <div class="skills">
+                <div class="skill">
+                    <!-- JavaScript -->
+                    <svg viewBox="0 0 128 128" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="128" height="128" fill="#F7DF1E" rx="16" />
+                        <text x="50%" y="70%" font-family="Arial, sans-serif" font-size="72" font-weight="bold"
+                            fill="#000" text-anchor="middle" dominant-baseline="middle">JS</text>
+                    </svg>
+                    <span>JavaScript</span>
+                </div>
+
+                <div class="skill">
+                    <!-- TypeScript -->
+                    <svg viewBox="0 0 128 128" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="128" height="128" fill="#3178C6" rx="16" />
+                        <text x="50%" y="70%" font-family="Arial, sans-serif" font-size="72" font-weight="bold"
+                            fill="#fff" text-anchor="middle" dominant-baseline="middle">TS</text>
+                    </svg>
+                    <span>TypeScript</span>
+                </div>
+                <div class="skill">
+                    <svg viewBox="0 0 256 256" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" stroke="#61DAFB" stroke-width="16">
+                            <ellipse cx="128" cy="128" rx="88" ry="48" transform="rotate(0 128 128)" />
+                            <ellipse cx="128" cy="128" rx="88" ry="48" transform="rotate(60 128 128)" />
+                            <ellipse cx="128" cy="128" rx="88" ry="48" transform="rotate(120 128 128)" />
+                            <circle cx="128" cy="128" r="16" fill="#61DAFB" />
+                        </g>
+                    </svg>
+                    <span>React</span>
+                </div>
+                <div class="skill">
+                    <!-- Vue.js -->
+                    <svg viewBox="0 0 128 128" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <polygon fill="#42b883" points="64,16 16,112 32,112 64,48 96,112 112,112" />
+                        <polygon fill="#35495e" points="64,48 32,112 96,112" />
+                    </svg>
+                    <span>Vue.js</span>
+                </div>
+
+                <div class="skill">
+                    <!-- Angular -->
+                    <svg viewBox="0 0 128 128" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <polygon fill="#dd0031" points="64,8 8,32 16,96 64,120 112,96 120,32" />
+                        <polygon fill="#c3002f" points="64,8 64,112 112,96 120,32" />
+                    </svg>
+                    <span>Angular</span>
+                </div>
+
+                <div class="skill">
+                    <!-- Playwright -->
+                    <svg viewBox="0 0 128 128" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="64" cy="64" r="56" fill="#3e3e3e" />
+                        <path d="M40,64 L88,64 L64,40 Z" fill="#fff" />
+                    </svg>
+                    <span>Playwright</span>
+                </div>
+
+                <div class="skill">
+                    <!-- ClickHouse -->
+                    <svg viewBox="0 0 128 128" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Красный прямоугольник -->
+                        <rect x="16" y="96" width="16" height="32" fill="#F00" />
+                        <!-- Желтые прямоугольники -->
+                        <rect x="36" y="16" width="16" height="112" fill="#FFC700" />
+                        <rect x="56" y="16" width="16" height="112" fill="#FFC700" />
+                        <rect x="76" y="16" width="16" height="112" fill="#FFC700" />
+                        <rect x="96" y="48" width="16" height="80" fill="#FFC700" />
+                    </svg>
+                    <span>ClickHouse</span>
+                </div>
+
+                <div class="skill">
+                    <!-- REST API -->
+                    <svg viewBox="0 0 128 128" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="16" y="16" width="96" height="96" fill="#61affe" />
+                        <path d="M32 32h64v64H32z" fill="#fff" />
+                    </svg>
+                    <span>REST API</span>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="contacts">
+            <p>Связаться со мной:</p>
+            <div class="socials">
+                <a href="https://github.com/MinAleDm" target="_blank" title="GitHub">
+                    <svg viewBox="0 0 16 16">
+                        <path fill="white"
+                            d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.7 7.7 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.001 8.001 0 008 0z" />
+                    </svg>
+                </a>
+                <a href="https://t.me/MinAleDm" target="_blank" title="Telegram">
+                    <svg viewBox="0 0 240 240">
+                        <path fill="white"
+                            d="M120 0C53.7 0 0 53.7 0 120s53.7 120 120 120 120-53.7 120-120S186.3 0 120 0zm56.3 79.4l-21.3 100.5c-1.6 7.1-5.9 8.9-12 5.5l-33.3-24.6-16.1 15.5c-1.8 1.8-3.3 3.3-6.7 3.3l2.4-33.4 60.8-54.9c2.6-2.4-.6-3.7-4-1.3l-75.3 47.4-32.5-10.2c-7-2.2-7.1-7-1.4-10.4l127.5-49c5.9-2.2 11 1.4 9 10.7z" />
+                    </svg>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer style="text-align:center; padding:20px;">© 2025 Мой сайт. Все права защищены.</footer>
+
 </body>
+
 </html>
