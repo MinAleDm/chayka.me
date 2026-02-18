@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Блог Александра Минькина: заметки о разработке, UI и инженерных практиках." />
+    <meta name="theme-color" content="#050607" />
+    <title>Alexander Minkin | Blog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body class="page">
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="orb orb-a" aria-hidden="true"></div>
+    <div class="orb orb-b" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true"></span>
+          Alexander Minkin
+        </a>
+        <nav class="nav" aria-label="Main navigation">
+          <a data-nav class="nav-link" href="index.html">Home</a>
+          <a data-nav class="nav-link" href="blog.html">Blog</a>
+          <a data-nav class="nav-link" href="projects.html">Projects</a>
+        </nav>
+        <a class="cta-link" href="https://github.com/MinAleDm" target="_blank" rel="noreferrer">github.com/MinAleDm</a>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="card hero reveal">
+        <span class="badge">Notes & Engineering</span>
+        <h1>Блог о разработке, инструментах и процессе.</h1>
+        <p class="lead">
+          Пишу короткие и практичные заметки: как проектирую интерфейсы, организую кодовую базу и
+          выбираю стек под задачу.
+        </p>
+      </section>
+
+      <section class="grid mt-1">
+        <article class="card item reveal">
+          <div class="item-head">
+            <h2 class="item-title">Как я собирал личный сайт под GitHub Pages</h2>
+            <span class="item-meta">2026-02-18</span>
+          </div>
+          <p>Выбор структуры, единый layout для трех страниц и подход к поддерживаемому CSS без фреймворков.</p>
+          <div class="tags">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>GitHub Pages</span>
+          </div>
+        </article>
+
+        <article class="card item reveal">
+          <div class="item-head">
+            <h2 class="item-title">Почему TypeScript окупается даже в маленьких проектах</h2>
+            <span class="item-meta">draft</span>
+          </div>
+          <p>Где типизация реально ускоряет работу, а где создает лишний шум. Баланс между скоростью и надежностью.</p>
+          <div class="tags">
+            <span>TypeScript</span>
+            <span>DX</span>
+          </div>
+        </article>
+
+        <article class="card item reveal">
+          <div class="item-head">
+            <h2 class="item-title">UI без визуального шума: 7 принципов</h2>
+            <span class="item-meta">draft</span>
+          </div>
+          <p>Контраст, иерархия, сетка, ритм и микровзаимодействия. На примерах своих интерфейсов.</p>
+          <div class="tags">
+            <span>UI</span>
+            <span>Design</span>
+            <span>Frontend</span>
+          </div>
+        </article>
+      </section>
+
+      <footer class="footer">
+        © <span data-current-year></span> Alexander Minkin. Built for GitHub Pages.
+      </footer>
+    </main>
+
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
