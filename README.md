@@ -1,7 +1,27 @@
-**[chayka.me](https://minaledm.github.io/chayka.me/)**
+# chayka.me
 
-my personal website
+Personal website (resume + blog + projects) built with:
 
-<br>
+- Markdown
+- Vue 3
+- TypeScript
+- CSS
 
-<samp>code is licensed under <a href='./LICENSE'>MIT</a>,<br> words and images are licensed under <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/'>CC BY-NC-SA 4.0</a></samp>.
+## Local run
+
+```bash
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build
+```
+
+The project is configured for GitHub Pages project deployment with base path:
+
+`/chayka.me/`
+
+If you deploy to a custom domain root, change `base` in `vite.config.ts`.

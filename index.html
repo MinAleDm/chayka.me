@@ -3,109 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Личный сайт Александра Минькина: проекты, блог и опыт разработки." />
+    <meta name="description" content="Личный сайт Александра Минькина: резюме, блог и проекты." />
     <meta name="theme-color" content="#050607" />
-    <title>Alexander Minkin | Home</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="assets/css/styles.css" />
+    <title>Alexander Minkin</title>
   </head>
-  <body class="page">
-    <div class="bg-grid" aria-hidden="true"></div>
-    <div class="orb orb-a" aria-hidden="true"></div>
-    <div class="orb orb-b" aria-hidden="true"></div>
-
-    <header class="topbar">
-      <div class="container topbar-inner">
-        <a class="brand" href="index.html">
-          <span class="brand-mark" aria-hidden="true"></span>
-          Alexander Minkin
-        </a>
-        <nav class="nav" aria-label="Main navigation">
-          <a data-nav class="nav-link" href="index.html">Home</a>
-          <a data-nav class="nav-link" href="blog.html">Blog</a>
-          <a data-nav class="nav-link" href="projects.html">Projects</a>
-        </nav>
-        <a class="cta-link" href="https://github.com/MinAleDm" target="_blank" rel="noreferrer">github.com/MinAleDm</a>
-      </div>
-    </header>
-
-    <main class="container">
-      <section class="card hero reveal">
-        <span class="badge">Open to collaboration</span>
-        <h1>Frontend / Fullstack Engineer, делаю аккуратные и быстрые веб-продукты.</h1>
-        <p class="lead">
-          Я Александр Минькин. Учусь в РТУ МИРЭА и фокусируюсь на JavaScript / TypeScript,
-          интерфейсах, архитектуре и инженерной культуре в продуктовых командах.
-        </p>
-        <div class="actions">
-          <a class="button primary" href="projects.html">Смотреть проекты</a>
-          <a class="button ghost" href="blog.html">Читать блог</a>
-        </div>
-      </section>
-
-      <section class="grid grid-2">
-        <article class="card panel reveal">
-          <h3>Обо мне</h3>
-          <p>
-            Работал с React, Vue, Angular и backend-инструментами, участвовал в учебных и
-            pet-проектах, писал тесты и собирал интерфейсы с нуля. Мне интересно делать простые
-            решения для сложных задач.
-          </p>
-        </article>
-
-        <article class="card panel reveal">
-          <h3>Фокус сейчас</h3>
-          <ul class="list">
-            <li>Сильный UI/UX и системный подход к компонентам</li>
-            <li>TypeScript-first разработка и тестируемость</li>
-            <li>Личный бренд через контент и open source</li>
-          </ul>
-        </article>
-      </section>
-
-      <section class="card panel reveal mt-1">
-        <h3>Stack</h3>
-        <div class="stack">
-          <span>JavaScript</span>
-          <span>TypeScript</span>
-          <span>React</span>
-          <span>Vue</span>
-          <span>Angular</span>
-          <span>Node.js</span>
-          <span>Playwright</span>
-          <span>REST API</span>
-          <span>GitHub Actions</span>
-          <span>ClickHouse</span>
-        </div>
-      </section>
-
-      <section class="grid grid-2">
-        <article class="card item reveal">
-          <div class="item-head">
-            <h3 class="item-title">GitHub</h3>
-            <span class="item-meta">source code</span>
-          </div>
-          <p>Основной профиль с репозиториями, учебными и личными проектами.</p>
-          <a href="https://github.com/MinAleDm?tab=repositories&type=source" target="_blank" rel="noreferrer">Открыть repositories</a>
-        </article>
-
-        <article class="card item reveal">
-          <div class="item-head">
-            <h3 class="item-title">Контакты</h3>
-            <span class="item-meta">let's connect</span>
-          </div>
-          <p>Telegram: <a href="https://t.me/MinAleDm" target="_blank" rel="noreferrer">@MinAleDm</a><br />
-            GitHub: <a href="https://github.com/MinAleDm" target="_blank" rel="noreferrer">github.com/MinAleDm</a></p>
-        </article>
-      </section>
-
-      <footer class="footer">
-        © <span data-current-year></span> Alexander Minkin. Built for GitHub Pages.
-      </footer>
-    </main>
-
-    <script src="assets/js/main.js"></script>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

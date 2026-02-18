@@ -1,6 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap");
+
 :root {
   --bg: #050607;
-  --bg-soft: #0c1015;
+  --bg-glow-a: rgba(101, 166, 255, 0.22);
+  --bg-glow-b: rgba(98, 230, 200, 0.18);
   --panel: rgba(15, 20, 26, 0.72);
   --panel-strong: rgba(18, 24, 31, 0.92);
   --line: rgba(146, 178, 206, 0.22);
@@ -8,7 +11,10 @@
   --muted: #9ca7b2;
   --accent: #62e6c8;
   --accent-2: #64a6ff;
-  --warn: #f2c879;
+  --accent-glow: rgba(98, 230, 200, 0.8);
+  --accent-2-glow: rgba(100, 166, 255, 0.5);
+  --orb-a: #5ea7ff;
+  --orb-b: #57eec8;
   --radius: 18px;
   --shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
   --content: min(1080px, calc(100vw - 3rem));
@@ -21,7 +27,8 @@
 }
 
 html,
-body {
+body,
+#app {
   margin: 0;
   min-height: 100%;
 }
@@ -29,9 +36,10 @@ body {
 body {
   font-family: var(--font-display);
   color: var(--text);
+  overflow-x: hidden;
   background:
-    radial-gradient(1200px 620px at 8% -10%, rgba(101, 166, 255, 0.22), transparent 62%),
-    radial-gradient(900px 520px at 88% 0%, rgba(98, 230, 200, 0.18), transparent 58%),
+    radial-gradient(1200px 620px at 8% -10%, var(--bg-glow-a), transparent 62%),
+    radial-gradient(900px 520px at 88% 0%, var(--bg-glow-b), transparent 58%),
     var(--bg);
   letter-spacing: 0.01em;
 }
@@ -40,9 +48,8 @@ a {
   color: inherit;
 }
 
-.page {
+.app-shell {
   position: relative;
-  overflow: hidden;
 }
 
 .bg-grid {
@@ -70,17 +77,19 @@ a {
 .orb-a {
   top: -120px;
   right: -110px;
-  background: #5ea7ff;
+  background: var(--orb-a);
 }
 
 .orb-b {
   bottom: -140px;
   left: -90px;
-  background: #57eec8;
+  background: var(--orb-b);
   animation-delay: 3s;
 }
 
 .container {
+  position: relative;
+  z-index: 3;
   width: var(--content);
   margin: 0 auto;
 }
@@ -88,7 +97,7 @@ a {
 .topbar {
   position: sticky;
   top: 0;
-  z-index: 20;
+  z-index: 30;
   backdrop-filter: blur(14px);
   background: rgba(7, 9, 11, 0.78);
   border-bottom: 1px solid var(--line);
@@ -115,7 +124,7 @@ a {
   height: 11px;
   border-radius: 999px;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  box-shadow: 0 0 16px rgba(98, 230, 200, 0.8);
+  box-shadow: 0 0 16px var(--accent-glow);
 }
 
 .nav {
@@ -138,7 +147,8 @@ a {
   background: rgba(255, 255, 255, 0.08);
 }
 
-.nav-link.is-active {
+.nav-link.is-active,
+.nav-link.router-link-exact-active {
   color: #061015;
   background: linear-gradient(120deg, var(--accent), var(--accent-2));
 }
@@ -155,12 +165,10 @@ a {
 
 .cta-link:hover {
   color: var(--text);
-  border-color: rgba(100, 166, 255, 0.5);
+  border-color: var(--accent-2-glow);
 }
 
-main {
-  position: relative;
-  z-index: 2;
+.main-content {
   padding: 3rem 0 2rem;
 }
 
@@ -266,46 +274,6 @@ h1 {
   padding: 1.2rem;
 }
 
-.panel h3 {
-  font-size: 1.02rem;
-  margin-bottom: 0.8rem;
-}
-
-.panel p {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.62;
-}
-
-.stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.55rem;
-}
-
-.stack span {
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.03);
-  color: #dce7ef;
-  border-radius: 999px;
-  padding: 0.36rem 0.7rem;
-  font-size: 0.84rem;
-}
-
-.list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 0.65rem;
-}
-
-.list li {
-  color: var(--muted);
-  border-left: 2px solid rgba(98, 230, 200, 0.45);
-  padding-left: 0.68rem;
-}
-
 .item {
   padding: 1.15rem;
 }
@@ -360,21 +328,78 @@ h1 {
   color: #cbf0ff;
 }
 
+.details {
+  margin-top: 0.8rem;
+  border-top: 1px solid var(--line);
+  padding-top: 0.7rem;
+}
+
+.details summary {
+  cursor: pointer;
+  color: #cde8f7;
+  font-size: 0.9rem;
+}
+
+.details summary:hover {
+  color: white;
+}
+
+.markdown-body {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  margin: 1.1rem 0 0.5rem;
+  color: var(--text);
+}
+
+.markdown-body p,
+.markdown-body ul,
+.markdown-body ol {
+  margin: 0.7rem 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 1.2rem;
+}
+
+.markdown-body code {
+  font-family: var(--font-mono);
+  font-size: 0.84em;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.12rem 0.32rem;
+}
+
+.markdown-body a {
+  color: #9cd8ff;
+}
+
 .footer {
-  margin: 2.2rem 0 1.4rem;
+  margin: 2.2rem auto 1.4rem;
   color: var(--muted);
   font-size: 0.9rem;
 }
 
 .reveal {
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.45s ease, transform 0.45s ease;
+  animation: reveal 0.5s ease both;
 }
 
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes drift {

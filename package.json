@@ -1,23 +1,22 @@
 {
   "name": "chayka.me",
-  "version": "1.0.0",
-  "description": "PW",
-  "main": "index.js",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "test": "npm run test"
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
   },
-  "repository": {
-    "type": "git",
-    "url": "-"
-  },
-  "keywords": [
-    "site",
-    "pe"
-  ],
-  "author": "MinAleDm",
-  "license": "MIT",
   "dependencies": {
-    "modules": "^0.4.0",
-    "node": "^25.1.0"
+    "markdown-it": "^14.1.0",
+    "vue": "^3.5.18",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10",
+    "vue-tsc": "^2.1.6"
   }
 }
