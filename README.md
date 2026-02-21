@@ -1,3 +1,5 @@
+[![Deploy to GitHub Pages](https://github.com/MinAleDm/chayka.me/actions/workflows/pages.yml/badge.svg)](https://github.com/MinAleDm/chayka.me/actions/workflows/pages.yml)
+
 **[chayka.me](https://minaledm.github.io/chayka.me/)**
 
 my personal website
