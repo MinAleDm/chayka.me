@@ -6,13 +6,9 @@ import SiteHeader from "./components/SiteHeader.vue";
 
 <template>
   <div class="app-shell">
-    <div class="bg-grid" aria-hidden="true" />
-    <div class="orb orb-a" aria-hidden="true" />
-    <div class="orb orb-b" aria-hidden="true" />
-
     <SiteHeader />
 
-    <main class="container main-content">
+    <main class="main-content">
       <RouterView />
     </main>
 

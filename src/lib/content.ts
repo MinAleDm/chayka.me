@@ -88,6 +88,10 @@ export const getBlogPosts = (): ContentEntry[] => {
   });
 };
 
+export const getBlogPostBySlug = (slug: string): ContentEntry | undefined => {
+  return getBlogPosts().find((post) => post.slug === slug);
+};
+
 export const getProjects = (): ContentEntry[] => {
   const modules = import.meta.glob("../content/projects/*.md", {
     eager: true,

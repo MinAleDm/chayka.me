@@ -73,6 +73,9 @@ export const getBlogPosts = () => {
         return right - left;
     });
 };
+export const getBlogPostBySlug = (slug) => {
+    return getBlogPosts().find((post) => post.slug === slug);
+};
 export const getProjects = () => {
     const modules = import.meta.glob("../content/projects/*.md", {
         eager: true,

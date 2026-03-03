@@ -1,35 +1,77 @@
 <script setup lang="ts">
-import { getBlogPosts } from "../lib/content";
+import { computed } from "vue";
+import { RouterLink } from "vue-router";
+import { getBlogPosts, type ContentEntry } from "../lib/content";
 
 const posts = getBlogPosts();
+
+type PostGroup = {
+  year: string;
+  entries: ContentEntry[];
+};
+
+const postGroups = computed<PostGroup[]>(() => {
+  const groups = new Map<string, ContentEntry[]>();
+
+  for (const post of posts) {
+    const year = post.date?.slice(0, 4) ?? "Draft";
+    const bucket = groups.get(year);
+
+    if (bucket) {
+      bucket.push(post);
+    } else {
+      groups.set(year, [post]);
+    }
+  }
+
+  return Array.from(groups.entries()).map(([year, entries]) => ({ year, entries }));
+});
+
+const formatDate = (rawDate?: string): string => {
+  if (!rawDate) return "draft";
+
+  const parsed = new Date(rawDate);
+  if (Number.isNaN(parsed.getTime())) return rawDate;
+
+  return new Intl.DateTimeFormat("ru-RU", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  }).format(parsed);
+};
 </script>
 
 <template>
-  <section class="card hero reveal">
-    <span class="badge">Notes & Engineering</span>
-    <h1>Блог о разработке, инструментах и процессе.</h1>
-    <p class="lead">
-      Записи собираются из Markdown-файлов, так что добавлять новый пост можно без правок Vue-кода.
+  <section class="page-header reveal">
+    <p class="eyebrow">Blog</p>
+    <h1 class="page-title">Пишу про инженерную практику, архитектуру и процесс разработки.</h1>
+    <p class="page-lead">
+      Список публикаций из Markdown-файлов. Каждый пост открывается на отдельной странице.
+    </p>
+    <p class="page-lorem">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas feugiat sem ut mauris egestas,
+      vitae feugiat augue imperdiet.
     </p>
   </section>
 
-  <section class="grid mt-1">
-    <article v-for="post in posts" :key="post.slug" class="card item reveal">
-      <div class="item-head">
-        <h2 class="item-title">{{ post.title }}</h2>
-        <span class="item-meta">{{ post.date ?? "draft" }}</span>
+  <section class="list-section reveal">
+    <div v-for="group in postGroups" :key="group.year" class="year-group">
+      <h2 class="year-label">{{ group.year }}</h2>
+
+      <div class="entry-list">
+        <RouterLink
+          v-for="post in group.entries"
+          :key="post.slug"
+          class="entry-row"
+          :to="{ name: 'blog-post', params: { slug: post.slug } }"
+        >
+          <div class="entry-main">
+            <h3 class="entry-title">{{ post.title }}</h3>
+            <p class="entry-summary">{{ post.summary }}</p>
+          </div>
+          <span class="entry-date">{{ formatDate(post.date) }}</span>
+        </RouterLink>
       </div>
-
-      <p>{{ post.summary }}</p>
-
-      <div class="tags" v-if="post.tags.length">
-        <span v-for="tag in post.tags" :key="`${post.slug}-${tag}`">{{ tag }}</span>
-      </div>
-
-      <details class="details">
-        <summary>Открыть заметку</summary>
-        <div class="markdown-body" v-html="post.html" />
-      </details>
-    </article>
+    </div>
   </section>
 </template>

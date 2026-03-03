@@ -1,0 +1,59 @@
+<script setup lang="ts">
+import { computed } from "vue";
+import { RouterLink, useRoute } from "vue-router";
+import { getBlogPostBySlug } from "../lib/content";
+
+const route = useRoute();
+
+const post = computed(() => {
+  const slug = String(route.params.slug ?? "");
+  return getBlogPostBySlug(slug);
+});
+
+const formattedDate = computed(() => {
+  if (!post.value?.date) return "draft";
+
+  const parsed = new Date(post.value.date);
+  if (Number.isNaN(parsed.getTime())) return post.value.date;
+
+  return new Intl.DateTimeFormat("ru-RU", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric"
+  }).format(parsed);
+});
+</script>
+
+<template>
+  <section v-if="post" class="article-page reveal">
+    <p class="eyebrow">Post</p>
+    <h1 class="page-title">{{ post.title }}</h1>
+    <p class="page-lead">{{ post.summary }}</p>
+
+    <div class="post-head-meta">
+      <span>{{ formattedDate }}</span>
+      <span v-if="post.tags.length">{{ post.tags.join(" · ") }}</span>
+    </div>
+
+    <article class="markdown-body post-content" v-html="post.html" />
+
+    <RouterLink class="post-back-link" :to="{ name: 'blog' }">
+      ← Назад к списку постов
+    </RouterLink>
+  </section>
+
+  <section v-else class="article-page reveal">
+    <p class="eyebrow">404</p>
+    <h1 class="page-title">Пост не найден</h1>
+    <p class="page-lead">Такой записи нет или ссылка устарела.</p>
+    <p class="page-lorem">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vel tellus ac lorem hendrerit
+      tincidunt ut nec risus.
+    </p>
+    <div class="action-row">
+      <RouterLink class="text-button" :to="{ name: 'blog' }">
+        Ко всем постам
+      </RouterLink>
+    </div>
+  </section>
+</template>
