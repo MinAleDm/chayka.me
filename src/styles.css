@@ -344,6 +344,79 @@ h1 {
   color: white;
 }
 
+.gh-activity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.gh-activity-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.gh-link {
+  text-decoration: none;
+  color: #9cd8ff;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.gh-link:hover {
+  color: #cbf0ff;
+}
+
+.gh-muted,
+.gh-description {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.gh-error {
+  margin: 0;
+  color: #ffb7b7;
+}
+
+.gh-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
+}
+
+.gh-title {
+  margin: 0;
+  font-size: clamp(1.2rem, 2.8vw, 1.6rem);
+}
+
+.gh-meta,
+.gh-message,
+.gh-time {
+  margin: 0;
+}
+
+.gh-meta,
+.gh-time {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+.gh-meta a {
+  color: #9cd8ff;
+}
+
+.gh-meta a:hover {
+  color: #cbf0ff;
+}
+
+.gh-message {
+  color: #d8e8f1;
+  line-height: 1.55;
+}
+
 .markdown-body {
   color: var(--muted);
   line-height: 1.65;

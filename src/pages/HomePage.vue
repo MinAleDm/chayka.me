@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
 import { getHomeContent } from "../lib/content";
+import GithubActivityWidget from "../components/GithubActivityWidget.vue";
 
 const homeHtml = getHomeContent();
 </script>
@@ -18,6 +19,8 @@ const homeHtml = getHomeContent();
       <RouterLink class="button ghost" to="/blog">Читать блог</RouterLink>
     </div>
   </section>
+
+  <GithubActivityWidget />
 
   <section class="card panel mt-1 markdown-body reveal" v-html="homeHtml" />
 </template>
