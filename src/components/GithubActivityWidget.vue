@@ -285,24 +285,17 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="card panel mt-1 reveal gh-activity">
+  <section class="gh-activity reveal">
     <div class="gh-activity-header">
-      <span class="badge">GitHub activity</span>
-      <a
-        class="gh-link"
-        href="https://github.com/MinAleDm"
-        target="_blank"
-        rel="noreferrer noopener"
-      >
-        Профиль
-      </a>
+      <h2 class="section-title">Последний коммит</h2>
+      
     </div>
 
-    <p v-if="isLoading && !activity" class="gh-muted">Загружаю последнюю активность...</p>
+    <p v-if="isLoading && !activity" class="gh-muted">Загружаю последний коммит...</p>
     <p v-else-if="errorText" class="gh-error">{{ errorText }}</p>
 
     <div v-else-if="activity" class="gh-content">
-      <h2 class="gh-title">Последний коммит: {{ activity.commitSha }}</h2>
+      <h3 class="gh-title">{{ activity.commitMessage }}</h3>
       <p class="gh-meta">
         Репозиторий:
         <a :href="activity.repoUrl" target="_blank" rel="noreferrer noopener">
@@ -310,12 +303,13 @@ onBeforeUnmount(() => {
         </a>
       </p>
       <p class="gh-meta">
-        Коммит:
+        SHA:
+        <code>{{ activity.commitSha }}</code>
+        ·
         <a :href="activity.commitUrl" target="_blank" rel="noreferrer noopener">
           открыть на GitHub
         </a>
       </p>
-      <p class="gh-message">{{ activity.commitMessage }}</p>
       <p class="gh-description">{{ activity.projectDescription }}</p>
       <p class="gh-time">{{ relativeMoscowTime }} · {{ absoluteMoscowTime }}</p>
     </div>
