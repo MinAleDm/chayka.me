@@ -1,0 +1,10 @@
+---
+title: CrossRoad
+date: 2026
+tags: [Web, Discussions, Articles]
+order: 14
+link: https://github.com/MinAleDm/CrossRoad
+summary: Веб-сервис предназначенный для создания обсуждений и публикации статей
+---
+
+Платформа для публикации материалов и ведения обсуждений вокруг контента.

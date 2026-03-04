@@ -10,11 +10,25 @@ type PostGroup = {
   entries: ContentEntry[];
 };
 
+const getYearLabel = (rawDate?: string): string | null => {
+  if (!rawDate) return null;
+
+  const parsed = new Date(rawDate);
+  if (!Number.isNaN(parsed.getTime())) {
+    return String(parsed.getFullYear());
+  }
+
+  const fallback = rawDate.match(/^\d{4}/);
+  return fallback?.[0] ?? null;
+};
+
 const postGroups = computed<PostGroup[]>(() => {
   const groups = new Map<string, ContentEntry[]>();
 
   for (const post of posts) {
-    const year = post.date?.slice(0, 4) ?? "Draft";
+    const year = getYearLabel(post.date);
+    if (!year) continue;
+
     const bucket = groups.get(year);
 
     if (bucket) {
@@ -24,19 +38,33 @@ const postGroups = computed<PostGroup[]>(() => {
     }
   }
 
-  return Array.from(groups.entries()).map(([year, entries]) => ({ year, entries }));
+  return Array.from(groups.entries())
+    .sort(([left], [right]) => Number(right) - Number(left))
+    .map(([year, entries]) => ({
+      year,
+      entries: [...entries].sort((left, right) => {
+        const leftDate = left.date ? Date.parse(left.date) : 0;
+        const rightDate = right.date ? Date.parse(right.date) : 0;
+        const safeLeft = Number.isNaN(leftDate) ? 0 : leftDate;
+        const safeRight = Number.isNaN(rightDate) ? 0 : rightDate;
+        return safeRight - safeLeft;
+      })
+    }));
 });
 
 const formatDate = (rawDate?: string): string => {
-  if (!rawDate) return "draft";
+  if (!rawDate) return "n/a";
 
   const parsed = new Date(rawDate);
   if (Number.isNaN(parsed.getTime())) return rawDate;
 
   return new Intl.DateTimeFormat("ru-RU", {
     day: "2-digit",
-    month: "short",
-    year: "numeric"
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Moscow"
   }).format(parsed);
 };
 </script>
@@ -49,12 +77,13 @@ const formatDate = (rawDate?: string): string => {
       Список публикаций из Markdown-файлов. Каждый пост открывается на отдельной странице.
     </p>
     <p class="page-lorem">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas feugiat sem ut mauris egestas,
-      vitae feugiat augue imperdiet.
+      Пишу для души
     </p>
   </section>
 
   <section class="list-section reveal">
+    <p v-if="postGroups.length === 0" class="gh-muted">Пока нет опубликованных постов.</p>
+
     <div v-for="group in postGroups" :key="group.year" class="year-group">
       <h2 class="year-label">{{ group.year }}</h2>
 

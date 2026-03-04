@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
+import personalLogo from "../assets/images/logos/mylogo.png";
 </script>
 
 <template>
   <header class="topbar">
     <div class="topbar-inner">
-      <RouterLink class="brand" to="/">
-        <span class="brand-mark" aria-hidden="true">am</span>
-        <span class="brand-name">alexander.minkin</span>
+      <RouterLink class="brand" to="/" aria-label="Alexander Minkin home">
+        <img :src="personalLogo" alt="Alexander Minkin logo" class="brand-logo" />
       </RouterLink>
 
       <nav class="nav" aria-label="Main navigation">

@@ -11,7 +11,7 @@ const post = computed(() => {
 });
 
 const formattedDate = computed(() => {
-  if (!post.value?.date) return "draft";
+  if (!post.value?.date) return "n/a";
 
   const parsed = new Date(post.value.date);
   if (Number.isNaN(parsed.getTime())) return post.value.date;
@@ -19,7 +19,10 @@ const formattedDate = computed(() => {
   return new Intl.DateTimeFormat("ru-RU", {
     day: "2-digit",
     month: "long",
-    year: "numeric"
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Moscow"
   }).format(parsed);
 });
 </script>
