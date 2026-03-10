@@ -35,6 +35,12 @@ const getSlug = (path: string): string => {
   return file.replace(/\.md$/, "");
 };
 
+const parseDateToTimestamp = (value?: string): number => {
+  if (!value) return 0;
+  const parsed = Date.parse(value);
+  return Number.isNaN(parsed) ? 0 : parsed;
+};
+
 const createSummary = (rawBody: string): string => {
   const plain = stripMarkdown(rawBody);
   if (plain.length <= 170) return plain;
@@ -81,11 +87,7 @@ export const getBlogPosts = (): ContentEntry[] => {
     import: "default"
   }) as Record<string, string>;
 
-  return buildEntries(modules).sort((a, b) => {
-    const left = a.date ? Date.parse(a.date) : 0;
-    const right = b.date ? Date.parse(b.date) : 0;
-    return right - left;
-  });
+  return buildEntries(modules).sort((a, b) => parseDateToTimestamp(b.date) - parseDateToTimestamp(a.date));
 };
 
 export const getBlogPostBySlug = (slug: string): ContentEntry | undefined => {

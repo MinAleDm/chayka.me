@@ -14,31 +14,48 @@ export interface ParsedMarkdown {
   html: string;
 }
 
-const frontmatterRegex = /^---\n([\s\S]*?)\n---\n?/;
+const frontmatterRegex = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/;
 
-const normalizeValue = (value: string): FrontmatterValue => {
+const stripWrappingQuotes = (value: string): string => {
   const trimmed = value.trim();
+  const quoted = trimmed.match(/^(['"])([\s\S]*)\1$/);
+  return quoted ? quoted[2] : trimmed;
+};
 
-  if (/^\d+$/.test(trimmed)) {
+const parseListValue = (value: string): string[] => {
+  const normalized = value.trim();
+  const source =
+    normalized.startsWith("[") && normalized.endsWith("]")
+      ? normalized.slice(1, -1)
+      : normalized;
+
+  return source
+    .split(",")
+    .map((item) => stripWrappingQuotes(item))
+    .filter(Boolean);
+};
+
+const normalizeValue = (key: string, value: string): FrontmatterValue => {
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+
+  if (key === "tags") {
+    if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
+      return parseListValue(trimmed);
+    }
+
+    if (trimmed.includes(",")) {
+      return parseListValue(trimmed);
+    }
+
+    return stripWrappingQuotes(trimmed);
+  }
+
+  if (/^-?\d+$/.test(trimmed)) {
     return Number(trimmed);
   }
 
-  if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
-    return trimmed
-      .slice(1, -1)
-      .split(",")
-      .map((item) => item.trim().replace(/^['\"]|['\"]$/g, ""))
-      .filter(Boolean);
-  }
-
-  if (trimmed.includes(",")) {
-    return trimmed
-      .split(",")
-      .map((item) => item.trim().replace(/^['\"]|['\"]$/g, ""))
-      .filter(Boolean);
-  }
-
-  return trimmed.replace(/^['\"]|['\"]$/g, "");
+  return stripWrappingQuotes(trimmed);
 };
 
 export const parseMarkdown = (raw: string): ParsedMarkdown => {
@@ -64,7 +81,7 @@ export const parseMarkdown = (raw: string): ParsedMarkdown => {
     const value = line.slice(separator + 1);
     if (!key || !value) continue;
 
-    attributes[key] = normalizeValue(value);
+    attributes[key] = normalizeValue(key, value);
   }
 
   return {

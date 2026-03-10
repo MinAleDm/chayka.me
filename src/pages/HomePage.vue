@@ -36,7 +36,7 @@ const stackGroups: StackGroup[] = [
         name: "StackMIREA",
         logo: stackMireaLogo,
         logoAlt: "StackMIREA logo",
-        href: "https://github.com/MinAleDm/StackMIREA"
+        href: "https://minaledm.github.io/StackMIREA/"
       }
     ]
   },
@@ -47,9 +47,9 @@ const stackGroups: StackGroup[] = [
         name: "StackMIREA",
         logo: stackMireaLogo,
         logoAlt: "StackMIREA logo",
-        href: "https://github.com/MinAleDm/StackMIREA"
+        href: "https://minaledm.github.io/StackMIREA/"
       },
-      { name: "DilyBoost", href: "https://github.com/MinAleDm/DailyBoost" },
+      { name: "DailyBoost", href: "https://github.com/MinAleDm/DailyBoost" },
       { name: "TeamSync", href: "https://github.com/MinAleDm/TeamSync-Pro" }
     ]
   }
@@ -57,8 +57,8 @@ const stackGroups: StackGroup[] = [
 
 const bioParagraphs: string[] = [
   "Штаб-квартира находится в Москве, UTC+3. Я открыт для продуктовых команд, для которых качество кода является частью процесса разработки, а не второстепенной задачей",
-  "Придумывать крутые идеи и воплощаю их в жизнь. С большым удовольствием создаю инструменты, которые помогают мне и другим получать удовольствие от процесса разработки",
-  "Я читаю лекциями и пишу посты в блогах о программировании. Иногда экспериментирую с искусством и интерактивностью.",
+  "Придумываю крутые идеи и воплощаю их в жизнь. С большим удовольствием создаю инструменты, которые помогают мне и другим получать удовольствие от процесса разработки.",
+  "Я читаю лекции и пишу посты в блогах о программировании. Иногда экспериментирую с искусством и интерактивностью.",
   "Помимо программирования, я увлекаюсь фотографией. Я также люблю аниме и фильмы."
 ];
 </script>
