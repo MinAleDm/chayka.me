@@ -5,6 +5,7 @@ import myLogo from "../assets/images/logos/mylogo.svg";
 import stackMireaLogo from "../assets/images/logos/stack-mirea.svg";
 import aimsoraLogo from "../assets/images/logos/aimsora.svg";
 import crossRoadLogo from "../assets/images/logos/CrossRoadlogo.svg";
+import simpleParserLogo from "../assets/images/logos/simpleparser.svg";
 
 type GithubRepo = {
   full_name: string;
@@ -116,7 +117,8 @@ type ProjectLogoMeta = {
 const PROJECT_LOGOS: Record<string, ProjectLogoMeta> = {
   "chayka.me": { src: myLogo, alt: "chayka.me logo" },
   stackmirea: { src: stackMireaLogo, alt: "StackMIREA logo" },
-  crossroad: { src: crossRoadLogo, alt: "CrossRoad logo" }
+  crossroad: { src: crossRoadLogo, alt: "CrossRoad logo" },
+  "simple-parser": { src: simpleParserLogo, alt: "Simple-Parser logo" }
 };
 
 const PROJECT_OWNER_LOGOS: Record<string, ProjectLogoMeta> = {
