@@ -4,6 +4,7 @@ import HomePage from "../pages/HomePage.vue";
 import BlogPage from "../pages/BlogPage.vue";
 import BlogPostPage from "../pages/BlogPostPage.vue";
 import ProjectsPage from "../pages/ProjectsPage.vue";
+import TalksPage from "../pages/TalksPage.vue";
 import SupportPage from "../pages/SupportPage.vue";
 import ContactPage from "../pages/ContactPage.vue";
 
@@ -14,6 +15,7 @@ export const router = createRouter({
     { path: "/blog", name: "blog", component: BlogPage },
     { path: "/blog/:slug", name: "blog-post", component: BlogPostPage },
     { path: "/projects", name: "projects", component: ProjectsPage },
+    { path: "/talks", name: "talks", component: TalksPage },
     { path: "/support", name: "support", component: SupportPage },
     { path: "/contact", name: "contact", component: ContactPage }
   ],
