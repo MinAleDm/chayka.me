@@ -3,23 +3,43 @@ import { computed, onMounted, ref } from "vue";
 import { getProjects, type ContentEntry } from "../lib/content";
 import myLogo from "../assets/images/logos/mylogo.png";
 import stackMireaLogo from "../assets/images/logos/stack-mirea.png";
+import aimsoraLogo from "../assets/images/logos/aimsora.png";
 
 type GithubRepo = {
+  full_name: string;
   name: string;
   description: string | null;
   html_url: string;
-  pushed_at: string | null;
-  updated_at: string;
+  pushed_at?: string | null;
+  updated_at?: string | null;
   language: string | null;
   topics?: string[];
-  fork: boolean;
   private: boolean;
+  activity_at?: string | null;
+};
+
+type GithubCommitSearchItem = {
+  commit?: {
+    author?: {
+      date?: string | null;
+    };
+    committer?: {
+      date?: string | null;
+    };
+  };
+  repository?: GithubRepo;
+};
+
+type GithubCommitSearchResponse = {
+  items?: GithubCommitSearchItem[];
 };
 
 const GITHUB_USERNAME = "MinAleDm";
 const GITHUB_REPOS_PER_PAGE = 100;
+const GITHUB_SEARCH_RESULTS_PER_PAGE = 100;
+const GITHUB_MAX_PAGES = 10;
 const FALLBACK_SUMMARY = "Описание проекта не заполнено на GitHub.";
-const PINNED_REPO_NAMES = ["StackMIREA"] as const;
+const PINNED_REPO_NAMES = ["StackMIREA", "chayka.me"] as const;
 const EXCLUDED_REPO_NAMES = [GITHUB_USERNAME] as const;
 
 const fallbackProjects = getProjects();
@@ -97,6 +117,10 @@ const PROJECT_LOGOS: Record<string, ProjectLogoMeta> = {
   stackmirea: { src: stackMireaLogo, alt: "StackMIREA logo" }
 };
 
+const PROJECT_OWNER_LOGOS: Record<string, ProjectLogoMeta> = {
+  aimsora: { src: aimsoraLogo, alt: "aimsora logo" }
+};
+
 const getRepoSlugFromLink = (link: string | undefined): string => {
   if (!link) return "";
 
@@ -109,10 +133,24 @@ const getRepoSlugFromLink = (link: string | undefined): string => {
   }
 };
 
+const getRepoOwnerFromLink = (link: string | undefined): string => {
+  if (!link) return "";
+
+  try {
+    const url = new URL(link);
+    const segments = url.pathname.split("/").filter(Boolean);
+    return (segments[0] ?? "").toLowerCase();
+  } catch {
+    return "";
+  }
+};
+
 const resolveProjectLogo = (project: ContentEntry): ProjectLogoMeta | undefined => {
   const titleKey = project.title.trim().toLowerCase();
   const repoKey = getRepoSlugFromLink(project.link);
-  return PROJECT_LOGOS[repoKey] ?? PROJECT_LOGOS[titleKey];
+  const ownerKey = getRepoOwnerFromLink(project.link);
+
+  return PROJECT_LOGOS[repoKey] ?? PROJECT_LOGOS[titleKey] ?? PROJECT_OWNER_LOGOS[ownerKey];
 };
 
 const projectLogoSrc = (project: ContentEntry): string | undefined => resolveProjectLogo(project)?.src;
@@ -127,7 +165,7 @@ const normalizeDate = (value: string | null | undefined): string | undefined => 
 };
 
 const mapRepoToProject = (repo: GithubRepo): ContentEntry => {
-  const lastActivity = normalizeDate(repo.pushed_at ?? repo.updated_at);
+  const lastActivity = normalizeDate(repo.activity_at ?? repo.pushed_at ?? repo.updated_at);
   const description = repo.description?.trim();
   const tags = [repo.language, ...(repo.topics ?? [])].filter(Boolean).slice(0, 4) as string[];
 
@@ -170,9 +208,9 @@ const createPinnedFallbackProject = (repoName: string): ContentEntry => {
 async function fetchAllPublicSourceRepos(): Promise<GithubRepo[]> {
   const allRepos: GithubRepo[] = [];
 
-  for (let page = 1; page < 10; page += 1) {
+  for (let page = 1; page <= GITHUB_MAX_PAGES; page += 1) {
     const response = await fetch(
-      `https://api.github.com/users/${GITHUB_USERNAME}/repos?type=owner&sort=pushed&per_page=${GITHUB_REPOS_PER_PAGE}&page=${page}`,
+      `https://api.github.com/users/${GITHUB_USERNAME}/repos?type=all&sort=pushed&per_page=${GITHUB_REPOS_PER_PAGE}&page=${page}`,
       {
         headers: {
           Accept: "application/vnd.github+json"
@@ -192,7 +230,72 @@ async function fetchAllPublicSourceRepos(): Promise<GithubRepo[]> {
     }
   }
 
-  return allRepos.filter((repo) => !repo.private && !repo.fork);
+  return allRepos.filter((repo) => !repo.private);
+}
+
+async function fetchContributedPublicRepos(): Promise<GithubRepo[]> {
+  try {
+    const repos = new Map<string, GithubRepo>();
+
+    for (let page = 1; page <= GITHUB_MAX_PAGES; page += 1) {
+      const query = encodeURIComponent(`author:${GITHUB_USERNAME} is:public`);
+      const response = await fetch(
+        `https://api.github.com/search/commits?q=${query}&sort=author-date&order=desc&per_page=${GITHUB_SEARCH_RESULTS_PER_PAGE}&page=${page}`,
+        {
+          headers: {
+            Accept: "application/vnd.github.cloak-preview+json"
+          }
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`GitHub commit search failed: ${response.status}`);
+      }
+
+      const payload = (await response.json()) as GithubCommitSearchResponse;
+      const pageItems = payload.items ?? [];
+
+      for (const item of pageItems) {
+        const repo = item.repository;
+        if (!repo || repo.private) continue;
+
+        const repoKey = repo.full_name.toLowerCase();
+        const commitDate = item.commit?.author?.date ?? item.commit?.committer?.date ?? null;
+        const previous = repos.get(repoKey);
+
+        if (!previous) {
+          repos.set(repoKey, {
+            ...repo,
+            activity_at: commitDate ?? repo.pushed_at ?? repo.updated_at ?? null
+          });
+          continue;
+        }
+
+        const previousMs = Date.parse(previous.activity_at ?? previous.pushed_at ?? previous.updated_at ?? "");
+        const nextMs = Date.parse(commitDate ?? repo.pushed_at ?? repo.updated_at ?? "");
+
+        if (!Number.isNaN(nextMs) && (Number.isNaN(previousMs) || nextMs > previousMs)) {
+          repos.set(repoKey, {
+            ...previous,
+            ...repo,
+            activity_at: commitDate ?? repo.pushed_at ?? repo.updated_at ?? previous.activity_at ?? null
+          });
+        }
+      }
+
+      if (pageItems.length < GITHUB_SEARCH_RESULTS_PER_PAGE) {
+        break;
+      }
+    }
+
+    if (repos.size > 0) {
+      return Array.from(repos.values());
+    }
+  } catch {
+    // Fallback when commit search is unavailable or rate-limited.
+  }
+
+  return fetchAllPublicSourceRepos();
 }
 
 async function loadProjects() {
@@ -203,7 +306,7 @@ async function loadProjects() {
     const excludedNames = new Set(EXCLUDED_REPO_NAMES.map((name) => name.toLowerCase()));
     const pinnedNames = new Set(PINNED_REPO_NAMES.map((name) => name.toLowerCase()));
 
-    const repos = (await fetchAllPublicSourceRepos()).filter(
+    const repos = (await fetchContributedPublicRepos()).filter(
       (repo) => !excludedNames.has(repo.name.toLowerCase())
     );
 
@@ -225,7 +328,7 @@ async function loadProjects() {
     projects.value = mapped.length > 0 ? mapped : fallbackProjects;
 
     if (mapped.length === 0) {
-      errorText.value = "GitHub не вернул репозитории, показываю локальный список.";
+      errorText.value = "GitHub не вернул проекты с вашими коммитами, показываю локальный список.";
     }
   } catch {
     projects.value = fallbackProjects;
@@ -254,7 +357,7 @@ onMounted(() => {
   </section>
 
   <section class="list-section reveal">
-    <p v-if="isLoading" class="gh-muted">Загружаю публичные репозитории с GitHub...</p>
+    <p v-if="isLoading" class="gh-muted">Загружаю проекты с вашими коммитами с GitHub...</p>
     <p v-else-if="errorText" class="gh-error">{{ errorText }}</p>
 
     <div v-for="group in projectGroups" :key="group.year" class="year-group">

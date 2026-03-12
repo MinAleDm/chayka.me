@@ -2,6 +2,7 @@
 import GithubActivityWidget from "../components/GithubActivityWidget.vue";
 import easyCommerceLogo from "../assets/images/logos/easy-commerce.jpg";
 import stackMireaLogo from "../assets/images/logos/stack-mirea.png";
+import aimsoraLogo from "../assets/images/logos/aimsora.png";
 
 type StackItem = {
   name: string;
@@ -37,6 +38,12 @@ const stackGroups: StackGroup[] = [
         logo: stackMireaLogo,
         logoAlt: "StackMIREA logo",
         href: "https://minaledm.github.io/StackMIREA/"
+      },
+      {
+        name: "aimsora",
+        logo: aimsoraLogo,
+        logoAlt: "aimsora logo",
+        href: "https://github.com/aimsora"
       }
     ]
   },
@@ -48,6 +55,12 @@ const stackGroups: StackGroup[] = [
         logo: stackMireaLogo,
         logoAlt: "StackMIREA logo",
         href: "https://minaledm.github.io/StackMIREA/"
+      },
+      {
+        name: "aimsora",
+        logo: aimsoraLogo,
+        logoAlt: "aimsora logo",
+        href: "https://github.com/aimsora"
       },
       { name: "DailyBoost", href: "https://github.com/MinAleDm/DailyBoost" },
       { name: "TeamSync", href: "https://github.com/MinAleDm/TeamSync-Pro" }
