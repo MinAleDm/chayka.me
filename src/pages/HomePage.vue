@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import GithubActivityWidget from "../components/GithubActivityWidget.vue";
-import easyCommerceLogo from "../assets/images/logos/easy-commerce.jpg";
-import stackMireaLogo from "../assets/images/logos/stack-mirea.png";
-import aimsoraLogo from "../assets/images/logos/aimsora.png";
+import easyCommerceLogo from "../assets/images/logos/easy-commerce.svg";
+import stackMireaLogo from "../assets/images/logos/stack-mirea.svg";
+import aimsoraLogo from "../assets/images/logos/aimsora.svg";
 
 type StackItem = {
   name: string;

@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import { getProjects, type ContentEntry } from "../lib/content";
-import myLogo from "../assets/images/logos/mylogo.png";
-import stackMireaLogo from "../assets/images/logos/stack-mirea.png";
-import aimsoraLogo from "../assets/images/logos/aimsora.png";
+import myLogo from "../assets/images/logos/mylogo.svg";
+import stackMireaLogo from "../assets/images/logos/stack-mirea.svg";
+import aimsoraLogo from "../assets/images/logos/aimsora.svg";
+import crossRoadLogo from "../assets/images/logos/CrossRoadlogo.svg";
 
 type GithubRepo = {
   full_name: string;
@@ -114,7 +115,8 @@ type ProjectLogoMeta = {
 
 const PROJECT_LOGOS: Record<string, ProjectLogoMeta> = {
   "chayka.me": { src: myLogo, alt: "chayka.me logo" },
-  stackmirea: { src: stackMireaLogo, alt: "StackMIREA logo" }
+  stackmirea: { src: stackMireaLogo, alt: "StackMIREA logo" },
+  crossroad: { src: crossRoadLogo, alt: "CrossRoad logo" }
 };
 
 const PROJECT_OWNER_LOGOS: Record<string, ProjectLogoMeta> = {
