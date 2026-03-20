@@ -1,0 +1,17 @@
+{
+  "siteName": "chayka.me",
+  "displayName": "Aleksandr Minkin",
+  "author": "Aleksandr Minkin",
+  "baseUrl": "https://minaledm.github.io/chayka.me",
+  "defaultTitle": "Aleksandr Minkin — Frontend / Fullstack Engineer",
+  "defaultDescription": "Личный сайт Александра Минькина: проекты, статьи, заметки о разработке и способы связаться для сотрудничества.",
+  "locale": "ru",
+  "ogLocale": "ru_RU",
+  "timezone": "Europe/Moscow",
+  "githubUsername": "MinAleDm",
+  "pinnedRepositories": ["StackMIREA", "chayka.me"],
+  "social": {
+    "github": "https://github.com/MinAleDm",
+    "telegram": "https://t.me/MinAleDm"
+  }
+}

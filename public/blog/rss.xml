@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Aleksandr Minkin — Blog</title>
+    <link>https://minaledm.github.io/blog</link>
+    <description>Личный сайт Александра Минькина: проекты, статьи, заметки о разработке и способы связаться для сотрудничества.</description>
+    <item>
+      <title>Интеграция Puppeteer и Playwright в сложные процессы веб-скрапинга — Blog — Aleksandr Minkin</title>
+      <link>https://minaledm.github.io/blog/2026-03-04-puppeteer-playwright-analysis</link>
+      <guid>https://minaledm.github.io/blog/2026-03-04-puppeteer-playwright-analysis</guid>
+      <description>В статье рассматриваются современные подходы к веб-скрапингу с использованием headless-браузеров Puppeteer и Playwright, их архитектурные особенности, преимущества и ограничения при работе с динамическими веб-приложениями.</description>
+      <pubDate>Wed, 04 Mar 2026 16:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

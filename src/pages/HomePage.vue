@@ -1,94 +1,28 @@
 <script setup lang="ts">
+import { RouterLink } from "vue-router";
 import GithubActivityWidget from "../components/GithubActivityWidget.vue";
-import easyCommerceLogo from "../assets/images/logos/easy-commerce.svg";
-import stackMireaLogo from "../assets/images/logos/stack-mirea.svg";
-import aimsoraLogo from "../assets/images/logos/aimsora.svg";
+import { getGithubActivity, getHomePageContent } from "../lib/content";
+import { usePageMeta } from "../lib/meta";
 
-type StackItem = {
-  name: string;
-  logo?: string;
-  logoAlt?: string;
-  href?: string;
-};
+const home = getHomePageContent();
+const activity = getGithubActivity();
 
-type StackGroup = {
-  title: string;
-  items: StackItem[];
-  separator?: string;
-};
-
-const stackGroups: StackGroup[] = [
-  {
-    title: "Working at",
-    items: [
-      {
-        name: "Easy Commerce",
-        logo: easyCommerceLogo,
-        logoAlt: "Easy Commerce logo",
-        href: "https://easycomm.ru/"
-      }
-    ],
-    separator: "/"
-  },
-  {
-    title: "Creator of",
-    items: [
-      {
-        name: "StackMIREA",
-        logo: stackMireaLogo,
-        logoAlt: "StackMIREA logo",
-        href: "https://minaledm.github.io/StackMIREA/"
-      },
-      {
-        name: "aimsora",
-        logo: aimsoraLogo,
-        logoAlt: "aimsora logo",
-        href: "https://github.com/aimsora"
-      }
-    ]
-  },
-  {
-    title: "Maintaining",
-    items: [
-      {
-        name: "StackMIREA",
-        logo: stackMireaLogo,
-        logoAlt: "StackMIREA logo",
-        href: "https://minaledm.github.io/StackMIREA/"
-      },
-      {
-        name: "aimsora",
-        logo: aimsoraLogo,
-        logoAlt: "aimsora logo",
-        href: "https://github.com/aimsora"
-      },
-      { name: "DailyBoost", href: "https://github.com/MinAleDm/DailyBoost" },
-      { name: "TeamSync", href: "https://github.com/MinAleDm/TeamSync-Pro" }
-    ]
-  }
-];
-
-const bioParagraphs: string[] = [
-  "Штаб-квартира находится в Москве, UTC+3. Я открыт для продуктовых команд, для которых качество кода является частью процесса разработки, а не второстепенной задачей",
-  "Придумываю крутые идеи и воплощаю их в жизнь. С большим удовольствием создаю инструменты, которые помогают мне и другим получать удовольствие от процесса разработки.",
-  "Я читаю лекции и пишу посты в блогах о программировании. Иногда экспериментирую с искусством и интерактивностью.",
-  "Помимо программирования, я увлекаюсь фотографией. Я также люблю аниме и фильмы."
-];
+usePageMeta({
+  title: "Aleksandr Minkin — Frontend / Fullstack Engineer",
+  description: home.lead,
+  path: "/"
+});
 </script>
 
 <template>
   <section class="page-header reveal home-hero">
-    <p class="eyebrow">Frontend / Fullstack Engineer</p>
-    <h1 class="page-title">Aleksandr Minkin</h1>
-    <p class="page-lead">
-      Университет Fullstack из которого ты никогда не выпустишься.
-    </p>
-    <p class="home-line">
-      Работаю с JavaScript/TypeScript, Vue и React и люблю аккуратный DX.
-    </p>
+    <p class="eyebrow">{{ home.eyebrow }}</p>
+    <h1 class="page-title">{{ home.title }}</h1>
+    <p class="page-lead">{{ home.lead }}</p>
+    <p class="home-line">{{ home.subtitle }}</p>
 
-    <div class="stack-lines" aria-label="Affiliations">
-      <div v-for="group in stackGroups" :key="group.title" class="stack-line">
+    <div v-if="home.stackGroups.length" class="stack-lines" aria-label="Affiliations">
+      <div v-for="group in home.stackGroups" :key="group.title" class="stack-line">
         <span class="stack-title">{{ group.title }}</span>
         <div class="stack-items">
           <template v-for="(item, index) in group.items" :key="`${group.title}-${item.name}`">
@@ -99,14 +33,6 @@ const bioParagraphs: string[] = [
               :target="item.href ? '_blank' : undefined"
               :rel="item.href ? 'noreferrer noopener' : undefined"
             >
-              <img
-                v-if="item.logo"
-                :src="item.logo"
-                :alt="item.logoAlt ?? `${item.name} logo`"
-                class="stack-chip-logo"
-                loading="lazy"
-                decoding="async"
-              />
               {{ item.name }}
             </component>
             <span v-if="group.separator && index < group.items.length - 1" class="stack-separator">
@@ -117,19 +43,22 @@ const bioParagraphs: string[] = [
       </div>
     </div>
 
-    <div class="home-copy">
-      <p v-for="(paragraph, index) in bioParagraphs" :key="index" class="home-status">{{ paragraph }}</p>
-    </div>
+    <article v-if="home.html" class="markdown-body home-copy" v-html="home.html" />
   </section>
 
   <hr class="divider reveal" />
 
-  <GithubActivityWidget />
+  <GithubActivityWidget :activity="activity" />
 
   <hr class="divider reveal" />
-  <p class="reveal home-hero">
-    Если вам нравится моя работа и вы находите ее полезной, подумайте о том, чтобы спонсировать меня и экосистему, чтобы
-    способствовать устойчивому использованию открытого исходного кода.
-    Спасибо!
-  </p>
+
+  <section class="reveal home-support">
+    <h2 class="section-title">{{ home.supportTitle }}</h2>
+    <p class="home-status">{{ home.supportText }}</p>
+    <div class="action-row">
+      <RouterLink class="text-button" to="/projects">Посмотреть проекты</RouterLink>
+      <RouterLink class="text-button" to="/contact">Связаться</RouterLink>
+      <RouterLink class="text-button" to="/support">Поддержать автора</RouterLink>
+    </div>
+  </section>
 </template>

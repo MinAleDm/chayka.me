@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { usePageMeta } from "../lib/meta";
+
 type SupportCard = {
   title: string;
   kicker: string;
@@ -43,6 +45,12 @@ const supportFlow: string[] = [
   "Возвращаюсь с ответом и уточняю детали",
   "Добавляю правки в контент или план развития"
 ];
+
+usePageMeta({
+  title: "Support — Aleksandr Minkin",
+  description: "Как поддержать автора сайта: обратная связь, репосты, сотрудничество и идеи.",
+  path: "/support"
+});
 </script>
 
 <template>

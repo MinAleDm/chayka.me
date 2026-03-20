@@ -2,24 +2,20 @@
 import { computed } from "vue";
 import { RouterLink } from "vue-router";
 import { getBlogPosts, type ContentEntry } from "../lib/content";
+import { formatDate, getYearLabel, parseDateToTimestamp } from "../lib/dates";
+import { usePageMeta } from "../lib/meta";
 
 const posts = getBlogPosts();
+
+usePageMeta({
+  title: "Blog — Aleksandr Minkin",
+  description: "Статьи про инженерную практику, архитектуру, DX и процесс разработки.",
+  path: "/blog"
+});
 
 type PostGroup = {
   year: string;
   entries: ContentEntry[];
-};
-
-const getYearLabel = (rawDate?: string): string | null => {
-  if (!rawDate) return null;
-
-  const parsed = new Date(rawDate);
-  if (!Number.isNaN(parsed.getTime())) {
-    return String(parsed.getFullYear());
-  }
-
-  const fallback = rawDate.match(/^\d{4}/);
-  return fallback?.[0] ?? null;
 };
 
 const postGroups = computed<PostGroup[]>(() => {
@@ -42,31 +38,9 @@ const postGroups = computed<PostGroup[]>(() => {
     .sort(([left], [right]) => Number(right) - Number(left))
     .map(([year, entries]) => ({
       year,
-      entries: [...entries].sort((left, right) => {
-        const leftDate = left.date ? Date.parse(left.date) : 0;
-        const rightDate = right.date ? Date.parse(right.date) : 0;
-        const safeLeft = Number.isNaN(leftDate) ? 0 : leftDate;
-        const safeRight = Number.isNaN(rightDate) ? 0 : rightDate;
-        return safeRight - safeLeft;
-      })
+      entries: [...entries].sort((left, right) => parseDateToTimestamp(right.date) - parseDateToTimestamp(left.date))
     }));
 });
-
-const formatDate = (rawDate?: string): string => {
-  if (!rawDate) return "n/a";
-
-  const parsed = new Date(rawDate);
-  if (Number.isNaN(parsed.getTime())) return rawDate;
-
-  return new Intl.DateTimeFormat("ru-RU", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "Europe/Moscow"
-  }).format(parsed);
-};
 </script>
 
 <template>

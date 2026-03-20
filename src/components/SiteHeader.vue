@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
-import personalLogo from "../assets/images/logos/mylogo.svg";
+import brandMark from "../assets/brand-mark.svg";
 </script>
 
 <template>
   <header class="topbar">
     <div class="topbar-inner">
       <RouterLink class="brand" to="/" aria-label="Alexander Minkin home">
-        <img :src="personalLogo" alt="Alexander Minkin logo" class="brand-logo" />
+        <img :src="brandMark" alt="chayka.me brand mark" class="brand-logo" />
       </RouterLink>
 
       <nav class="nav" aria-label="Main navigation">

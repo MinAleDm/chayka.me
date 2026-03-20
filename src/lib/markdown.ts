@@ -6,7 +6,23 @@ const markdown = new MarkdownIt({
   typographer: true
 });
 
-export type FrontmatterValue = string | number | string[];
+markdown.renderer.rules.link_open = (tokens: any[], index: number, options: unknown, _env: unknown, self: any) => {
+  const href = tokens[index].attrGet("href") ?? "";
+  const isExternal = /^https?:\/\//i.test(href);
+
+  if (isExternal) {
+    tokens[index].attrSet("target", "_blank");
+    tokens[index].attrSet("rel", "noreferrer noopener");
+  }
+
+  return self.renderToken(tokens, index, options);
+};
+
+export type FrontmatterPrimitive = string | number | boolean | null;
+export interface FrontmatterObject {
+  [key: string]: FrontmatterValue;
+}
+export type FrontmatterValue = FrontmatterPrimitive | FrontmatterObject | FrontmatterValue[];
 
 export interface ParsedMarkdown {
   attributes: Record<string, FrontmatterValue>;
@@ -15,6 +31,7 @@ export interface ParsedMarkdown {
 }
 
 const frontmatterRegex = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/;
+const keyLineRegex = /^([A-Za-z0-9_-]+):(.*)$/;
 
 const stripWrappingQuotes = (value: string): string => {
   const trimmed = value.trim();
@@ -35,20 +52,19 @@ const parseListValue = (value: string): string[] => {
     .filter(Boolean);
 };
 
-const normalizeValue = (key: string, value: string): FrontmatterValue => {
+const parseStructuredValue = (value: string): FrontmatterValue => {
   const trimmed = value.trim();
   if (!trimmed) return "";
+  if (trimmed === "true") return true;
+  if (trimmed === "false") return false;
+  if (trimmed === "null") return null;
 
-  if (key === "tags") {
-    if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
-      return parseListValue(trimmed);
+  if (trimmed.startsWith("[") || trimmed.startsWith("{")) {
+    try {
+      return JSON.parse(trimmed) as FrontmatterValue;
+    } catch {
+      return trimmed;
     }
-
-    if (trimmed.includes(",")) {
-      return parseListValue(trimmed);
-    }
-
-    return stripWrappingQuotes(trimmed);
   }
 
   if (/^-?\d+$/.test(trimmed)) {
@@ -56,6 +72,55 @@ const normalizeValue = (key: string, value: string): FrontmatterValue => {
   }
 
   return stripWrappingQuotes(trimmed);
+};
+
+const normalizeValue = (key: string, value: string): FrontmatterValue => {
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+
+  if (trimmed.startsWith("[") || trimmed.startsWith("{")) {
+    return parseStructuredValue(trimmed);
+  }
+
+  if (key === "tags") {
+    if (trimmed.includes(",")) {
+      return parseListValue(trimmed);
+    }
+
+    return stripWrappingQuotes(trimmed);
+  }
+
+  return parseStructuredValue(trimmed);
+};
+
+const parseFrontmatterBlock = (block: string): Record<string, FrontmatterValue> => {
+  const attributes: Record<string, FrontmatterValue> = {};
+  let currentKey: string | null = null;
+  let currentValue: string[] = [];
+
+  const flush = (): void => {
+    if (!currentKey) return;
+    attributes[currentKey] = normalizeValue(currentKey, currentValue.join("\n"));
+    currentKey = null;
+    currentValue = [];
+  };
+
+  for (const line of block.split(/\r?\n/)) {
+    const matched = line.match(keyLineRegex);
+    if (matched) {
+      flush();
+      currentKey = matched[1];
+      currentValue.push(matched[2].trimStart());
+      continue;
+    }
+
+    if (currentKey) {
+      currentValue.push(line);
+    }
+  }
+
+  flush();
+  return attributes;
 };
 
 export const parseMarkdown = (raw: string): ParsedMarkdown => {
@@ -73,19 +138,8 @@ export const parseMarkdown = (raw: string): ParsedMarkdown => {
   const frontmatterBlock = matched[1];
   const body = raw.slice(matched[0].length).trim();
 
-  for (const line of frontmatterBlock.split("\n")) {
-    const separator = line.indexOf(":");
-    if (separator < 0) continue;
-
-    const key = line.slice(0, separator).trim();
-    const value = line.slice(separator + 1);
-    if (!key || !value) continue;
-
-    attributes[key] = normalizeValue(key, value);
-  }
-
   return {
-    attributes,
+    attributes: parseFrontmatterBlock(frontmatterBlock),
     body,
     html: markdown.render(body)
   };
@@ -95,6 +149,9 @@ const markdownSyntaxRegex = /[#*_`>[\]()!-]/g;
 
 export const stripMarkdown = (content: string): string =>
   content
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`[^`]*`/g, " ")
     .replace(markdownSyntaxRegex, " ")
+    .replace(/\|/g, " ")
     .replace(/\s+/g, " ")
     .trim();

@@ -3,6 +3,8 @@
 :root {
   --bg: #f7f8f7;
   --bg-soft: #fcfdfc;
+  --bg-deep: #edf3fb;
+  --bg-deep-2: #f2f7fd;
   --panel: #ffffffd4;
   --panel-strong: #ffffff;
   --text: #1e232b;
@@ -15,6 +17,9 @@
   --accent-2-glow: rgba(76, 200, 155, 0.32);
   --bg-glow-a: rgba(67, 134, 255, 0.14);
   --bg-glow-b: rgba(76, 200, 155, 0.14);
+  --grid-line: rgba(29, 78, 216, 0.065);
+  --grid-line-strong: rgba(15, 23, 42, 0.08);
+  --grain: rgba(15, 23, 42, 0.018);
   --page-gutter: clamp(1.25rem, 4vw, 2.4rem);
   --home-content-width: 680px;
   --radius: 16px;
@@ -44,12 +49,55 @@ html {
 }
 
 body {
+  position: relative;
+  isolation: isolate;
   font-family: var(--font-main);
   color: var(--text);
   background:
-    radial-gradient(1000px 460px at 92% -2%, var(--bg-glow-a), transparent 62%),
-    radial-gradient(900px 420px at -4% -6%, var(--bg-glow-b), transparent 58%),
+    radial-gradient(1200px 640px at 84% -10%, color-mix(in srgb, var(--accent) 18%, white 82%), transparent 60%),
+    radial-gradient(980px 540px at 8% 10%, color-mix(in srgb, var(--accent-2) 18%, white 82%), transparent 58%),
+    linear-gradient(155deg, var(--bg-deep) 0%, var(--bg-deep-2) 46%, var(--bg) 100%),
     var(--bg);
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+body::before {
+  z-index: -2;
+  background:
+    radial-gradient(68rem 26rem at 28% 8%, color-mix(in srgb, var(--accent-2) 22%, transparent), transparent 62%),
+    radial-gradient(40rem 18rem at 76% 14%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 64%),
+    radial-gradient(56rem 22rem at 58% 112%, color-mix(in srgb, var(--accent) 11%, transparent), transparent 68%);
+  filter: blur(8px);
+  transform: translate3d(0, 0, 0);
+}
+
+body::after {
+  z-index: -1;
+  background:
+    linear-gradient(115deg, transparent 0%, rgba(248, 250, 252, 0.38) 34%, transparent 58%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0)),
+    repeating-linear-gradient(90deg, transparent 0 39px, var(--grid-line) 39px 40px),
+    repeating-linear-gradient(0deg, transparent 0 39px, var(--grid-line) 39px 40px),
+    repeating-linear-gradient(90deg, transparent 0 159px, var(--grid-line-strong) 159px 160px),
+    repeating-linear-gradient(0deg, transparent 0 159px, var(--grid-line-strong) 159px 160px),
+    radial-gradient(circle at 20% 24%, var(--grain) 0 1px, transparent 1.2px);
+  background-size:
+    auto,
+    auto,
+    auto,
+    auto,
+    auto,
+    auto,
+    18px 18px;
+  opacity: 0.52;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.3));
 }
 
 a {
@@ -373,8 +421,9 @@ a {
 
 .home-support {
   width: min(100%, var(--home-content-width));
-  margin-inline: auto;
-  margin: 0;
+  margin: 0 auto;
+  display: grid;
+  gap: 0.7rem;
 }
 
 .gh-activity {
@@ -1119,5 +1168,11 @@ a {
 
   .entry-row::after {
     transition: none;
+  }
+
+  body::before,
+  body::after {
+    transform: none;
+    filter: none;
   }
 }

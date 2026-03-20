@@ -1,0 +1,69 @@
+import { access, readFile } from "node:fs/promises";
+import path from "node:path";
+import {
+  BLOG_DIR,
+  DIST_DIR,
+  GENERATED_GITHUB_PATH,
+  PROJECTS_DIR,
+  ROOT_DIR,
+  readMarkdownEntries
+} from "./site-utils.mjs";
+
+const verifyDist = process.argv.includes("--dist");
+
+function assert(condition, message) {
+  if (!condition) {
+    throw new Error(message);
+  }
+}
+
+async function verifyMarkdownEntries() {
+  const [blogEntries, projectEntries] = await Promise.all([
+    readMarkdownEntries(BLOG_DIR),
+    readMarkdownEntries(PROJECTS_DIR)
+  ]);
+
+  assert(blogEntries.length > 0, "Blog content is empty.");
+  assert(projectEntries.length > 0, "Project content is empty.");
+
+  for (const entry of [...blogEntries, ...projectEntries]) {
+    const title = entry.attributes.title;
+    const summary = entry.attributes.summary;
+    assert(typeof title === "string" && title.trim().length > 0, `Missing title in ${entry.absolutePath}`);
+    assert(typeof summary === "string" && summary.trim().length > 0, `Missing summary in ${entry.absolutePath}`);
+  }
+}
+
+async function verifyGeneratedGithubPayload() {
+  const payload = JSON.parse(await readFile(GENERATED_GITHUB_PATH, "utf8"));
+  assert(Array.isArray(payload.repositories), "Generated GitHub payload must include repositories array.");
+  assert("activity" in payload, "Generated GitHub payload must include activity key.");
+}
+
+async function verifyBuildOutput() {
+  const requiredFiles = [
+    "index.html",
+    "404.html",
+    "sitemap.xml",
+    "robots.txt",
+    path.join("blog", "index.html"),
+    path.join("blog", "rss.xml"),
+    path.join("projects", "index.html"),
+    path.join("contact", "index.html")
+  ];
+
+  await Promise.all(requiredFiles.map((relativePath) => access(path.join(DIST_DIR, relativePath))));
+}
+
+async function main() {
+  await verifyMarkdownEntries();
+  await verifyGeneratedGithubPayload();
+
+  if (verifyDist) {
+    await verifyBuildOutput();
+  }
+
+  console.log(verifyDist ? "Site verification passed (including dist)." : "Content verification passed.");
+}
+
+await main();

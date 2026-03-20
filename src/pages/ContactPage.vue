@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { usePageMeta } from "../lib/meta";
+
 type ContactChannel = {
   title: string;
   description: string;
@@ -39,6 +41,12 @@ const firstMessageTips: string[] = [
   "Если есть сроки, укажите дедлайн сразу",
   "Для техвопросов приложите ссылку на репозиторий или пример"
 ];
+
+usePageMeta({
+  title: "Contact — Aleksandr Minkin",
+  description: "Каналы связи для сотрудничества, технических вопросов и продуктовых обсуждений.",
+  path: "/contact"
+});
 </script>
 
 <template>

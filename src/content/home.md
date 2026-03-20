@@ -1,15 +1,21 @@
-## О себе
+---
+eyebrow: Frontend / Fullstack Engineer
+title: Aleksandr Minkin
+lead: Университет Fullstack, из которого ты никогда не выпустишься.
+subtitle: Работаю с JavaScript, TypeScript, Vue, React и люблю аккуратный DX.
+supportTitle: Поддержка open source
+supportText: Если вам нравится моя работа и вы находите её полезной, можно поддержать меня обратной связью, репостом или предложением о сотрудничестве.
+stackGroups: [
+  {"title":"Working at","separator":"/","items":[{"name":"Easy Commerce","href":"https://easycomm.ru/"}]},
+  {"title":"Creator of","items":[{"name":"StackMIREA","href":"https://github.com/MinAleDm/StackMIREA"},{"name":"aimsora","href":"https://github.com/aimsora"}]},
+  {"title":"Maintaining","items":[{"name":"StackMIREA","href":"https://github.com/MinAleDm/StackMIREA"},{"name":"DailyBoost","href":"https://github.com/MinAleDm/DailyBoost"},{"name":"TeamSync Pro","href":"https://github.com/MinAleDm/TeamSync-Pro"}]}
+]
+---
 
-Я backend + frontend разработчик, люблю продуктовую разработку и понятные интерфейсы.
-Работаю с JavaScript / TypeScript, React, Vue, Angular и серверной частью на Node.js.
+Штаб-квартира находится в Москве, UTC+3. Я открыт для продуктовых команд, для которых качество кода является частью процесса разработки, а не второстепенной задачей.
 
-## Что важно в работе
+Придумываю идеи и довожу их до рабочих инструментов. Особенно люблю задачи, где хороший интерфейс, ясная архитектура и удобный developer experience усиливают друг друга.
 
-- Продуманная архитектура и чистые зависимости
-- Тестируемость и воспроизводимый процесс релиза
-- Коммуникация в команде и явные договоренности по коду
+Пишу статьи и читаю лекции о программировании, архитектуре и инженерной практике. Иногда экспериментирую с интерактивностью, визуалом и форматами подачи.
 
-## Контакты
-
-- Telegram: [@MinAleDm](https://t.me/MinAleDm)
-- GitHub: [github.com/MinAleDm](https://github.com/MinAleDm)
+Помимо программирования, увлекаюсь фотографией, визуальной культурой, аниме и кино.

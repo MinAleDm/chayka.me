@@ -1,23 +1,16 @@
-import { createRouter, createWebHashHistory } from "vue-router";
-
-import HomePage from "../pages/HomePage.vue";
-import BlogPage from "../pages/BlogPage.vue";
-import BlogPostPage from "../pages/BlogPostPage.vue";
-import ProjectsPage from "../pages/ProjectsPage.vue";
-import TalksPage from "../pages/TalksPage.vue";
-import SupportPage from "../pages/SupportPage.vue";
-import ContactPage from "../pages/ContactPage.vue";
+import { createRouter, createWebHistory } from "vue-router";
 
 export const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: "/", name: "home", component: HomePage },
-    { path: "/blog", name: "blog", component: BlogPage },
-    { path: "/blog/:slug", name: "blog-post", component: BlogPostPage },
-    { path: "/projects", name: "projects", component: ProjectsPage },
-    { path: "/talks", name: "talks", component: TalksPage },
-    { path: "/support", name: "support", component: SupportPage },
-    { path: "/contact", name: "contact", component: ContactPage }
+    { path: "/", name: "home", component: () => import("../pages/HomePage.vue") },
+    { path: "/blog", name: "blog", component: () => import("../pages/BlogPage.vue") },
+    { path: "/blog/:slug", name: "blog-post", component: () => import("../pages/BlogPostPage.vue") },
+    { path: "/projects", name: "projects", component: () => import("../pages/ProjectsPage.vue") },
+    { path: "/talks", name: "talks", component: () => import("../pages/TalksPage.vue") },
+    { path: "/support", name: "support", component: () => import("../pages/SupportPage.vue") },
+    { path: "/contact", name: "contact", component: () => import("../pages/ContactPage.vue") },
+    { path: "/:pathMatch(.*)*", name: "not-found", component: () => import("../pages/NotFoundPage.vue") }
   ],
   scrollBehavior() {
     return { top: 0, behavior: "smooth" };

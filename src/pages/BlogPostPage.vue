@@ -2,6 +2,8 @@
 import { computed } from "vue";
 import { RouterLink, useRoute } from "vue-router";
 import { getBlogPostBySlug } from "../lib/content";
+import { formatDate } from "../lib/dates";
+import { usePageMeta } from "../lib/meta";
 
 const route = useRoute();
 
@@ -10,21 +12,26 @@ const post = computed(() => {
   return getBlogPostBySlug(slug);
 });
 
-const formattedDate = computed(() => {
-  if (!post.value?.date) return "n/a";
+const formattedDate = computed(() => formatDate(post.value?.date));
 
-  const parsed = new Date(post.value.date);
-  if (Number.isNaN(parsed.getTime())) return post.value.date;
+usePageMeta(
+  computed(() => {
+    if (!post.value) {
+      return {
+        title: "Пост не найден — Aleksandr Minkin",
+        description: "Такой записи нет или ссылка устарела.",
+        path: "/404"
+      };
+    }
 
-  return new Intl.DateTimeFormat("ru-RU", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "Europe/Moscow"
-  }).format(parsed);
-});
+    return {
+      title: `${post.value.title} — Blog — Aleksandr Minkin`,
+      description: post.value.summary,
+      path: `/blog/${post.value.slug}`,
+      type: "article" as const
+    };
+  })
+);
 </script>
 
 <template>
@@ -49,10 +56,7 @@ const formattedDate = computed(() => {
     <p class="eyebrow">404</p>
     <h1 class="page-title">Пост не найден</h1>
     <p class="page-lead">Такой записи нет или ссылка устарела.</p>
-    <p class="page-lorem">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vel tellus ac lorem hendrerit
-      tincidunt ut nec risus.
-    </p>
+    <p class="page-lorem">Возможно, пост был перемещён, переименован или ещё не опубликован.</p>
     <div class="action-row">
       <RouterLink class="text-button" :to="{ name: 'blog' }">
         Ко всем постам

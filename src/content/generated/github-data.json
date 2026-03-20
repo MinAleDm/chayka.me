@@ -1,0 +1,331 @@
+{
+  "generatedAt": "2026-03-20T12:33:55.319Z",
+  "source": "github",
+  "activity": {
+    "createdAt": "2026-03-19T20:19:48.000Z",
+    "commitSha": "34a8701",
+    "commitUrl": "https://github.com/MinAleDm/StackMIREA/commit/34a87016f9c5f1cd42e51ed1115b6c1959772721",
+    "commitMessage": "StackMIREA-0015 // docs: актуализировать обзорные разделы, перевести Python overview в MDX и обновить ссылки после переименования ресурсов",
+    "repoName": "MinAleDm/StackMIREA",
+    "repoUrl": "https://github.com/MinAleDm/StackMIREA",
+    "projectDescription": "StackMIREA — это образовательная docs-платформа для IT-дисциплин МИРЭА, где учебные материалы собраны в едином формате технической документации."
+  },
+  "repositories": [
+    {
+      "fullName": "MinAleDm/StackMIREA",
+      "name": "StackMIREA",
+      "owner": "MinAleDm",
+      "htmlUrl": "https://github.com/MinAleDm/StackMIREA",
+      "description": "StackMIREA — это образовательная docs-платформа для IT-дисциплин МИРЭА, где учебные материалы собраны в едином формате технической документации.",
+      "language": "MDX",
+      "topics": [
+        "education"
+      ],
+      "pushedAt": "2026-03-19T20:19:47.000Z",
+      "updatedAt": "2026-03-19T20:19:52.000Z",
+      "activityAt": "2026-03-19T20:19:41.000Z",
+      "isPinned": true
+    },
+    {
+      "fullName": "MinAleDm/resume",
+      "name": "resume",
+      "owner": "MinAleDm",
+      "htmlUrl": "https://github.com/MinAleDm/resume",
+      "description": "Résumé Minkin",
+      "language": "",
+      "topics": [],
+      "pushedAt": "2026-03-19T18:54:53.000Z",
+      "updatedAt": "2026-03-19T18:54:53.000Z",
+      "activityAt": "2026-03-19T18:54:53.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "MinAleDm/FinHealth",
+      "name": "FinHealth",
+      "owner": "MinAleDm",
+      "htmlUrl": "https://github.com/MinAleDm/FinHealth",
+      "description": "Интерактивная панель управления финансовой аналитикой с перетаскиваемыми виджетами, гибкими фильтрами, экспортом в формате CSV и адаптивной визуализацией данных, созданная с использованием Next.js 15, React 19, TypeScript, Tailwind CSS, Chart.js, Zustand, dnd-kit и Framer Motion.",
+      "language": "TypeScript",
+      "topics": [
+        "analytics-dashboard",
+        "chartjs",
+        "dnd-kit",
+        "framer-motion",
+        "nextjs",
+        "react",
+        "responsive-ui",
+        "tailwindcss",
+        "typescript",
+        "zustand"
+      ],
+      "pushedAt": "2026-03-19T18:10:08.000Z",
+      "updatedAt": "2026-03-19T18:13:17.000Z",
+      "activityAt": "2026-03-19T18:09:41.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "MinAleDm/Client-Server-application-monitoring-work-activity",
+      "name": "Client-Server-application-monitoring-work-activity",
+      "owner": "MinAleDm",
+      "htmlUrl": "https://github.com/MinAleDm/Client-Server-application-monitoring-work-activity",
+      "description": "Клиент-серверное приложение для мониторинга рабочей активности сотрудников.",
+      "language": "C++",
+      "topics": [
+        "activity",
+        "cpp",
+        "html",
+        "monitoring",
+        "python"
+      ],
+      "pushedAt": "2026-03-18T14:09:02.000Z",
+      "updatedAt": "2026-03-18T15:44:11.000Z",
+      "activityAt": "2026-03-18T14:08:51.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "MinAleDm/Hello-I-am-Lorem",
+      "name": "Hello-I-am-Lorem",
+      "owner": "MinAleDm",
+      "htmlUrl": "https://github.com/MinAleDm/Hello-I-am-Lorem",
+      "description": "Простое веб-приложение, которое приветствует пользователя по имени и предлагает несколько дополнительных функций.",
+      "language": "JavaScript",
+      "topics": [
+        "pet-projects"
+      ],
+      "pushedAt": "2026-03-17T19:31:02.000Z",
+      "updatedAt": "2026-03-17T19:31:47.000Z",
+      "activityAt": "2026-03-17T19:30:54.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "MinAleDm/chayka.me",
+      "name": "chayka.me",
+      "owner": "MinAleDm",
+      "htmlUrl": "https://github.com/MinAleDm/chayka.me",
+      "description": "Мой персональный сайт",
+      "language": "Vue",
+      "topics": [
+        "personal-website"
+      ],
+      "pushedAt": "2026-03-12T21:21:58.000Z",
+      "updatedAt": "2026-03-12T21:22:03.000Z",
+      "activityAt": "2026-03-12T21:21:38.000Z",
+      "isPinned": true
+    },
+    {
+      "fullName": "MinAleDm/CrossRoad",
+      "name": "CrossRoad",
+      "owner": "MinAleDm",
+      "htmlUrl": "https://github.com/MinAleDm/CrossRoad",
+      "description": "Учебный frontend-прототип платформы для публикации статей и обсуждений на React + TypeScript + Vite с автодеплоем на GitHub Pages.",
+      "language": "TypeScript",
+      "topics": [
+        "article-platform",
+        "content-platform",
+        "discussion-platform",
+        "frontend",
+        "github-pages",
+        "learning-project",
+        "prototype",
+        "react",
+        "spa",
+        "typescript",
+        "vite",
+        "web-app"
+      ],
+      "pushedAt": "2026-03-12T17:05:09.000Z",
+      "updatedAt": "2026-03-12T17:12:07.000Z",
+      "activityAt": "2026-03-12T17:04:44.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "MinAleDm/Simple-Parser",
+      "name": "Simple-Parser",
+      "owner": "MinAleDm",
+      "htmlUrl": "https://github.com/MinAleDm/Simple-Parser",
+      "description": "Современный HTML-парсер в формате монорепозитория: типизированное TypeScript-ядро, CLI-инструмент, интерактивное React/Vite-демо с визуализацией AST и токенов, тесты и автоматический деплой на GitHub Pages.",
+      "language": "TypeScript",
+      "topics": [
+        "ast",
+        "cli",
+        "eslint",
+        "frontend-demo",
+        "github-pages",
+        "html-parser",
+        "parser",
+        "react",
+        "static-analysis",
+        "tokenizer",
+        "typescript",
+        "vite",
+        "vitest"
+      ],
+      "pushedAt": "2026-03-12T13:13:04.000Z",
+      "updatedAt": "2026-03-12T13:13:07.000Z",
+      "activityAt": "2026-03-12T13:12:56.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "aimsora/deployment-infra",
+      "name": "deployment-infra",
+      "owner": "aimsora",
+      "htmlUrl": "https://github.com/aimsora/deployment-infra",
+      "description": "Инфраструктурный репозиторий AIMSORA: Docker Compose и конфигурация деплой-контура",
+      "language": "",
+      "topics": [],
+      "pushedAt": null,
+      "updatedAt": null,
+      "activityAt": "2026-03-11T11:27:15.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "aimsora/frontend-app",
+      "name": "frontend-app",
+      "owner": "aimsora",
+      "htmlUrl": "https://github.com/aimsora/frontend-app",
+      "description": "Nuxt 3 фронтенд AIMSORA для поиска и просмотра данных по закупкам",
+      "language": "",
+      "topics": [],
+      "pushedAt": null,
+      "updatedAt": null,
+      "activityAt": "2026-03-11T11:27:15.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "aimsora/scraper-service",
+      "name": "scraper-service",
+      "owner": "aimsora",
+      "htmlUrl": "https://github.com/aimsora/scraper-service",
+      "description": "Сервис сбора данных, формирующий сырые события по закупкам и публикующий их в RabbitMQ",
+      "language": "",
+      "topics": [],
+      "pushedAt": null,
+      "updatedAt": null,
+      "activityAt": "2026-03-11T11:27:15.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "aimsora/backend-api",
+      "name": "backend-api",
+      "owner": "aimsora",
+      "htmlUrl": "https://github.com/aimsora/backend-api",
+      "description": "GraphQL backend API платформы AIMSORA для мониторинга закупок (NestJS + TypeScript)",
+      "language": "",
+      "topics": [],
+      "pushedAt": null,
+      "updatedAt": null,
+      "activityAt": "2026-03-11T11:27:15.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "aimsora/processing-worker",
+      "name": "processing-worker",
+      "owner": "aimsora",
+      "htmlUrl": "https://github.com/aimsora/processing-worker",
+      "description": "Worker-сервис для валидации и нормализации сырых событий с последующей передачей в backend-api",
+      "language": "",
+      "topics": [],
+      "pushedAt": null,
+      "updatedAt": null,
+      "activityAt": "2026-03-11T11:27:15.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "aimsora/.github",
+      "name": ".github",
+      "owner": "aimsora",
+      "htmlUrl": "https://github.com/aimsora/.github",
+      "description": "Репозиторий профиля организации AIMSORA и сайта на GitHub Pages",
+      "language": "",
+      "topics": [],
+      "pushedAt": null,
+      "updatedAt": null,
+      "activityAt": "2026-03-11T10:42:00.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "aimsora/shared-contracts",
+      "name": "shared-contracts",
+      "owner": "aimsora",
+      "htmlUrl": "https://github.com/aimsora/shared-contracts",
+      "description": "Общие контракты GraphQL и JSON Schema для сервисов платформы AIMSORA",
+      "language": "",
+      "topics": [],
+      "pushedAt": null,
+      "updatedAt": null,
+      "activityAt": "2026-03-11T10:00:27.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "MinAleDm/MinAleDm",
+      "name": "MinAleDm",
+      "owner": "MinAleDm",
+      "htmlUrl": "https://github.com/MinAleDm/MinAleDm",
+      "description": "Personal information",
+      "language": "",
+      "topics": [],
+      "pushedAt": null,
+      "updatedAt": null,
+      "activityAt": "2026-03-05T20:57:30.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "MinAleDm/DailyBoost",
+      "name": "DailyBoost",
+      "owner": "MinAleDm",
+      "htmlUrl": "https://github.com/MinAleDm/DailyBoost",
+      "description": "DailyBoost — современное full-stack веб-приложение для управления задачами и привычками, построенное на Nuxt 4. Проект демонстрирует модульную архитектуру, SSR-подход и масштабируемую структуру состояния.",
+      "language": "TypeScript",
+      "topics": [
+        "pet-project"
+      ],
+      "pushedAt": "2026-03-02T20:06:27.000Z",
+      "updatedAt": "2026-03-02T20:06:31.000Z",
+      "activityAt": "2026-03-02T20:06:26.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "MinAleDm/TeamSync-Pro",
+      "name": "TeamSync-Pro",
+      "owner": "MinAleDm",
+      "htmlUrl": "https://github.com/MinAleDm/TeamSync-Pro",
+      "description": "TeamSync Pro — архитектурно структурированная Kanban-платформа для управления задачами и командной синхронизации. Реализована на Next.js с полной типизацией TypeScript, модульным разделением бизнес-логики и static export моделью развертывания.",
+      "language": "TypeScript",
+      "topics": [
+        "pet-project"
+      ],
+      "pushedAt": "2026-02-21T17:21:35.000Z",
+      "updatedAt": "2026-03-01T18:16:30.000Z",
+      "activityAt": "2026-02-21T17:21:25.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "MinAleDm/CRM-system",
+      "name": "CRM-system",
+      "owner": "MinAleDm",
+      "htmlUrl": "https://github.com/MinAleDm/CRM-system",
+      "description": "Многопользовательская CRM-платформа, ориентированная на производство, с RBAC, JWT / refresh auth, журналом аудита, программным удалением, управлением версиями API, документами OpenAPI, ограничением скорости Redis / кэшированием, очередями BullMQ и событиями websocket в реальном времени.",
+      "language": "TypeScript",
+      "topics": [
+        "pet-project"
+      ],
+      "pushedAt": "2026-02-21T16:28:34.000Z",
+      "updatedAt": "2026-02-21T16:28:39.000Z",
+      "activityAt": "2026-02-21T16:28:24.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "PyMastery/PyMastery",
+      "name": "PyMastery",
+      "owner": "PyMastery",
+      "htmlUrl": "https://github.com/PyMastery/PyMastery",
+      "description": "Perfect site for me",
+      "language": "TypeScript",
+      "topics": [],
+      "pushedAt": "2025-10-15T18:14:11.000Z",
+      "updatedAt": "2025-10-15T18:14:14.000Z",
+      "activityAt": "2025-10-15T18:14:10.000Z",
+      "isPinned": false
+    }
+  ]
+}

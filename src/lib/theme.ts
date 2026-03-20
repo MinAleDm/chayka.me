@@ -11,74 +11,54 @@ interface ThemePalette {
 
 const PALETTES: ThemePalette[] = [
   {
-    accent: "#62e6c8",
-    accent2: "#64a6ff",
-    accentGlow: "rgba(98, 230, 200, 0.8)",
-    accent2Glow: "rgba(100, 166, 255, 0.5)",
-    orbA: "#5ea7ff",
-    orbB: "#57eec8",
-    bgGlowA: "rgba(101, 166, 255, 0.22)",
-    bgGlowB: "rgba(98, 230, 200, 0.18)"
+    accent: "#1d4ed8",
+    accent2: "#bfdbfe",
+    accentGlow: "rgba(29, 78, 216, 0.42)",
+    accent2Glow: "rgba(191, 219, 254, 0.34)",
+    orbA: "#1e40af",
+    orbB: "#93c5fd",
+    bgGlowA: "rgba(29, 78, 216, 0.18)",
+    bgGlowB: "rgba(191, 219, 254, 0.16)"
   },
   {
-    accent: "#ffd166",
-    accent2: "#ff6b6b",
-    accentGlow: "rgba(255, 209, 102, 0.78)",
-    accent2Glow: "rgba(255, 107, 107, 0.5)",
-    orbA: "#ff9e4f",
-    orbB: "#ff5f7a",
-    bgGlowA: "rgba(255, 158, 79, 0.24)",
-    bgGlowB: "rgba(255, 95, 122, 0.2)"
+    accent: "#2563eb",
+    accent2: "#dbeafe",
+    accentGlow: "rgba(37, 99, 235, 0.44)",
+    accent2Glow: "rgba(219, 234, 254, 0.3)",
+    orbA: "#1d4ed8",
+    orbB: "#bfdbfe",
+    bgGlowA: "rgba(37, 99, 235, 0.2)",
+    bgGlowB: "rgba(147, 197, 253, 0.18)"
   },
   {
-    accent: "#b8f576",
-    accent2: "#43c59e",
-    accentGlow: "rgba(184, 245, 118, 0.76)",
-    accent2Glow: "rgba(67, 197, 158, 0.5)",
-    orbA: "#a8f35c",
-    orbB: "#35c79e",
-    bgGlowA: "rgba(168, 243, 92, 0.2)",
-    bgGlowB: "rgba(53, 199, 158, 0.18)"
+    accent: "#0f172a",
+    accent2: "#60a5fa",
+    accentGlow: "rgba(15, 23, 42, 0.34)",
+    accent2Glow: "rgba(96, 165, 250, 0.3)",
+    orbA: "#1e3a8a",
+    orbB: "#60a5fa",
+    bgGlowA: "rgba(15, 23, 42, 0.14)",
+    bgGlowB: "rgba(96, 165, 250, 0.16)"
   },
   {
-    accent: "#ff9fdf",
-    accent2: "#8f7bff",
-    accentGlow: "rgba(255, 159, 223, 0.78)",
-    accent2Glow: "rgba(143, 123, 255, 0.5)",
-    orbA: "#f38ad6",
-    orbB: "#8774ff",
-    bgGlowA: "rgba(243, 138, 214, 0.2)",
-    bgGlowB: "rgba(135, 116, 255, 0.2)"
+    accent: "#1e40af",
+    accent2: "#93c5fd",
+    accentGlow: "rgba(30, 64, 175, 0.42)",
+    accent2Glow: "rgba(147, 197, 253, 0.3)",
+    orbA: "#0f172a",
+    orbB: "#bfdbfe",
+    bgGlowA: "rgba(30, 64, 175, 0.18)",
+    bgGlowB: "rgba(191, 219, 254, 0.18)"
   },
   {
-    accent: "#7cf7f1",
-    accent2: "#4f91ff",
-    accentGlow: "rgba(124, 247, 241, 0.76)",
-    accent2Glow: "rgba(79, 145, 255, 0.5)",
-    orbA: "#71ebff",
-    orbB: "#3d8dff",
-    bgGlowA: "rgba(113, 235, 255, 0.2)",
-    bgGlowB: "rgba(61, 141, 255, 0.2)"
-  },
-  {
-    accent: "#f7b267",
-    accent2: "#f4845f",
-    accentGlow: "rgba(247, 178, 103, 0.78)",
-    accent2Glow: "rgba(244, 132, 95, 0.5)",
-    orbA: "#f6a85e",
-    orbB: "#f67768",
-    bgGlowA: "rgba(246, 168, 94, 0.2)",
-    bgGlowB: "rgba(246, 119, 104, 0.2)"
-  },
-  {
-    accent: "#9bf6ff",
-    accent2: "#a0c4ff",
-    accentGlow: "rgba(155, 246, 255, 0.78)",
-    accent2Glow: "rgba(160, 196, 255, 0.5)",
-    orbA: "#91f2ff",
-    orbB: "#96bbff",
-    bgGlowA: "rgba(145, 242, 255, 0.2)",
-    bgGlowB: "rgba(150, 187, 255, 0.2)"
+    accent: "#3b82f6",
+    accent2: "#f8fafc",
+    accentGlow: "rgba(59, 130, 246, 0.4)",
+    accent2Glow: "rgba(248, 250, 252, 0.24)",
+    orbA: "#2563eb",
+    orbB: "#dbeafe",
+    bgGlowA: "rgba(59, 130, 246, 0.16)",
+    bgGlowB: "rgba(248, 250, 252, 0.12)"
   }
 ];
 

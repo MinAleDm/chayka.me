@@ -4,9 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "predev": "npm run content:sync && node scripts/generate-public-static-assets.mjs",
     "dev": "vite",
-    "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "content:sync": "node scripts/generate-github-content.mjs",
+    "typecheck": "vue-tsc -b",
+    "build": "node scripts/generate-github-content.mjs && vue-tsc -b && vite build && node scripts/postbuild-static-pages.mjs",
+    "preview": "vite preview",
+    "verify:content": "node scripts/verify-site.mjs",
+    "verify:dist": "node scripts/verify-site.mjs --dist",
+    "check": "npm run verify:content && npm run build && npm run verify:dist"
   },
   "dependencies": {
     "markdown-it": "^14.1.0",
