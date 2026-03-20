@@ -44,6 +44,7 @@ async function verifyBuildOutput() {
   const requiredFiles = [
     "index.html",
     "404.html",
+    "CNAME",
     "sitemap.xml",
     "robots.txt",
     path.join("blog", "index.html"),
@@ -53,6 +54,24 @@ async function verifyBuildOutput() {
   ];
 
   await Promise.all(requiredFiles.map((relativePath) => access(path.join(DIST_DIR, relativePath))));
+
+  const htmlFiles = [
+    "index.html",
+    "404.html",
+    path.join("blog", "index.html"),
+    path.join("projects", "index.html"),
+    path.join("contact", "index.html")
+  ];
+
+  for (const relativePath of htmlFiles) {
+    const html = await readFile(path.join(DIST_DIR, relativePath), "utf8");
+
+    assert(!html.includes("<meta   <meta"), `Malformed meta tags found in ${relativePath}`);
+    assert(!html.includes('content="website" />'), `Broken meta content leaked into body markup in ${relativePath}`);
+    assert(!html.includes("https://minaledm.github.io"), `Outdated GitHub Pages URL found in ${relativePath}`);
+    assert(html.includes('property="og:title"'), `Missing Open Graph title tag in ${relativePath}`);
+    assert(html.includes('name="twitter:title"'), `Missing Twitter title tag in ${relativePath}`);
+  }
 }
 
 async function main() {

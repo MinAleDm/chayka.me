@@ -32,7 +32,8 @@ function ensureMetaTag(head, matcher, tag) {
     return head.replace(matcher, tag);
   }
 
-  return `${head}${tag}\n`;
+  const normalizedHead = head.trimEnd();
+  return `${normalizedHead}\n${tag}\n`;
 }
 
 function buildMetaTags(meta, siteConfig) {
@@ -45,21 +46,7 @@ function buildMetaTags(meta, siteConfig) {
     title,
     description,
     canonicalUrl,
-    tags: [
-      `<meta name="description" content="${description}">`,
-      `<link rel="canonical" href="${canonicalUrl}">`,
-      `<meta property="og:type" content="${meta.ogType ?? "website"}">`,
-      `<meta property="og:locale" content="${siteConfig.ogLocale}">`,
-      `<meta property="og:site_name" content="${siteConfig.siteName}">`,
-      `<meta property="og:title" content="${title}">`,
-      `<meta property="og:description" content="${description}">`,
-      `<meta property="og:url" content="${canonicalUrl}">`,
-      `<meta property="og:image" content="${imageUrl}">`,
-      `<meta name="twitter:card" content="summary">`,
-      `<meta name="twitter:title" content="${title}">`,
-      `<meta name="twitter:description" content="${description}">`,
-      `<meta name="twitter:image" content="${imageUrl}">`
-    ]
+    imageUrl
   };
 }
 
@@ -74,21 +61,29 @@ function applyPageMeta(html, meta, siteConfig) {
   if (!headMatch) return next;
 
   let head = headMatch[1];
-  head = ensureMetaTag(head, /<meta name="description"[\s\S]*?>/i, `  <meta name="description" content="${escapedDescription}">`);
-  head = ensureMetaTag(head, /<link rel="canonical"[\s\S]*?>/i, `  <link rel="canonical" href="${escapedCanonicalUrl}">`);
+  head = ensureMetaTag(
+    head,
+    /<meta\b[^>]*\bname=["']description["'][^>]*>/i,
+    `  <meta name="description" content="${escapedDescription}">`
+  );
+  head = ensureMetaTag(
+    head,
+    /<link\b[^>]*\brel=["']canonical["'][^>]*>/i,
+    `  <link rel="canonical" href="${escapedCanonicalUrl}">`
+  );
 
   const metaMatchers = [
-    [/property="og:type"/i, `<meta property="og:type" content="${escapeHtml(meta.ogType ?? "website")}">`],
-    [/property="og:locale"/i, `<meta property="og:locale" content="${escapeHtml(siteConfig.ogLocale)}">`],
-    [/property="og:site_name"/i, `<meta property="og:site_name" content="${escapeHtml(siteConfig.siteName)}">`],
-    [/property="og:title"/i, `<meta property="og:title" content="${escapedTitle}">`],
-    [/property="og:description"/i, `<meta property="og:description" content="${escapedDescription}">`],
-    [/property="og:url"/i, `<meta property="og:url" content="${escapedCanonicalUrl}">`],
-    [/property="og:image"/i, `<meta property="og:image" content="${escapeHtml(new URL("/favicon.svg", `${siteConfig.baseUrl}/`).toString())}">`],
-    [/name="twitter:card"/i, '<meta name="twitter:card" content="summary">'],
-    [/name="twitter:title"/i, `<meta name="twitter:title" content="${escapedTitle}">`],
-    [/name="twitter:description"/i, `<meta name="twitter:description" content="${escapedDescription}">`],
-    [/name="twitter:image"/i, `<meta name="twitter:image" content="${escapeHtml(new URL("/favicon.svg", `${siteConfig.baseUrl}/`).toString())}">`]
+    [/<meta\b[^>]*\bproperty=["']og:type["'][^>]*>/i, `<meta property="og:type" content="${escapeHtml(meta.ogType ?? "website")}">`],
+    [/<meta\b[^>]*\bproperty=["']og:locale["'][^>]*>/i, `<meta property="og:locale" content="${escapeHtml(siteConfig.ogLocale)}">`],
+    [/<meta\b[^>]*\bproperty=["']og:site_name["'][^>]*>/i, `<meta property="og:site_name" content="${escapeHtml(siteConfig.siteName)}">`],
+    [/<meta\b[^>]*\bproperty=["']og:title["'][^>]*>/i, `<meta property="og:title" content="${escapedTitle}">`],
+    [/<meta\b[^>]*\bproperty=["']og:description["'][^>]*>/i, `<meta property="og:description" content="${escapedDescription}">`],
+    [/<meta\b[^>]*\bproperty=["']og:url["'][^>]*>/i, `<meta property="og:url" content="${escapedCanonicalUrl}">`],
+    [/<meta\b[^>]*\bproperty=["']og:image["'][^>]*>/i, `<meta property="og:image" content="${escapeHtml(prepared.imageUrl)}">`],
+    [/<meta\b[^>]*\bname=["']twitter:card["'][^>]*>/i, '<meta name="twitter:card" content="summary">'],
+    [/<meta\b[^>]*\bname=["']twitter:title["'][^>]*>/i, `<meta name="twitter:title" content="${escapedTitle}">`],
+    [/<meta\b[^>]*\bname=["']twitter:description["'][^>]*>/i, `<meta name="twitter:description" content="${escapedDescription}">`],
+    [/<meta\b[^>]*\bname=["']twitter:image["'][^>]*>/i, `<meta name="twitter:image" content="${escapeHtml(prepared.imageUrl)}">`]
   ];
 
   for (const [matcher, tag] of metaMatchers) {
