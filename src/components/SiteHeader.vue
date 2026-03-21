@@ -8,7 +8,7 @@ import { PRIMARY_NAV_ITEMS } from "../lib/site";
   <header class="topbar">
     <div class="topbar-inner">
       <RouterLink class="brand" to="/" aria-label="Alexander Minkin home">
-        <img :src="brandMark" alt="chayka.me brand mark" class="brand-logo" />
+        <img :src="brandMark" alt="minkin.tech brand mark" class="brand-logo" />
       </RouterLink>
 
       <nav class="nav" aria-label="Main navigation">

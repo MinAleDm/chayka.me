@@ -1,6 +1,6 @@
 [![Deploy to GitHub Pages](https://github.com/MinAleDm/chayka.me/actions/workflows/pages.yml/badge.svg)](https://github.com/MinAleDm/chayka.me/actions/workflows/pages.yml)
 
-**[chayka.me](https://chayka.me/)**
+**[minkin.tech](https://minkin.tech/)**
 
 Личный сайт-портфолио на Vue 3 и Vite. Здесь собраны проекты, блог, контакты и build-time синхронизация данных из GitHub.
 

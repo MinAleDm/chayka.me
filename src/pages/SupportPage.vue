@@ -55,7 +55,7 @@ usePageMeta(getStaticPageMeta("support"));
     <p class="eyebrow">Support</p>
     <h1 class="page-title">Поддержка автора проекта</h1>
     <p class="page-lead">
-      Эта страница предназначена для поддержки меня как автора chayka.me:
+      Эта страница предназначена для поддержки меня как автора minkin.tech:
       обратной связи, распространения проекта и предложений по сотрудничеству.
     </p>
 
