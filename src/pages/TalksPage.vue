@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { usePageMeta } from "../lib/meta";
+import { getStaticPageMeta } from "../lib/site";
 
-usePageMeta({
-  title: "Talks — Aleksandr Minkin",
-  description: "Раздел с лекциями, заметками и будущими выпусками podcast lab.",
-  path: "/talks"
-});
+usePageMeta(getStaticPageMeta("talks"));
 </script>
 
 <template>

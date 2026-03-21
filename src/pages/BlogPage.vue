@@ -4,14 +4,11 @@ import { RouterLink } from "vue-router";
 import { getBlogPosts, type ContentEntry } from "../lib/content";
 import { formatDate, getYearLabel, parseDateToTimestamp } from "../lib/dates";
 import { usePageMeta } from "../lib/meta";
+import { getStaticPageMeta } from "../lib/site";
 
 const posts = getBlogPosts();
 
-usePageMeta({
-  title: "Blog — Aleksandr Minkin",
-  description: "Статьи про инженерную практику, архитектуру, DX и процесс разработки.",
-  path: "/blog"
-});
+usePageMeta(getStaticPageMeta("blog"));
 
 type PostGroup = {
   year: string;

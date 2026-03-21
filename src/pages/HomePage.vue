@@ -3,12 +3,13 @@ import { RouterLink } from "vue-router";
 import GithubActivityWidget from "../components/GithubActivityWidget.vue";
 import { getGithubActivity, getHomePageContent } from "../lib/content";
 import { usePageMeta } from "../lib/meta";
+import { getStaticPageMeta } from "../lib/site";
 
 const home = getHomePageContent();
 const activity = getGithubActivity();
 
 usePageMeta({
-  title: "Aleksandr Minkin — Frontend / Fullstack Engineer",
+  ...getStaticPageMeta("home"),
   description: home.lead,
   path: "/"
 });

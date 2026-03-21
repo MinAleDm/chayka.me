@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { usePageMeta } from "../lib/meta";
+import { getStaticPageMeta } from "../lib/site";
 
 type SupportCard = {
   title: string;
@@ -46,11 +47,7 @@ const supportFlow: string[] = [
   "Добавляю правки в контент или план развития"
 ];
 
-usePageMeta({
-  title: "Support — Aleksandr Minkin",
-  description: "Как поддержать автора сайта: обратная связь, репосты, сотрудничество и идеи.",
-  path: "/support"
-});
+usePageMeta(getStaticPageMeta("support"));
 </script>
 
 <template>

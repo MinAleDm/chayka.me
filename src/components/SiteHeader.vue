@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
 import brandMark from "../assets/brand-mark.svg";
+import { PRIMARY_NAV_ITEMS } from "../lib/site";
 </script>
 
 <template>
@@ -11,12 +12,15 @@ import brandMark from "../assets/brand-mark.svg";
       </RouterLink>
 
       <nav class="nav" aria-label="Main navigation">
-        <RouterLink class="nav-link" to="/" exact-active-class="is-active">Home</RouterLink>
-        <RouterLink class="nav-link" to="/projects" exact-active-class="is-active">Projects</RouterLink>
-        <RouterLink class="nav-link" to="/blog" exact-active-class="is-active">Blog</RouterLink>
-        <RouterLink class="nav-link" to="/talks" exact-active-class="is-active">Talks</RouterLink>
-        <RouterLink class="nav-link" to="/support" exact-active-class="is-active">Support</RouterLink>
-        <RouterLink class="nav-link" to="/contact" exact-active-class="is-active">Contact</RouterLink>
+        <RouterLink
+          v-for="item in PRIMARY_NAV_ITEMS"
+          :key="item.name"
+          class="nav-link"
+          :to="item.path"
+          exact-active-class="is-active"
+        >
+          {{ item.label }}
+        </RouterLink>
       </nav>
 
       <a

@@ -6,14 +6,11 @@ import stackMireaLogo from "../assets/images/logos/stack-mirea.svg";
 import crossRoadLogo from "../assets/images/logos/CrossRoadlogo.svg";
 import { formatDate, getYearLabel, parseDateToTimestamp } from "../lib/dates";
 import { usePageMeta } from "../lib/meta";
+import { getStaticPageMeta } from "../lib/site";
 
 const projects = getProjects();
 
-usePageMeta({
-  title: "Projects — Aleksandr Minkin",
-  description: "Рабочие и pet-проекты: от идеи до реального релиза, с акцентом на продукт и инженерную практику.",
-  path: "/projects"
-});
+usePageMeta(getStaticPageMeta("projects"));
 
 type ProjectGroup = {
   year: string;

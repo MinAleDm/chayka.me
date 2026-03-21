@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
 import { usePageMeta } from "../lib/meta";
+import { getStaticPageMeta } from "../lib/site";
 
-usePageMeta({
-  title: "Страница не найдена — Aleksandr Minkin",
-  description: "Запрошенная страница не найдена. Вернитесь на главную или откройте список материалов.",
-  path: "/404"
-});
+usePageMeta(getStaticPageMeta("not-found"));
 </script>
 
 <template>

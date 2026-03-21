@@ -1,5 +1,6 @@
 import githubData from "../content/generated/github-data.json";
 import siteConfig from "../content/site-config.json";
+import { parseDateToTimestamp } from "./dates";
 import { parseMarkdown, stripMarkdown, type FrontmatterObject, type FrontmatterValue } from "./markdown";
 
 export interface ContentEntry {
@@ -103,13 +104,6 @@ const isObjectValue = (value: FrontmatterValue | undefined): value is Frontmatte
 const getSlug = (path: string): string => {
   const file = path.split("/").at(-1) ?? "";
   return file.replace(/\.md$/, "");
-};
-
-const parseDateToTimestamp = (value?: string | null): number => {
-  if (!value) return 0;
-  if (value.toLowerCase() === "pinned") return Number.MAX_SAFE_INTEGER;
-  const parsed = Date.parse(value);
-  return Number.isNaN(parsed) ? 0 : parsed;
 };
 
 const createSummary = (rawBody: string): string => {

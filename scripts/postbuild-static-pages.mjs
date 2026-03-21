@@ -1,14 +1,6 @@
 import { copyFile, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import {
-  BLOG_DIR,
-  DIST_DIR,
-  GENERATED_GITHUB_PATH,
-  createSummary,
-  ensureDir,
-  readMarkdownEntries,
-  readSiteConfig
-} from "./site-utils.mjs";
+import { BLOG_DIR, DIST_DIR, HOME_CONTENT_PATH, createSummary, ensureDir, parseMarkdownFile, readMarkdownEntries, readSiteConfig } from "./site-utils.mjs";
 
 const BLOG_OUTPUT_DIR = path.join(DIST_DIR, "blog");
 
@@ -176,9 +168,12 @@ async function main() {
   const siteConfig = await readSiteConfig();
   const indexHtmlPath = path.join(DIST_DIR, "index.html");
   const indexHtml = await readFile(indexHtmlPath, "utf8");
-  const githubPayload = JSON.parse(await readFile(GENERATED_GITHUB_PATH, "utf8"));
+  const homeSource = await readFile(HOME_CONTENT_PATH, "utf8");
+  const homeAttributes = parseMarkdownFile(homeSource).attributes;
   const homeDescription =
-    githubPayload.activity?.projectDescription || siteConfig.defaultDescription;
+    typeof homeAttributes.lead === "string" && homeAttributes.lead.trim()
+      ? homeAttributes.lead.trim()
+      : siteConfig.defaultDescription;
 
   const staticRoutes = [
     {
