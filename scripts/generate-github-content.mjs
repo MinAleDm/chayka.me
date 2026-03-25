@@ -16,7 +16,7 @@ async function fetchJson(url, headers = {}) {
   const response = await fetch(url, {
     headers: {
       Accept: "application/vnd.github+json",
-      "User-Agent": "chayka.me-build-script",
+      "User-Agent": "minkin.tech-build-script",
       ...headers
     }
   });
@@ -145,6 +145,10 @@ async function readPreviousPayload() {
   }
 }
 
+function payloadMatchesUsername(payload, username) {
+  return typeof payload?.username === "string" && payload.username.toLowerCase() === username.toLowerCase();
+}
+
 async function main() {
   const siteConfig = await readSiteConfig();
   const previous = await readPreviousPayload();
@@ -201,13 +205,14 @@ async function main() {
     await writeJsonFile(GENERATED_GITHUB_PATH, {
       generatedAt: new Date().toISOString(),
       source: "github",
+      username: siteConfig.githubUsername,
       activity,
       repositories
     });
 
     console.log(`Generated GitHub content: ${repositories.length} repositories.`);
   } catch (error) {
-    if (previous) {
+    if (previous && payloadMatchesUsername(previous, siteConfig.githubUsername)) {
       console.warn("GitHub sync failed, keeping existing generated content.");
       console.warn(error instanceof Error ? error.message : String(error));
       return;
@@ -216,11 +221,16 @@ async function main() {
     await writeJsonFile(GENERATED_GITHUB_PATH, {
       generatedAt: new Date().toISOString(),
       source: "fallback",
+      username: siteConfig.githubUsername,
       activity: null,
       repositories: []
     });
 
-    console.warn("GitHub sync failed and no previous payload was found. Wrote empty fallback payload.");
+    console.warn(
+      previous
+        ? "GitHub sync failed and the previous payload belongs to another username. Wrote empty fallback payload."
+        : "GitHub sync failed and no previous payload was found. Wrote empty fallback payload."
+    );
     console.warn(error instanceof Error ? error.message : String(error));
   }
 }

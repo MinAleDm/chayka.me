@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
 import GithubActivityWidget from "../components/GithubActivityWidget.vue";
-import { getGithubActivity, getHomePageContent } from "../lib/content";
+import { getGithubActivity, getGithubDataStatus, getHomePageContent } from "../lib/content";
 import { usePageMeta } from "../lib/meta";
 import { getStaticPageMeta } from "../lib/site";
 
 const home = getHomePageContent();
 const activity = getGithubActivity();
+const githubStatus = getGithubDataStatus();
 
 usePageMeta({
   ...getStaticPageMeta("home"),
@@ -49,7 +50,7 @@ usePageMeta({
 
   <hr class="divider reveal" />
 
-  <GithubActivityWidget :activity="activity" />
+  <GithubActivityWidget :activity="activity" :status="githubStatus" />
 
   <hr class="divider reveal" />
 

@@ -3,8 +3,8 @@ title: StackMIREA
 date: Pinned
 tags: [Pinned, MDX, Education]
 order: 1
-link: https://github.com/MinAleDm/StackMIREA
-repository: MinAleDm/StackMIREA
+link: https://github.com/minkinad/StackMIREA
+repository: minkinad/StackMIREA
 logoKey: stackmirea
 summary: StackMIREA — это интерактивная образовательная платформа и цифровая методичка для студентов IT-направления МИРЭА. Проект собирает практические задания, готовые решения, теорию и разборы задач в единой, удобной для изучения структуре.
 ---

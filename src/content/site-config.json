@@ -8,10 +8,10 @@
   "locale": "ru",
   "ogLocale": "ru_RU",
   "timezone": "Europe/Moscow",
-  "githubUsername": "MinAleDm",
-  "pinnedRepositories": ["StackMIREA", "chayka.me"],
+  "githubUsername": "minkinad",
+  "pinnedRepositories": ["StackMIREA", "minkin.tech"],
   "social": {
-    "github": "https://github.com/MinAleDm",
+    "github": "https://github.com/minkinad",
     "telegram": "https://t.me/MinAleDm"
   }
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { usePageMeta } from "../lib/meta";
-import { getStaticPageMeta } from "../lib/site";
+import { GITHUB_PROFILE_URL, TELEGRAM_URL, getGithubRepositoryUrl, getStaticPageMeta } from "../lib/site";
 
 type SupportCard = {
   title: string;
@@ -16,21 +16,21 @@ const supportCards: SupportCard[] = [
     kicker: "Feedback",
     text: "Если проект оказался полезным, напишите пару слов в Telegram. Живой фидбек помогает держать темп и развивать новые идеи.",
     linkLabel: "Написать в Telegram",
-    linkHref: "https://t.me/MinAleDm"
+    linkHref: TELEGRAM_URL
   },
   {
     title: "Поделиться проектом",
     kicker: "Share",
     text: "Репост, ссылка в чате или рекомендация коллегам сильно помогают росту аудитории и поддерживают мотивацию автора.",
     linkLabel: "Открыть репозиторий проекта",
-    linkHref: "https://github.com/MinAleDm/chayka.me"
+    linkHref: getGithubRepositoryUrl("minkin.tech")
   },
   {
     title: "Поддержать как автора",
     kicker: "Support",
     text: "Если хотите поддержать меня как разработчика и автора контента, можно написать напрямую и обсудить формат поддержки или сотрудничества.",
     linkLabel: "Профиль автора на GitHub",
-    linkHref: "https://github.com/MinAleDm"
+    linkHref: GITHUB_PROFILE_URL
   }
 ];
 

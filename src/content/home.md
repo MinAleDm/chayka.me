@@ -7,8 +7,8 @@ supportTitle: Поддержка open source
 supportText: Если вам нравится моя работа и вы находите её полезной, можно поддержать меня обратной связью, репостом или предложением о сотрудничестве.
 stackGroups: [
   {"title":"Working at","separator":"/","items":[{"name":"Easy Commerce","href":"https://easycomm.ru/"}]},
-  {"title":"Creator of","items":[{"name":"StackMIREA","href":"https://github.com/MinAleDm/StackMIREA"},{"name":"aimsora","href":"https://github.com/aimsora"}]},
-  {"title":"Maintaining","items":[{"name":"StackMIREA","href":"https://github.com/MinAleDm/StackMIREA"},{"name":"DailyBoost","href":"https://github.com/MinAleDm/DailyBoost"},{"name":"TeamSync Pro","href":"https://github.com/MinAleDm/TeamSync-Pro"}]}
+  {"title":"Creator of","items":[{"name":"StackMIREA","href":"https://github.com/minkinad/StackMIREA"},{"name":"aimsora","href":"https://github.com/aimsora"}]},
+  {"title":"Maintaining","items":[{"name":"StackMIREA","href":"https://github.com/minkinad/StackMIREA"},{"name":"DailyBoost","href":"https://github.com/minkinad/DailyBoost"},{"name":"TeamSync Pro","href":"https://github.com/minkinad/TeamSync-Pro"}]}
 ]
 ---
 

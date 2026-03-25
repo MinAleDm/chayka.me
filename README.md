@@ -1,4 +1,4 @@
-[![Deploy to GitHub Pages](https://github.com/MinAleDm/chayka.me/actions/workflows/pages.yml/badge.svg)](https://github.com/MinAleDm/chayka.me/actions/workflows/pages.yml)
+[![Deploy to GitHub Pages](https://github.com/minkinad/minkin.tech/actions/workflows/pages.yml/badge.svg)](https://github.com/minkinad/minkin.tech/actions/workflows/pages.yml)
 
 **[minkin.tech](https://minkin.tech/)**
 

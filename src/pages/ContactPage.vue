@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { usePageMeta } from "../lib/meta";
-import { getStaticPageMeta } from "../lib/site";
+import { GITHUB_PROFILE_LABEL, GITHUB_PROFILE_URL, TELEGRAM_LABEL, TELEGRAM_URL, getStaticPageMeta } from "../lib/site";
 
 type ContactChannel = {
   title: string;
@@ -16,16 +16,16 @@ const channels: ContactChannel[] = [
     title: "Telegram",
     description: "Быстрый канал для вопросов по сотрудничеству, консультациям и обратной связи по сайту.",
     bestFor: "оперативные обсуждения и первичный контакт",
-    href: "https://t.me/MinAleDm",
-    label: "@MinAleDm",
+    href: TELEGRAM_URL,
+    label: TELEGRAM_LABEL,
     icon: "telegram"
   },
   {
     title: "GitHub",
     description: "Подходит для технических вопросов, задач по проектам, issue и предложений по улучшению.",
     bestFor: "технические детали, задачи и публичный трекинг",
-    href: "https://github.com/MinAleDm",
-    label: "github.com/MinAleDm",
+    href: GITHUB_PROFILE_URL,
+    label: GITHUB_PROFILE_LABEL,
     icon: "github"
   }
 ];

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
 import brandMark from "../assets/brand-mark.svg";
-import { PRIMARY_NAV_ITEMS } from "../lib/site";
+import { GITHUB_PROFILE_URL, PRIMARY_NAV_ITEMS } from "../lib/site";
 </script>
 
 <template>
@@ -25,7 +25,7 @@ import { PRIMARY_NAV_ITEMS } from "../lib/site";
 
       <a
         class="github-link"
-        href="https://github.com/MinAleDm"
+        :href="GITHUB_PROFILE_URL"
         target="_blank"
         rel="noreferrer noopener"
         aria-label="GitHub profile"

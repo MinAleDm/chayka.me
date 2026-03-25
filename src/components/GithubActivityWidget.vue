@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
-import type { GithubActivity } from "../lib/content";
+import type { GithubActivity, GithubDataStatus } from "../lib/content";
 import { formatAbsoluteMoscowTime, formatRelativeTime } from "../lib/dates";
 
 const props = defineProps<{
   activity: GithubActivity | null;
+  status: GithubDataStatus;
 }>();
 
 const nowMs = ref(Date.now());
@@ -26,6 +27,14 @@ const relativeMoscowTime = computed(() => {
   return formatRelativeTime(props.activity.createdAt, nowMs.value);
 });
 
+const syncMoscowTime = computed(() => {
+  if (!props.status.generatedAt) {
+    return "";
+  }
+
+  return formatAbsoluteMoscowTime(props.status.generatedAt);
+});
+
 onMounted(() => {
   timer = window.setInterval(() => {
     nowMs.value = Date.now();
@@ -45,7 +54,11 @@ onBeforeUnmount(() => {
       <h2 class="section-title">Последний коммит</h2>
     </div>
 
-    <p v-if="!activity" class="gh-muted">
+    <p v-if="!activity && status.isStale" class="gh-muted">
+      После смены GitHub username старый snapshot скрыт. Нужна новая синхронизация, чтобы снова показать активность.
+    </p>
+
+    <p v-else-if="!activity" class="gh-muted">
       Данные GitHub пока не синхронизированы. На следующей сборке сайта они подтянутся автоматически.
     </p>
 
@@ -67,6 +80,7 @@ onBeforeUnmount(() => {
       </p>
       <p class="gh-description">{{ activity.projectDescription }}</p>
       <p class="gh-time">{{ relativeMoscowTime }} · {{ absoluteMoscowTime }}</p>
+      <p v-if="syncMoscowTime" class="gh-muted">Снимок GitHub обновлён: {{ syncMoscowTime }}</p>
     </div>
   </section>
 </template>

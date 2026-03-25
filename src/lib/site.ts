@@ -10,7 +10,19 @@ export interface NavigationItem {
   label: string;
 }
 
+const trimTrailingSlash = (value: string): string => value.replace(/\/+$/, "");
+const getLastPathSegment = (value: string): string => trimTrailingSlash(value).split("/").at(-1) ?? "";
+
 const buildSectionTitle = (label: string): string => `${label} — ${siteMetadata.displayName}`;
+
+export const GITHUB_USERNAME = siteMetadata.githubUsername;
+export const GITHUB_PROFILE_URL = trimTrailingSlash(siteMetadata.social.github);
+export const GITHUB_PROFILE_LABEL = GITHUB_PROFILE_URL.replace(/^https?:\/\//, "");
+export const TELEGRAM_URL = trimTrailingSlash(siteMetadata.social.telegram);
+export const TELEGRAM_HANDLE = getLastPathSegment(TELEGRAM_URL);
+export const TELEGRAM_LABEL = TELEGRAM_HANDLE ? `@${TELEGRAM_HANDLE}` : TELEGRAM_URL.replace(/^https?:\/\//, "");
+export const getGithubRepositoryUrl = (repository: string): string =>
+  `${GITHUB_PROFILE_URL}/${repository.replace(/^\/+|\/+$/g, "")}`;
 
 export const PRIMARY_NAV_ITEMS: NavigationItem[] = [
   { name: "home", path: "/", label: "Home" },

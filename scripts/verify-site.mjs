@@ -6,6 +6,7 @@ import {
   GENERATED_GITHUB_PATH,
   PROJECTS_DIR,
   ROOT_DIR,
+  readSiteConfig,
   readMarkdownEntries
 } from "./site-utils.mjs";
 
@@ -35,9 +36,15 @@ async function verifyMarkdownEntries() {
 }
 
 async function verifyGeneratedGithubPayload() {
+  const siteConfig = await readSiteConfig();
   const payload = JSON.parse(await readFile(GENERATED_GITHUB_PATH, "utf8"));
   assert(Array.isArray(payload.repositories), "Generated GitHub payload must include repositories array.");
   assert("activity" in payload, "Generated GitHub payload must include activity key.");
+  assert(typeof payload.username === "string" && payload.username.trim().length > 0, "Generated GitHub payload must include username.");
+  assert(
+    payload.username.toLowerCase() === siteConfig.githubUsername.toLowerCase(),
+    "Generated GitHub payload username must match site config."
+  );
 }
 
 async function verifyBuildOutput() {

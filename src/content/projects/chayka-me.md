@@ -4,7 +4,7 @@ date: Pinned
 tags: [Vue, Vite, Content, Personal Website]
 order: 2
 link: https://minkin.tech
-repository: MinAleDm/chayka.me
+repository: minkinad/minkin.tech
 logoKey: brand
 summary: Личный сайт-портфолио на Vue и Vite с Markdown-контентом, статической генерацией route pages, build-time синхронизацией GitHub-данных и акцентом на понятный DX.
 ---

@@ -63,7 +63,17 @@ export interface GithubRepository {
   isPinned: boolean;
 }
 
+export interface GithubDataStatus {
+  generatedAt: string | null;
+  username: string | null;
+  source: "github" | "fallback" | "stale";
+  isStale: boolean;
+}
+
 interface GithubDataPayload {
+  generatedAt?: string;
+  username?: string;
+  source?: "github" | "fallback";
   activity: {
     commitSha: string;
     commitUrl: string;
@@ -78,6 +88,10 @@ interface GithubDataPayload {
 
 export const siteMetadata = siteConfig;
 const githubPayload = githubData as GithubDataPayload;
+const payloadUsername = typeof githubPayload.username === "string" && githubPayload.username.trim()
+  ? githubPayload.username.trim()
+  : null;
+const payloadMatchesConfiguredUser = payloadUsername?.toLowerCase() === siteConfig.githubUsername.toLowerCase();
 
 const toStringValue = (value: FrontmatterValue | undefined): string | undefined => {
   if (typeof value === "string") return value;
@@ -224,6 +238,8 @@ export const getBlogPostBySlug = (slug: string): ContentEntry | undefined =>
   getBlogPosts().find((post) => post.slug === slug);
 
 export const getGithubActivity = (): GithubActivity | null => {
+  if (!payloadMatchesConfiguredUser) return null;
+
   const activity = githubPayload.activity;
   if (!activity?.createdAt) return null;
 
@@ -238,20 +254,29 @@ export const getGithubActivity = (): GithubActivity | null => {
   };
 };
 
+export const getGithubDataStatus = (): GithubDataStatus => ({
+  generatedAt: typeof githubPayload.generatedAt === "string" ? githubPayload.generatedAt : null,
+  username: payloadUsername,
+  source: payloadMatchesConfiguredUser ? (githubPayload.source ?? "fallback") : "stale",
+  isStale: !payloadMatchesConfiguredUser
+});
+
 export const getGithubRepositories = (): GithubRepository[] =>
-  [...githubPayload.repositories].map((repository) => ({
-    fullName: repository.fullName,
-    name: repository.name,
-    owner: repository.owner,
-    htmlUrl: repository.htmlUrl,
-    description: repository.description,
-    language: repository.language,
-    topics: repository.topics,
-    pushedAt: repository.pushedAt,
-    updatedAt: repository.updatedAt,
-    activityAt: repository.activityAt,
-    isPinned: repository.isPinned
-  }));
+  payloadMatchesConfiguredUser
+    ? [...githubPayload.repositories].map((repository) => ({
+        fullName: repository.fullName,
+        name: repository.name,
+        owner: repository.owner,
+        htmlUrl: repository.htmlUrl,
+        description: repository.description,
+        language: repository.language,
+        topics: repository.topics,
+        pushedAt: repository.pushedAt,
+        updatedAt: repository.updatedAt,
+        activityAt: repository.activityAt,
+        isPinned: repository.isPinned
+      }))
+    : [];
 
 const mapGithubRepoToProject = (repository: GithubRepository): ContentEntry => {
   const tags = [repository.language, ...repository.topics].filter(Boolean).slice(0, 5);
