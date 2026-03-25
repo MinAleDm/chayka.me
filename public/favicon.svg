@@ -1,12 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
     <linearGradient id="bg" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#0f172a" />
-      <stop offset="1" stop-color="#1d4ed8" />
+      <stop offset="0" stop-color="#0A0000" />
+      <stop offset="0.55" stop-color="#A30000" />
+      <stop offset="1" stop-color="#FF4D00" />
     </linearGradient>
     <linearGradient id="wing" x1="16" y1="18" x2="48" y2="42" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#f8fafc" />
-      <stop offset="1" stop-color="#bfdbfe" />
+      <stop offset="0" stop-color="#FFE2D8" />
+      <stop offset="0.7" stop-color="#FFB199" />
+      <stop offset="1" stop-color="#FF4D00" />
     </linearGradient>
   </defs>
   <rect x="6" y="6" width="52" height="52" rx="15" fill="url(#bg)" />

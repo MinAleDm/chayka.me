@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 import { getBlogPosts, type ContentEntry } from "../lib/content";
 import { formatDate, getYearLabel, parseDateToTimestamp } from "../lib/dates";
 import { usePageMeta } from "../lib/meta";
 import { getStaticPageMeta } from "../lib/site";
 
-const posts = getBlogPosts();
+const posts = ref<ContentEntry[]>([]);
+const isLoading = ref(true);
 
 usePageMeta(getStaticPageMeta("blog"));
 
@@ -18,7 +19,7 @@ type PostGroup = {
 const postGroups = computed<PostGroup[]>(() => {
   const groups = new Map<string, ContentEntry[]>();
 
-  for (const post of posts) {
+  for (const post of posts.value) {
     const year = getYearLabel(post.date);
     if (!year) continue;
 
@@ -38,6 +39,11 @@ const postGroups = computed<PostGroup[]>(() => {
       entries: [...entries].sort((left, right) => parseDateToTimestamp(right.date) - parseDateToTimestamp(left.date))
     }));
 });
+
+onMounted(async () => {
+  posts.value = await getBlogPosts();
+  isLoading.value = false;
+});
 </script>
 
 <template>
@@ -53,7 +59,8 @@ const postGroups = computed<PostGroup[]>(() => {
   </section>
 
   <section class="list-section reveal">
-    <p v-if="postGroups.length === 0" class="gh-muted">Пока нет опубликованных постов.</p>
+    <p v-if="isLoading" class="gh-muted">Загружаю публикации...</p>
+    <p v-else-if="postGroups.length === 0" class="gh-muted">Пока нет опубликованных постов.</p>
 
     <div v-for="group in postGroups" :key="group.year" class="year-group">
       <h2 class="year-label">{{ group.year }}</h2>

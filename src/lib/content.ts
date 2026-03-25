@@ -171,6 +171,17 @@ const buildEntries = (modules: Record<string, string>, source: "local" | "github
   });
 };
 
+const buildEntriesAsync = async (
+  modules: Record<string, () => Promise<string>>,
+  source: "local" | "github" = "local"
+): Promise<ContentEntry[]> => {
+  const loadedModules = await Promise.all(
+    Object.entries(modules).map(async ([path, load]) => [path, await load()] as const)
+  );
+
+  return buildEntries(Object.fromEntries(loadedModules), source);
+};
+
 const normalizeHomeStackGroups = (value: FrontmatterValue | undefined): HomeStackGroup[] => {
   if (!Array.isArray(value)) return [];
 
@@ -204,16 +215,17 @@ const homeModules = import.meta.glob("../content/home.md", {
 }) as Record<string, string>;
 
 const blogModules = import.meta.glob("../content/blog/*.md", {
-  eager: true,
   query: "?raw",
   import: "default"
-}) as Record<string, string>;
+}) as Record<string, () => Promise<string>>;
 
 const projectModules = import.meta.glob("../content/projects/*.md", {
-  eager: true,
   query: "?raw",
   import: "default"
-}) as Record<string, string>;
+}) as Record<string, () => Promise<string>>;
+
+let blogPostsPromise: Promise<ContentEntry[]> | null = null;
+let projectEntriesPromise: Promise<ContentEntry[]> | null = null;
 
 export const getHomePageContent = (): HomeContent => {
   const raw = Object.values(homeModules)[0] ?? "# Home\n";
@@ -231,11 +243,16 @@ export const getHomePageContent = (): HomeContent => {
   };
 };
 
-export const getBlogPosts = (): ContentEntry[] =>
-  buildEntries(blogModules).sort((a, b) => parseDateToTimestamp(b.date) - parseDateToTimestamp(a.date));
+export const getBlogPosts = async (): Promise<ContentEntry[]> => {
+  blogPostsPromise ??= buildEntriesAsync(blogModules).then((posts) =>
+    posts.sort((a, b) => parseDateToTimestamp(b.date) - parseDateToTimestamp(a.date))
+  );
 
-export const getBlogPostBySlug = (slug: string): ContentEntry | undefined =>
-  getBlogPosts().find((post) => post.slug === slug);
+  return blogPostsPromise;
+};
+
+export const getBlogPostBySlug = async (slug: string): Promise<ContentEntry | undefined> =>
+  (await getBlogPosts()).find((post) => post.slug === slug);
 
 export const getGithubActivity = (): GithubActivity | null => {
   if (!payloadMatchesConfiguredUser) return null;
@@ -277,6 +294,16 @@ export const getGithubRepositories = (): GithubRepository[] =>
         isPinned: repository.isPinned
       }))
     : [];
+
+const shouldExposeRepository = (repository: GithubRepository): boolean => {
+  const normalizedName = repository.name.trim().toLowerCase();
+  const normalizedOwner = repository.owner.trim().toLowerCase();
+
+  if (!normalizedName || normalizedName.startsWith(".")) return false;
+  if (normalizedName === normalizedOwner) return false;
+
+  return true;
+};
 
 const mapGithubRepoToProject = (repository: GithubRepository): ContentEntry => {
   const tags = [repository.language, ...repository.topics].filter(Boolean).slice(0, 5);
@@ -325,32 +352,37 @@ const mergeProjectWithRepository = (project: ContentEntry, repository: GithubRep
   };
 };
 
-export const getProjects = (): ContentEntry[] => {
-  const localProjects = buildEntries(projectModules);
-  const repositories = getGithubRepositories().filter(
-    (repository) => repository.name.toLowerCase() !== siteConfig.githubUsername.toLowerCase()
-  );
+export const getProjects = async (): Promise<ContentEntry[]> => {
+  projectEntriesPromise ??= buildEntriesAsync(projectModules).then((localProjects) => {
+    const repositories = getGithubRepositories().filter(
+      (repository) =>
+        repository.name.toLowerCase() !== siteConfig.githubUsername.toLowerCase() &&
+        shouldExposeRepository(repository)
+    );
 
-  const matchedRepositories = new Set<string>();
-  const mergedLocalProjects = localProjects.map((project) => {
-    const repository = repositories.find((entry) => matchesProjectRepository(project, entry));
-    if (repository) {
-      matchedRepositories.add(repository.fullName.toLowerCase());
-    }
-    return mergeProjectWithRepository(project, repository);
+    const matchedRepositories = new Set<string>();
+    const mergedLocalProjects = localProjects.map((project) => {
+      const repository = repositories.find((entry) => matchesProjectRepository(project, entry));
+      if (repository) {
+        matchedRepositories.add(repository.fullName.toLowerCase());
+      }
+      return mergeProjectWithRepository(project, repository);
+    });
+
+    const generatedProjects = repositories
+      .filter((repository) => !matchedRepositories.has(repository.fullName.toLowerCase()))
+      .map(mapGithubRepoToProject);
+
+    return [...mergedLocalProjects, ...generatedProjects].sort((left, right) => {
+      if (typeof left.order === "number" && typeof right.order === "number") {
+        return left.order - right.order;
+      }
+
+      if (typeof left.order === "number") return -1;
+      if (typeof right.order === "number") return 1;
+      return parseDateToTimestamp(right.date) - parseDateToTimestamp(left.date) || left.title.localeCompare(right.title);
+    });
   });
 
-  const generatedProjects = repositories
-    .filter((repository) => !matchedRepositories.has(repository.fullName.toLowerCase()))
-    .map(mapGithubRepoToProject);
-
-  return [...mergedLocalProjects, ...generatedProjects].sort((left, right) => {
-    if (typeof left.order === "number" && typeof right.order === "number") {
-      return left.order - right.order;
-    }
-
-    if (typeof left.order === "number") return -1;
-    if (typeof right.order === "number") return 1;
-    return parseDateToTimestamp(right.date) - parseDateToTimestamp(left.date) || left.title.localeCompare(right.title);
-  });
+  return projectEntriesPromise;
 };
