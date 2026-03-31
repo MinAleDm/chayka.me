@@ -3,6 +3,8 @@ import siteConfig from "../content/site-config.json";
 import { parseDateToTimestamp } from "./dates";
 import { parseMarkdown, stripMarkdown, type FrontmatterObject, type FrontmatterValue } from "./markdown";
 
+export type ContentSource = "local" | "github";
+
 export interface ContentEntry {
   slug: string;
   title: string;
@@ -14,7 +16,7 @@ export interface ContentEntry {
   html: string;
   repository?: string;
   logoKey?: string;
-  source: "local" | "github";
+  source: ContentSource;
 }
 
 export interface HomeStackItem {
@@ -86,6 +88,8 @@ interface GithubDataPayload {
   repositories: GithubRepository[];
 }
 
+type GithubActivityPayload = NonNullable<GithubDataPayload["activity"]>;
+
 export const siteMetadata = siteConfig;
 const githubPayload = githubData as GithubDataPayload;
 const payloadUsername = typeof githubPayload.username === "string" && githubPayload.username.trim()
@@ -144,42 +148,62 @@ const getRepositoryFromLink = (link: string | undefined): string | undefined => 
   }
 };
 
-const buildEntries = (modules: Record<string, string>, source: "local" | "github" = "local"): ContentEntry[] => {
-  return Object.entries(modules).map(([path, raw]) => {
-    const { attributes, body, html } = parseMarkdown(raw);
-    const title = toStringValue(attributes.title) ?? getSlug(path);
-    const date = toStringValue(attributes.date);
-    const summary = toStringValue(attributes.summary) ?? createSummary(body);
-    const link = toStringValue(attributes.link);
-    const order = toNumberValue(attributes.order);
-    const repository = normalizeRepository(toStringValue(attributes.repository) ?? getRepositoryFromLink(link));
-    const logoKey = toStringValue(attributes.logoKey);
+const createContentEntry = (path: string, raw: string, source: ContentSource): ContentEntry => {
+  const { attributes, body, html } = parseMarkdown(raw);
+  const slug = getSlug(path);
+  const title = toStringValue(attributes.title) ?? slug;
+  const date = toStringValue(attributes.date);
+  const summary = toStringValue(attributes.summary) ?? createSummary(body);
+  const link = toStringValue(attributes.link);
+  const order = toNumberValue(attributes.order);
+  const repository = normalizeRepository(toStringValue(attributes.repository) ?? getRepositoryFromLink(link));
+  const logoKey = toStringValue(attributes.logoKey);
 
-    return {
-      slug: getSlug(path),
-      title,
-      date,
-      tags: toStringArray(attributes.tags),
-      summary,
-      link,
-      order,
-      html,
-      repository,
-      logoKey,
-      source
-    };
-  });
+  return {
+    slug,
+    title,
+    date,
+    tags: toStringArray(attributes.tags),
+    summary,
+    link,
+    order,
+    html,
+    repository,
+    logoKey,
+    source
+  };
 };
+
+const buildEntries = (modules: Record<string, string>, source: ContentSource = "local"): ContentEntry[] =>
+  Object.entries(modules).map(([path, raw]) => createContentEntry(path, raw, source));
 
 const buildEntriesAsync = async (
   modules: Record<string, () => Promise<string>>,
-  source: "local" | "github" = "local"
+  source: ContentSource = "local"
 ): Promise<ContentEntry[]> => {
   const loadedModules = await Promise.all(
     Object.entries(modules).map(async ([path, load]) => [path, await load()] as const)
   );
 
   return buildEntries(Object.fromEntries(loadedModules), source);
+};
+
+const getRepositoryTags = (repository: GithubRepository): string[] =>
+  [repository.language, ...repository.topics].filter(Boolean).slice(0, 5);
+
+const getRepositoryActivityDate = (repository: GithubRepository): string | undefined =>
+  repository.isPinned ? "Pinned" : repository.activityAt ?? repository.updatedAt ?? repository.pushedAt ?? undefined;
+
+const getRepositoryKey = (repository: Pick<GithubRepository, "fullName">): string => repository.fullName.toLowerCase();
+
+const sortEntriesByOrderAndDate = (left: ContentEntry, right: ContentEntry): number => {
+  if (typeof left.order === "number" && typeof right.order === "number") {
+    return left.order - right.order;
+  }
+
+  if (typeof left.order === "number") return -1;
+  if (typeof right.order === "number") return 1;
+  return parseDateToTimestamp(right.date) - parseDateToTimestamp(left.date) || left.title.localeCompare(right.title);
 };
 
 const normalizeHomeStackGroups = (value: FrontmatterValue | undefined): HomeStackGroup[] => {
@@ -254,21 +278,23 @@ export const getBlogPosts = async (): Promise<ContentEntry[]> => {
 export const getBlogPostBySlug = async (slug: string): Promise<ContentEntry | undefined> =>
   (await getBlogPosts()).find((post) => post.slug === slug);
 
+const mapGithubActivity = (activity: GithubActivityPayload): GithubActivity => ({
+  commitSha: activity.commitSha,
+  commitUrl: activity.commitUrl,
+  commitMessage: activity.commitMessage,
+  repoName: activity.repoName,
+  repoUrl: activity.repoUrl,
+  projectDescription: activity.projectDescription,
+  createdAt: activity.createdAt
+});
+
 export const getGithubActivity = (): GithubActivity | null => {
   if (!payloadMatchesConfiguredUser) return null;
 
   const activity = githubPayload.activity;
   if (!activity?.createdAt) return null;
 
-  return {
-    commitSha: activity.commitSha,
-    commitUrl: activity.commitUrl,
-    commitMessage: activity.commitMessage,
-    repoName: activity.repoName,
-    repoUrl: activity.repoUrl,
-    projectDescription: activity.projectDescription,
-    createdAt: activity.createdAt
-  };
+  return mapGithubActivity(activity);
 };
 
 export const getGithubDataStatus = (): GithubDataStatus => ({
@@ -306,13 +332,11 @@ const shouldExposeRepository = (repository: GithubRepository): boolean => {
 };
 
 const mapGithubRepoToProject = (repository: GithubRepository): ContentEntry => {
-  const tags = [repository.language, ...repository.topics].filter(Boolean).slice(0, 5);
-
   return {
     slug: repository.name.toLowerCase(),
     title: repository.name,
-    date: repository.isPinned ? "Pinned" : repository.activityAt ?? repository.updatedAt ?? repository.pushedAt ?? undefined,
-    tags,
+    date: getRepositoryActivityDate(repository),
+    tags: getRepositoryTags(repository),
     summary: repository.description || "Описание проекта не заполнено на GitHub.",
     link: repository.htmlUrl,
     repository: repository.fullName,
@@ -338,13 +362,11 @@ const matchesProjectRepository = (project: ContentEntry, repository: GithubRepos
 const mergeProjectWithRepository = (project: ContentEntry, repository: GithubRepository | undefined): ContentEntry => {
   if (!repository) return project;
 
-  const tags = project.tags.length > 0
-    ? project.tags
-    : [repository.language, ...repository.topics].filter(Boolean).slice(0, 5);
+  const tags = project.tags.length > 0 ? project.tags : getRepositoryTags(repository);
 
   return {
     ...project,
-    date: project.date ?? (repository.isPinned ? "Pinned" : repository.activityAt ?? repository.updatedAt ?? repository.pushedAt ?? undefined),
+    date: project.date ?? getRepositoryActivityDate(repository),
     tags,
     summary: project.summary || repository.description || "Описание проекта не заполнено на GitHub.",
     link: project.link ?? repository.htmlUrl,
@@ -364,24 +386,16 @@ export const getProjects = async (): Promise<ContentEntry[]> => {
     const mergedLocalProjects = localProjects.map((project) => {
       const repository = repositories.find((entry) => matchesProjectRepository(project, entry));
       if (repository) {
-        matchedRepositories.add(repository.fullName.toLowerCase());
+        matchedRepositories.add(getRepositoryKey(repository));
       }
       return mergeProjectWithRepository(project, repository);
     });
 
     const generatedProjects = repositories
-      .filter((repository) => !matchedRepositories.has(repository.fullName.toLowerCase()))
+      .filter((repository) => !matchedRepositories.has(getRepositoryKey(repository)))
       .map(mapGithubRepoToProject);
 
-    return [...mergedLocalProjects, ...generatedProjects].sort((left, right) => {
-      if (typeof left.order === "number" && typeof right.order === "number") {
-        return left.order - right.order;
-      }
-
-      if (typeof left.order === "number") return -1;
-      if (typeof right.order === "number") return 1;
-      return parseDateToTimestamp(right.date) - parseDateToTimestamp(left.date) || left.title.localeCompare(right.title);
-    });
+    return [...mergedLocalProjects, ...generatedProjects].sort(sortEntriesByOrderAndDate);
   });
 
   return projectEntriesPromise;

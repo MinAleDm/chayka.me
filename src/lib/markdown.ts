@@ -1,12 +1,27 @@
 import MarkdownIt from "markdown-it";
 
+interface MarkdownToken {
+  attrGet(name: string): string | null;
+  attrSet(name: string, value: string): void;
+}
+
+interface MarkdownRenderer {
+  renderToken(tokens: MarkdownToken[], index: number, options: unknown): string;
+}
+
 const markdown = new MarkdownIt({
   html: false,
   linkify: true,
   typographer: true
 });
 
-markdown.renderer.rules.link_open = (tokens: any[], index: number, options: unknown, _env: unknown, self: any) => {
+markdown.renderer.rules.link_open = (
+  tokens: MarkdownToken[],
+  index: number,
+  options: unknown,
+  _env: unknown,
+  self: MarkdownRenderer
+) => {
   const href = tokens[index].attrGet("href") ?? "";
   const isExternal = /^https?:\/\//i.test(href);
 
@@ -93,6 +108,11 @@ const normalizeValue = (key: string, value: string): FrontmatterValue => {
   return parseStructuredValue(trimmed);
 };
 
+const getFrontmatterKeyValue = (line: string): [string, string] | null => {
+  const matched = line.match(keyLineRegex);
+  return matched ? [matched[1], matched[2]] : null;
+};
+
 const parseFrontmatterBlock = (block: string): Record<string, FrontmatterValue> => {
   const attributes: Record<string, FrontmatterValue> = {};
   let currentKey: string | null = null;
@@ -106,11 +126,11 @@ const parseFrontmatterBlock = (block: string): Record<string, FrontmatterValue> 
   };
 
   for (const line of block.split(/\r?\n/)) {
-    const matched = line.match(keyLineRegex);
+    const matched = getFrontmatterKeyValue(line);
     if (matched) {
       flush();
-      currentKey = matched[1];
-      currentValue.push(matched[2].trimStart());
+      currentKey = matched[0];
+      currentValue.push(matched[1].trimStart());
       continue;
     }
 

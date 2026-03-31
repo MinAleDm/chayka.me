@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { RouterLink } from "vue-router";
+import ProjectEntryRow from "../components/ProjectEntryRow.vue";
 import { getProjects, type ContentEntry } from "../lib/content";
-import brandMark from "../assets/brand-mark.svg";
-import stackMireaLogo from "../assets/images/logos/stack-mirea.svg";
-import crossRoadLogo from "../assets/images/logos/CrossRoadlogo.svg";
-import { formatDate } from "../lib/dates";
 import { usePageMeta } from "../lib/meta";
 import { GITHUB_PROFILE_URL, getStaticPageMeta } from "../lib/site";
 
@@ -17,33 +14,8 @@ const archiveSentinel = ref<HTMLElement | null>(null);
 const visibleArchiveCount = ref(0);
 
 const ARCHIVE_BATCH_SIZE = 8;
-const fallbackText = "Описание проекта появится позже.";
-
-type ProjectLogoMeta = {
-  src: string;
-  alt: string;
-};
-
-const PROJECT_LOGOS: Record<string, ProjectLogoMeta> = {
-  brand: { src: brandMark, alt: "minkin.tech brand mark" },
-  stackmirea: { src: stackMireaLogo, alt: "StackMIREA logo" },
-  crossroad: { src: crossRoadLogo, alt: "CrossRoad logo" }
-};
 
 const isPinnedProject = (project: ContentEntry): boolean => project.date?.toLowerCase() === "pinned";
-
-const resolveProjectLogo = (project: ContentEntry): ProjectLogoMeta | undefined => {
-  if (!project.logoKey) return undefined;
-  return PROJECT_LOGOS[project.logoKey];
-};
-
-const projectLogoSrc = (project: ContentEntry): string | undefined => resolveProjectLogo(project)?.src;
-const projectLogoAlt = (project: ContentEntry): string =>
-  resolveProjectLogo(project)?.alt ?? `${project.title} logo`;
-
-const formatProjectDate = (value?: string): string => formatDate(value, false);
-const getProjectSourceLabel = (project: ContentEntry): string => (project.source === "local" ? "Selected" : "GitHub");
-const getProjectMetaLabel = (project: ContentEntry): string => project.repository ?? getProjectSourceLabel(project);
 
 const featuredProjects = computed(() =>
   projects.value.filter((project) => project.source === "local" && isPinnedProject(project)).slice(0, 3)
@@ -109,8 +81,7 @@ onBeforeUnmount(() => {
       <p class="eyebrow">Projects</p>
       <h1 class="page-title">Проекты, которые я запускаю, поддерживаю и довожу до релиза.</h1>
       <p class="page-lead">
-        Переделал страницу в более спокойный, редакционный формат: чёрная тема, меньше декоративного шума,
-        больше структуры, ссылок и реальных артефактов работы.
+        Больше о моих проектах можно узнать на GitHub, а о том, как я работаю над ними — в блоге. Если хотите поработать вместе или просто поболтать о технологиях, пишите в контактах.
       </p>
     </div>
 
@@ -156,51 +127,12 @@ onBeforeUnmount(() => {
       </header>
 
       <div class="entry-list project-entry-list">
-        <article v-for="project in featuredProjects" :key="project.slug" class="entry-row project-row">
-          <div class="entry-main">
-            <p class="entry-kicker">
-              <span>{{ getProjectSourceLabel(project) }}</span>
-              <span class="entry-kicker-divider">/</span>
-              <span>{{ getProjectMetaLabel(project) }}</span>
-            </p>
-
-            <h3 class="entry-title">
-              <a
-                v-if="project.link"
-                :href="project.link"
-                target="_blank"
-                rel="noreferrer noopener"
-                class="entry-anchor entry-title-content"
-              >
-                <img
-                  v-if="projectLogoSrc(project)"
-                  :src="projectLogoSrc(project)"
-                  :alt="projectLogoAlt(project)"
-                  class="entry-logo"
-                  loading="lazy"
-                  decoding="async"
-                />
-                {{ project.title }}
-              </a>
-              <span v-else class="entry-title-content">
-                <img
-                  v-if="projectLogoSrc(project)"
-                  :src="projectLogoSrc(project)"
-                  :alt="projectLogoAlt(project)"
-                  class="entry-logo"
-                  loading="lazy"
-                  decoding="async"
-                />
-                {{ project.title }}
-              </span>
-            </h3>
-
-            <p class="entry-summary">{{ project.summary || fallbackText }}</p>
-            <p v-if="project.tags.length" class="entry-tags">{{ project.tags.join(" · ") }}</p>
-          </div>
-
-          <span class="entry-date">{{ formatProjectDate(project.date) }}</span>
-        </article>
+        <ProjectEntryRow
+          v-for="project in featuredProjects"
+          :key="project.slug"
+          :project="project"
+          show-logo
+        />
       </div>
     </section>
 
@@ -214,51 +146,12 @@ onBeforeUnmount(() => {
       </header>
 
       <div class="entry-list project-entry-list">
-        <article v-for="project in selectedProjects" :key="project.slug" class="entry-row project-row">
-          <div class="entry-main">
-            <p class="entry-kicker">
-              <span>{{ getProjectSourceLabel(project) }}</span>
-              <span class="entry-kicker-divider">/</span>
-              <span>{{ getProjectMetaLabel(project) }}</span>
-            </p>
-
-            <h3 class="entry-title">
-              <a
-                v-if="project.link"
-                :href="project.link"
-                target="_blank"
-                rel="noreferrer noopener"
-                class="entry-anchor entry-title-content"
-              >
-                <img
-                  v-if="projectLogoSrc(project)"
-                  :src="projectLogoSrc(project)"
-                  :alt="projectLogoAlt(project)"
-                  class="entry-logo"
-                  loading="lazy"
-                  decoding="async"
-                />
-                {{ project.title }}
-              </a>
-              <span v-else class="entry-title-content">
-                <img
-                  v-if="projectLogoSrc(project)"
-                  :src="projectLogoSrc(project)"
-                  :alt="projectLogoAlt(project)"
-                  class="entry-logo"
-                  loading="lazy"
-                  decoding="async"
-                />
-                {{ project.title }}
-              </span>
-            </h3>
-
-            <p class="entry-summary">{{ project.summary || fallbackText }}</p>
-            <p v-if="project.tags.length" class="entry-tags">{{ project.tags.join(" · ") }}</p>
-          </div>
-
-          <span class="entry-date">{{ formatProjectDate(project.date) }}</span>
-        </article>
+        <ProjectEntryRow
+          v-for="project in selectedProjects"
+          :key="project.slug"
+          :project="project"
+          show-logo
+        />
       </div>
     </section>
 
@@ -272,33 +165,11 @@ onBeforeUnmount(() => {
       </header>
 
       <div class="entry-list project-entry-list">
-        <article v-for="project in visibleArchiveProjects" :key="project.slug" class="entry-row project-row">
-          <div class="entry-main">
-            <p class="entry-kicker">
-              <span>{{ getProjectSourceLabel(project) }}</span>
-              <span class="entry-kicker-divider">/</span>
-              <span>{{ getProjectMetaLabel(project) }}</span>
-            </p>
-
-            <h3 class="entry-title">
-              <a
-                v-if="project.link"
-                :href="project.link"
-                target="_blank"
-                rel="noreferrer noopener"
-                class="entry-anchor entry-title-content"
-              >
-                {{ project.title }}
-              </a>
-              <span v-else class="entry-title-content">{{ project.title }}</span>
-            </h3>
-
-            <p class="entry-summary">{{ project.summary || fallbackText }}</p>
-            <p v-if="project.tags.length" class="entry-tags">{{ project.tags.join(" · ") }}</p>
-          </div>
-
-          <span class="entry-date">{{ formatProjectDate(project.date) }}</span>
-        </article>
+        <ProjectEntryRow
+          v-for="project in visibleArchiveProjects"
+          :key="project.slug"
+          :project="project"
+        />
       </div>
 
       <div
