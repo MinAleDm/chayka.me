@@ -3,6 +3,7 @@ title: StackMIREA
 date: Pinned
 tags: [Pinned, MDX, Education]
 order: 1
+section: current-focus
 link: https://github.com/minkinad/StackMIREA
 repository: minkinad/StackMIREA
 logoKey: stackmirea

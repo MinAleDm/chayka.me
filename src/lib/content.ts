@@ -16,6 +16,7 @@ export interface ContentEntry {
   html: string;
   repository?: string;
   logoKey?: string;
+  section?: string;
   source: ContentSource;
 }
 
@@ -158,6 +159,7 @@ const createContentEntry = (path: string, raw: string, source: ContentSource): C
   const order = toNumberValue(attributes.order);
   const repository = normalizeRepository(toStringValue(attributes.repository) ?? getRepositoryFromLink(link));
   const logoKey = toStringValue(attributes.logoKey);
+  const section = toStringValue(attributes.section);
 
   return {
     slug,
@@ -170,6 +172,7 @@ const createContentEntry = (path: string, raw: string, source: ContentSource): C
     html,
     repository,
     logoKey,
+    section,
     source
   };
 };
@@ -370,7 +373,8 @@ const mergeProjectWithRepository = (project: ContentEntry, repository: GithubRep
     tags,
     summary: project.summary || repository.description || "Описание проекта не заполнено на GitHub.",
     link: project.link ?? repository.htmlUrl,
-    repository: project.repository ?? repository.fullName
+    repository: project.repository ?? repository.fullName,
+    section: project.section
   };
 };
 

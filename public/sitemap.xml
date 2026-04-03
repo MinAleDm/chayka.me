@@ -10,9 +10,6 @@
     <loc>https://minkin.tech/blog</loc>
   </url>
   <url>
-    <loc>https://minkin.tech/talks</loc>
-  </url>
-  <url>
     <loc>https://minkin.tech/support</loc>
   </url>
   <url>
@@ -21,5 +18,26 @@
   <url>
     <loc>https://minkin.tech/blog/2026-03-04-puppeteer-playwright-analysis</loc>
     <lastmod>2026-03-04T16:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://minkin.tech/projects/chayka-me</loc>
+  </url>
+  <url>
+    <loc>https://minkin.tech/projects/client-server-application-monitoring-work-activity</loc>
+  </url>
+  <url>
+    <loc>https://minkin.tech/projects/crm-system</loc>
+  </url>
+  <url>
+    <loc>https://minkin.tech/projects/crossroad</loc>
+  </url>
+  <url>
+    <loc>https://minkin.tech/projects/dailyboost</loc>
+  </url>
+  <url>
+    <loc>https://minkin.tech/projects/stackmirea</loc>
+  </url>
+  <url>
+    <loc>https://minkin.tech/projects/teamsync-pro</loc>
   </url>
 </urlset>

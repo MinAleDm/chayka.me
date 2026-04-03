@@ -3,6 +3,7 @@ title: CRM system
 date: 2026
 tags: [TypeScript, NestJS, CRM]
 order: 12
+section: systems
 link: https://github.com/minkinad/CRM-system
 repository: minkinad/CRM-system
 summary: Многопользовательская CRM-платформа, ориентированная на производство, с RBAC, JWT / refresh auth, журналом аудита, программным удалением, управлением версиями API, документами OpenAPI, ограничением скорости Redis / кэшированием, очередями BullMQ и событиями websocket в реальном времени.

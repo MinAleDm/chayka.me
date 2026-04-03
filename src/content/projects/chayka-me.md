@@ -3,6 +3,7 @@ title: minkin.tech
 date: Pinned
 tags: [Vue, Vite, Content, Personal Website]
 order: 2
+section: current-focus
 link: https://minkin.tech
 repository: minkinad/minkin.tech
 logoKey: brand

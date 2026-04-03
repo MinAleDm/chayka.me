@@ -8,6 +8,41 @@ import { GITHUB_PROFILE_URL, getStaticPageMeta } from "../lib/site";
 
 usePageMeta(getStaticPageMeta("projects"));
 
+type ProjectSectionConfig = {
+  key: string;
+  title: string;
+  description: string;
+};
+
+const LOCAL_PROJECT_SECTIONS: ProjectSectionConfig[] = [
+  {
+    key: "current-focus",
+    title: "Current Focus",
+    description: "Проекты, в которые сейчас уходит основная энергия: личная платформа, контент и образовательные продукты."
+  },
+  {
+    key: "product-work",
+    title: "Products / Platforms",
+    description: "Продуктовые сервисы и приложения, где важны интерфейс, пользовательский сценарий и цельный опыт."
+  },
+  {
+    key: "systems",
+    title: "Systems / Backend",
+    description: "Более инженерные системы с акцентом на архитектуру, безопасность, интеграции и бизнес-логику."
+  },
+  {
+    key: "experiments",
+    title: "Experiments",
+    description: "Идеи и прототипы, где я проверяю новые форматы взаимодействия, контента и community features."
+  }
+];
+
+const FALLBACK_LOCAL_SECTION: ProjectSectionConfig = {
+  key: "other-work",
+  title: "Other Work",
+  description: "Остальные выбранные проекты, которые пока не разложены по отдельным секциям."
+};
+
 const projects = ref<ContentEntry[]>([]);
 const isLoading = ref(true);
 const archiveSentinel = ref<HTMLElement | null>(null);
@@ -15,27 +50,50 @@ const visibleArchiveCount = ref(0);
 
 const ARCHIVE_BATCH_SIZE = 8;
 
-const isPinnedProject = (project: ContentEntry): boolean => project.date?.toLowerCase() === "pinned";
-
-const featuredProjects = computed(() =>
-  projects.value.filter((project) => project.source === "local" && isPinnedProject(project)).slice(0, 3)
-);
-
-const featuredSlugs = computed(() => new Set(featuredProjects.value.map((project) => project.slug)));
-
-const selectedProjects = computed(() =>
-  projects.value.filter((project) => project.source === "local" && !featuredSlugs.value.has(project.slug))
-);
-
+const localProjects = computed(() => projects.value.filter((project) => project.source === "local"));
 const archiveProjects = computed(() => projects.value.filter((project) => project.source === "github"));
 const visibleArchiveProjects = computed(() => archiveProjects.value.slice(0, visibleArchiveCount.value));
 const hasMoreArchive = computed(() => visibleArchiveProjects.value.length < archiveProjects.value.length);
 
+const localProjectSections = computed(() => {
+  const sections = LOCAL_PROJECT_SECTIONS
+    .map((config) => ({
+      ...config,
+      anchorId: `projects-section-${config.key}`,
+      projects: localProjects.value.filter((project) => project.section === config.key)
+    }))
+    .filter((section) => section.projects.length > 0);
+
+  const assignedKeys = new Set(LOCAL_PROJECT_SECTIONS.map((section) => section.key));
+  const unassignedProjects = localProjects.value.filter((project) => !assignedKeys.has(project.section ?? ""));
+
+  if (unassignedProjects.length > 0) {
+    sections.push({
+      ...FALLBACK_LOCAL_SECTION,
+      anchorId: `projects-section-${FALLBACK_LOCAL_SECTION.key}`,
+      projects: unassignedProjects
+    });
+  }
+
+  return sections;
+});
+
 const projectStats = computed(() => [
   { label: "Total", value: String(projects.value.length).padStart(2, "0") },
-  { label: "Selected", value: String(projects.value.filter((project) => project.source === "local").length).padStart(2, "0") },
+  { label: "Selected", value: String(localProjects.value.length).padStart(2, "0") },
   { label: "Archive", value: String(archiveProjects.value.length).padStart(2, "0") }
 ]);
+
+const projectIndexItems = computed(() => {
+  const sectionItems = localProjectSections.value.map((section) => ({
+    href: `#${section.anchorId}`,
+    label: section.title
+  }));
+
+  return archiveProjects.value.length > 0
+    ? [...sectionItems, { href: "#github-archive-title", label: "GitHub Archive" }]
+    : sectionItems;
+});
 
 const loadMoreArchiveEntries = (): void => {
   visibleArchiveCount.value = Math.min(archiveProjects.value.length, visibleArchiveCount.value + ARCHIVE_BATCH_SIZE);
@@ -79,10 +137,22 @@ onBeforeUnmount(() => {
   <section class="page-header reveal projects-shell">
     <div class="projects-hero-copy">
       <p class="eyebrow">Projects</p>
-      <h1 class="page-title">Проекты, которые я запускаю, поддерживаю и довожу до релиза.</h1>
+      <h1 class="page-title">Проекты, которыми я горжусь и которые действительно хочу развивать дальше.</h1>
       <p class="page-lead">
-        Больше о моих проектах можно узнать на GitHub, а о том, как я работаю над ними — в блоге. Если хотите поработать вместе или просто поболтать о технологиях, пишите в контактах.
+        Я собрал эту страницу ближе к формату curated list: основные проекты идут тематическими секциями, а остальное
+        остаётся в GitHub-архиве. Для локальных проектов есть отдельные case study страницы с контекстом и деталями реализации.
       </p>
+
+      <nav v-if="projectIndexItems.length" class="projects-index" aria-label="Projects index">
+        <a
+          v-for="item in projectIndexItems"
+          :key="item.href"
+          class="projects-index-link"
+          :href="item.href"
+        >
+          {{ item.label }}
+        </a>
+      </nav>
     </div>
 
     <div class="projects-hero-meta">
@@ -112,43 +182,26 @@ onBeforeUnmount(() => {
     <header class="project-section-head">
       <p class="project-section-kicker">Loading</p>
       <h2 class="project-section-title">Подгружаю проекты</h2>
-      <p class="project-section-copy">Собираю локальные карточки и GitHub-архив.</p>
+      <p class="project-section-copy">Собираю локальные markdown-страницы и GitHub-архив.</p>
     </header>
   </section>
 
   <template v-else>
-    <section class="project-section reveal" aria-labelledby="current-focus-title">
-      <header class="project-section-head">
-        <p class="project-section-kicker">Current Focus</p>
-        <h2 id="current-focus-title" class="project-section-title">Основные проекты, на которые сейчас делаю ставку.</h2>
-        <p class="project-section-copy">
-          Это флагманские штуки: личный сайт и образовательная платформа, вокруг которых собирается основная энергия.
-          У локальных проектов теперь есть отдельные case study страницы с контекстом и деталями реализации.
-        </p>
-      </header>
-
-      <div class="entry-list project-entry-list">
-        <ProjectEntryRow
-          v-for="project in featuredProjects"
-          :key="project.slug"
-          :project="project"
-          show-logo
-        />
-      </div>
-    </section>
-
-    <section class="project-section reveal" aria-labelledby="selected-work-title">
-      <header class="project-section-head">
+    <section
+      v-for="section in localProjectSections"
+      :key="section.key"
+      class="project-section reveal"
+      :aria-labelledby="section.anchorId"
+    >
+      <header class="project-section-head project-section-head-plain">
         <p class="project-section-kicker">Selected Work</p>
-        <h2 id="selected-work-title" class="project-section-title">Избранные продуктовые и инженерные проекты.</h2>
-        <p class="project-section-copy">
-          Более прикладные системы: CRM, productivity-приложения, образовательные и контентные продукты.
-        </p>
+        <h2 :id="section.anchorId" class="project-section-title">{{ section.title }}</h2>
+        <p class="project-section-copy">{{ section.description }}</p>
       </header>
 
       <div class="entry-list project-entry-list">
         <ProjectEntryRow
-          v-for="project in selectedProjects"
+          v-for="project in section.projects"
           :key="project.slug"
           :project="project"
           show-logo
@@ -156,12 +209,16 @@ onBeforeUnmount(() => {
       </div>
     </section>
 
-    <section class="project-section reveal" aria-labelledby="github-archive-title">
-      <header class="project-section-head">
+    <section
+      v-if="archiveProjects.length"
+      class="project-section reveal"
+      aria-labelledby="github-archive-title"
+    >
+      <header class="project-section-head project-section-head-plain">
         <p class="project-section-kicker">GitHub Archive</p>
-        <h2 id="github-archive-title" class="project-section-title">Остальные репозитории и экспериментальные ветки работы.</h2>
+        <h2 id="github-archive-title" class="project-section-title">Остальные репозитории и рабочие эксперименты.</h2>
         <p class="project-section-copy">
-          Архив тянется из GitHub и дорисовывается порциями по мере прокрутки, чтобы страница оставалась лёгкой.
+          Архив тянется из GitHub и подгружается порциями по мере прокрутки, чтобы страница оставалась лёгкой и читабельной.
         </p>
       </header>
 
