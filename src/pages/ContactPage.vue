@@ -43,6 +43,20 @@ const firstMessageTips: string[] = [
   "Для техвопросов приложите ссылку на репозиторий или пример"
 ];
 
+const workFormats: string[] = [
+  "Точечная консультация по архитектуре или интерфейсу",
+  "Ревью и оздоровление существующего frontend-кода",
+  "Сборка личного сайта, продуктовой витрины или контентной платформы",
+  "Подключение к проекту как product-minded frontend / fullstack engineer"
+];
+
+const collaborationSignals: string[] = [
+  "Нужно навести порядок в структуре проекта",
+  "Есть продуктовая идея, которую пора превратить в рабочий интерфейс",
+  "Нужен спокойный техразбор перед реализацией",
+  "Хочется улучшить DX команды и убрать лишнюю хрупкость"
+];
+
 usePageMeta(getStaticPageMeta("contact"));
 </script>
 
@@ -114,6 +128,26 @@ usePageMeta(getStaticPageMeta("contact"));
       <ul class="support-checklist">
         <li v-for="tip in firstMessageTips" :key="tip">{{ tip }}</li>
       </ul>
+    </div>
+  </section>
+
+  <section class="list-section reveal home-hero">
+    <h2 class="section-title">Как обычно помогаю</h2>
+
+    <div class="support-layout">
+      <article class="support-panel">
+        <h3 class="support-panel-title">Форматы работы</h3>
+        <ul class="support-checklist">
+          <li v-for="format in workFormats" :key="format">{{ format }}</li>
+        </ul>
+      </article>
+
+      <article class="support-panel">
+        <h3 class="support-panel-title">Хороший повод написать</h3>
+        <ul class="support-checklist">
+          <li v-for="signal in collaborationSignals" :key="signal">{{ signal }}</li>
+        </ul>
+      </article>
     </div>
   </section>
 </template>

@@ -400,3 +400,6 @@ export const getProjects = async (): Promise<ContentEntry[]> => {
 
   return projectEntriesPromise;
 };
+
+export const getProjectBySlug = async (slug: string): Promise<ContentEntry | undefined> =>
+  (await getProjects()).find((project) => project.source === "local" && project.slug === slug);

@@ -9,6 +9,7 @@
   --line: #1d1a1a;
   --line-strong: #2a2a25;
   --accent: #ff7566;
+  --accent-hot: var(--accent);
   --accent-soft: rgba(200, 255, 102, 0.12);
   --danger: #ff7a7a;
   --page-gutter: clamp(1.1rem, 4vw, 2.4rem);
@@ -406,6 +407,7 @@ select {
 .nav-link:focus-visible,
 .github-link:focus-visible,
 .projects-load-more:focus-visible,
+.entry-action:focus-visible,
 .entry-anchor:focus-visible,
 .gh-link:focus-visible,
 .post-back-link:focus-visible {
@@ -677,6 +679,33 @@ select {
   line-height: 1.6;
 }
 
+.entry-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.entry-action {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.24rem 0.58rem;
+  color: var(--muted);
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  transition: border-color 0.18s ease, color 0.18s ease, background-color 0.18s ease;
+}
+
+.entry-action:hover {
+  color: var(--text);
+  border-color: var(--line-strong);
+  background: var(--panel);
+}
+
 .entry-date {
   white-space: nowrap;
   color: var(--muted);
@@ -710,6 +739,14 @@ select {
 .support-hero,
 .contact-hero {
   gap: 1rem;
+}
+
+.home-offer-grid {
+  width: 100%;
+}
+
+.home-offer-card {
+  min-height: 100%;
 }
 
 .support-quick-grid {
@@ -785,6 +822,14 @@ select {
   display: grid;
   gap: 0.88rem;
   min-width: 0;
+}
+
+.project-detail-page {
+  gap: 1rem;
+}
+
+.project-detail-summary {
+  max-width: 64ch;
 }
 
 .post-content {
@@ -1078,7 +1123,8 @@ select {
   .text-button,
   .github-link,
   .stack-chip,
-  .projects-load-more {
+  .projects-load-more,
+  .entry-action {
     transition: none;
   }
 

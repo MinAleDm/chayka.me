@@ -18,6 +18,7 @@ export const router = createRouter({
       name: item.name,
       component: routeComponents[item.name]
     })),
+    { path: "/projects/:slug", name: "project-detail", component: () => import("../pages/ProjectDetailPage.vue") },
     { path: "/blog/:slug", name: "blog-post", component: () => import("../pages/BlogPostPage.vue") },
     { path: "/:pathMatch(.*)*", name: "not-found", component: () => import("../pages/NotFoundPage.vue") }
   ],

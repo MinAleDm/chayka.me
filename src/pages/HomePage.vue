@@ -8,6 +8,27 @@ import { getStaticPageMeta } from "../lib/site";
 const home = getHomePageContent();
 const activity = getGithubActivity();
 const githubStatus = getGithubDataStatus();
+const offerCards = [
+  {
+    title: "Frontend и product engineering",
+    text: "Беру продуктовые интерфейсы, сложные состояния, контентные витрины и доведение пользовательского опыта до цельной системы."
+  },
+  {
+    title: "Архитектура и DX",
+    text: "Помогаю выстроить удобную структуру проекта, снизить хрупкость кода и сделать разработку спокойнее для команды."
+  },
+  {
+    title: "Контент и техническая подача",
+    text: "Собираю инженерные идеи в понятные материалы, демо и страницы, которые можно показать пользователям, коллегам или работодателю."
+  }
+];
+
+const workSignals = [
+  "Нужен аккуратный frontend без ощущения временного решения",
+  "Команде важно качество кода, а не только скорость релиза",
+  "Хочется собрать личный продукт, контентную платформу или инженерную витрину",
+  "Нужен человек, который может думать и про UX, и про структуру проекта"
+];
 
 usePageMeta({
   ...getStaticPageMeta("home"),
@@ -46,6 +67,25 @@ usePageMeta({
     </div>
 
     <article v-if="home.html" class="markdown-body home-copy" v-html="home.html" />
+  </section>
+
+  <hr class="divider reveal" />
+
+  <section class="reveal home-support">
+    <h2 class="section-title">Чем могу помочь</h2>
+    <div class="support-card-grid home-offer-grid">
+      <article v-for="card in offerCards" :key="card.title" class="support-card home-offer-card">
+        <h3 class="support-card-title">{{ card.title }}</h3>
+        <p class="home-status">{{ card.text }}</p>
+      </article>
+    </div>
+
+    <article class="support-panel">
+      <h3 class="support-panel-title">Когда особенно полезно написать</h3>
+      <ul class="support-checklist">
+        <li v-for="signal in workSignals" :key="signal">{{ signal }}</li>
+      </ul>
+    </article>
   </section>
 
   <hr class="divider reveal" />

@@ -22,7 +22,9 @@ export const TELEGRAM_URL = trimTrailingSlash(siteMetadata.social.telegram);
 export const TELEGRAM_HANDLE = getLastPathSegment(TELEGRAM_URL);
 export const TELEGRAM_LABEL = TELEGRAM_HANDLE ? `@${TELEGRAM_HANDLE}` : TELEGRAM_URL.replace(/^https?:\/\//, "");
 export const getGithubRepositoryUrl = (repository: string): string =>
-  `${GITHUB_PROFILE_URL}/${repository.replace(/^\/+|\/+$/g, "")}`;
+  repository.includes("/")
+    ? `https://github.com/${repository.replace(/^\/+|\/+$/g, "")}`
+    : `${GITHUB_PROFILE_URL}/${repository.replace(/^\/+|\/+$/g, "")}`;
 
 export const PRIMARY_NAV_ITEMS: NavigationItem[] = [
   { name: "home", path: "/", label: "Home" },
@@ -32,6 +34,8 @@ export const PRIMARY_NAV_ITEMS: NavigationItem[] = [
   { name: "support", path: "/support", label: "Support" },
   { name: "contact", path: "/contact", label: "Contact" }
 ];
+
+export const HEADER_NAV_ITEMS: NavigationItem[] = PRIMARY_NAV_ITEMS.filter((item) => item.name !== "talks");
 
 const STATIC_PAGE_META: Record<StaticPageKey, PageMeta> = {
   home: {

@@ -1,6 +1,16 @@
 import { copyFile, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { BLOG_DIR, DIST_DIR, HOME_CONTENT_PATH, createSummary, ensureDir, parseMarkdownFile, readMarkdownEntries, readSiteConfig } from "./site-utils.mjs";
+import {
+  BLOG_DIR,
+  DIST_DIR,
+  HOME_CONTENT_PATH,
+  PROJECTS_DIR,
+  createSummary,
+  ensureDir,
+  parseMarkdownFile,
+  readMarkdownEntries,
+  readSiteConfig
+} from "./site-utils.mjs";
 
 const BLOG_OUTPUT_DIR = path.join(DIST_DIR, "blog");
 
@@ -102,6 +112,12 @@ function formatRssDate(value) {
   return Number.isNaN(parsed.getTime()) ? new Date().toUTCString() : parsed.toUTCString();
 }
 
+function formatLastModified(value) {
+  if (!value) return "";
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? "" : parsed.toISOString();
+}
+
 async function createBlogPages(indexHtml, siteConfig) {
   const entries = await readMarkdownEntries(BLOG_DIR);
 
@@ -127,10 +143,35 @@ async function createBlogPages(indexHtml, siteConfig) {
   return posts;
 }
 
-async function writeSitemap(siteConfig, staticRoutes, blogPosts) {
-  const items = [...staticRoutes, ...blogPosts].map((entry) => {
+async function createProjectPages(indexHtml, siteConfig) {
+  const entries = await readMarkdownEntries(PROJECTS_DIR);
+
+  const projects = entries.map((entry) => {
+    const title = String(entry.attributes.title ?? entry.slug);
+    const summary = String(entry.attributes.summary ?? createSummary(entry.body));
+    const date = typeof entry.attributes.date === "string" ? entry.attributes.date : undefined;
+
+    return {
+      slug: entry.slug,
+      path: `/projects/${entry.slug}`,
+      title: `${title} — Projects — ${siteConfig.displayName}`,
+      description: summary,
+      date
+    };
+  });
+
+  for (const project of projects) {
+    await writeRouteHtml(project.path, applyPageMeta(indexHtml, project, siteConfig));
+  }
+
+  return projects;
+}
+
+async function writeSitemap(siteConfig, staticRoutes, blogPosts, projectPages) {
+  const items = [...staticRoutes, ...blogPosts, ...projectPages].map((entry) => {
       const url = new URL(entry.path || "/", `${siteConfig.baseUrl}/`).toString();
-      const lastmod = entry.date ? `\n    <lastmod>${new Date(entry.date).toISOString()}</lastmod>` : "";
+      const lastModified = formatLastModified(entry.date);
+      const lastmod = lastModified ? `\n    <lastmod>${lastModified}</lastmod>` : "";
     return `  <url>\n    <loc>${escapeXml(url)}</loc>${lastmod}\n  </url>`;
   });
 
@@ -179,37 +220,44 @@ async function main() {
     {
       path: "/",
       title: siteConfig.defaultTitle,
-      description: homeDescription
+      description: homeDescription,
+      indexable: true
     },
     {
       path: "/projects",
       title: `Projects — ${siteConfig.displayName}`,
-      description: "Рабочие и pet-проекты: продуктовые интерфейсы, fullstack-системы и инженерные эксперименты."
+      description: "Рабочие и pet-проекты: продуктовые интерфейсы, fullstack-системы и инженерные эксперименты.",
+      indexable: true
     },
     {
       path: "/blog",
       title: `Blog — ${siteConfig.displayName}`,
-      description: "Статьи про инженерную практику, архитектуру, DX и процесс разработки."
+      description: "Статьи про инженерную практику, архитектуру, DX и процесс разработки.",
+      indexable: true
     },
     {
       path: "/talks",
       title: `Talks — ${siteConfig.displayName}`,
-      description: "Раздел с лекциями, выпусками и заметками о публичных выступлениях."
+      description: "Раздел с лекциями, выпусками и заметками о публичных выступлениях.",
+      indexable: false
     },
     {
       path: "/support",
       title: `Support — ${siteConfig.displayName}`,
-      description: "Как поддержать автора сайта, дать обратную связь или предложить сотрудничество."
+      description: "Как поддержать автора сайта, дать обратную связь или предложить сотрудничество.",
+      indexable: true
     },
     {
       path: "/contact",
       title: `Contact — ${siteConfig.displayName}`,
-      description: "Каналы связи для сотрудничества, технических вопросов и продуктовых обсуждений."
+      description: "Каналы связи для сотрудничества, технических вопросов и продуктовых обсуждений.",
+      indexable: true
     },
     {
       path: "/404",
       title: `Страница не найдена — ${siteConfig.displayName}`,
-      description: siteConfig.defaultDescription
+      description: siteConfig.defaultDescription,
+      indexable: false
     }
   ];
 
@@ -218,7 +266,8 @@ async function main() {
   }
 
   const blogPosts = await createBlogPages(indexHtml, siteConfig);
-  await writeSitemap(siteConfig, staticRoutes.filter((route) => route.path !== "/404"), blogPosts);
+  const projectPages = await createProjectPages(indexHtml, siteConfig);
+  await writeSitemap(siteConfig, staticRoutes.filter((route) => route.indexable), blogPosts, projectPages);
   await writeRss(siteConfig, blogPosts);
   await writeRobots(siteConfig);
   await copyFile(path.join(DIST_DIR, "404", "index.html"), path.join(DIST_DIR, "404.html"));

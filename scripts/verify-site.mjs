@@ -48,6 +48,7 @@ async function verifyGeneratedGithubPayload() {
 }
 
 async function verifyBuildOutput() {
+  const projectEntries = await readMarkdownEntries(PROJECTS_DIR);
   const requiredFiles = [
     "index.html",
     "404.html",
@@ -58,7 +59,7 @@ async function verifyBuildOutput() {
     path.join("blog", "rss.xml"),
     path.join("projects", "index.html"),
     path.join("contact", "index.html")
-  ];
+  ].concat(projectEntries.map((entry) => path.join("projects", entry.slug, "index.html")));
 
   await Promise.all(requiredFiles.map((relativePath) => access(path.join(DIST_DIR, relativePath))));
 
@@ -67,7 +68,8 @@ async function verifyBuildOutput() {
     "404.html",
     path.join("blog", "index.html"),
     path.join("projects", "index.html"),
-    path.join("contact", "index.html")
+    path.join("contact", "index.html"),
+    ...projectEntries.map((entry) => path.join("projects", entry.slug, "index.html"))
   ];
 
   for (const relativePath of htmlFiles) {

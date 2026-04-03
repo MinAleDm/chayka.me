@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
 import brandMark from "../assets/brand-mark.svg";
-import { GITHUB_PROFILE_URL, PRIMARY_NAV_ITEMS } from "../lib/site";
+import { GITHUB_PROFILE_URL, HEADER_NAV_ITEMS } from "../lib/site";
 </script>
 
 <template>
@@ -13,7 +13,7 @@ import { GITHUB_PROFILE_URL, PRIMARY_NAV_ITEMS } from "../lib/site";
 
       <nav class="nav" aria-label="Main navigation">
         <RouterLink
-          v-for="item in PRIMARY_NAV_ITEMS"
+          v-for="item in HEADER_NAV_ITEMS"
           :key="item.name"
           class="nav-link"
           :to="item.path"

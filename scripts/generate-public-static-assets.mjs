@@ -2,6 +2,7 @@ import { writeFile } from "node:fs/promises";
 import path from "node:path";
 import {
   BLOG_DIR,
+  PROJECTS_DIR,
   ROOT_DIR,
   createSummary,
   ensureDir,
@@ -24,6 +25,12 @@ function formatRssDate(value) {
   return Number.isNaN(parsed.getTime()) ? new Date().toUTCString() : parsed.toUTCString();
 }
 
+function formatLastModified(value) {
+  if (!value) return "";
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? "" : parsed.toISOString();
+}
+
 async function getBlogPosts(siteConfig) {
   const entries = await readMarkdownEntries(BLOG_DIR);
 
@@ -36,6 +43,24 @@ async function getBlogPosts(siteConfig) {
       slug: entry.slug,
       path: `/blog/${entry.slug}`,
       title: `${title} — Blog — ${siteConfig.displayName}`,
+      description: summary,
+      date
+    };
+  });
+}
+
+async function getProjectPages(siteConfig) {
+  const entries = await readMarkdownEntries(PROJECTS_DIR);
+
+  return entries.map((entry) => {
+    const title = String(entry.attributes.title ?? entry.slug);
+    const summary = String(entry.attributes.summary ?? createSummary(entry.body));
+    const date = typeof entry.attributes.date === "string" ? entry.attributes.date : undefined;
+
+    return {
+      slug: entry.slug,
+      path: `/projects/${entry.slug}`,
+      title: `${title} — Projects — ${siteConfig.displayName}`,
       description: summary,
       date
     };
@@ -69,14 +94,16 @@ async function writeRobots(siteConfig) {
   await writeFile(path.join(PUBLIC_DIR, "robots.txt"), content, "utf8");
 }
 
-async function writeSitemap(siteConfig, blogPosts) {
-  const staticRoutes = ["/", "/projects", "/blog", "/talks", "/support", "/contact"];
+async function writeSitemap(siteConfig, blogPosts, projectPages) {
+  const staticRoutes = ["/", "/projects", "/blog", "/support", "/contact"];
   const items = [
     ...staticRoutes.map((routePath) => ({ path: routePath })),
-    ...blogPosts
+    ...blogPosts,
+    ...projectPages
   ].map((entry) => {
     const url = new URL(entry.path || "/", `${siteConfig.baseUrl}/`).toString();
-    const lastmod = entry.date ? `\n    <lastmod>${new Date(entry.date).toISOString()}</lastmod>` : "";
+    const lastModified = formatLastModified(entry.date);
+    const lastmod = lastModified ? `\n    <lastmod>${lastModified}</lastmod>` : "";
     return `  <url>\n    <loc>${escapeXml(url)}</loc>${lastmod}\n  </url>`;
   });
 
@@ -87,10 +114,11 @@ async function writeSitemap(siteConfig, blogPosts) {
 async function main() {
   const siteConfig = await readSiteConfig();
   const blogPosts = await getBlogPosts(siteConfig);
+  const projectPages = await getProjectPages(siteConfig);
 
   await writeRss(siteConfig, blogPosts);
   await writeRobots(siteConfig);
-  await writeSitemap(siteConfig, blogPosts);
+  await writeSitemap(siteConfig, blogPosts, projectPages);
 
   console.log("Generated public static assets for dev server.");
 }
