@@ -18,7 +18,6 @@ type DocumentWithViewTransition = Document & {
 };
 
 const STORAGE_KEY = "minkin-theme";
-const THEME_MEDIA_QUERY = "(prefers-color-scheme: dark)";
 
 const isSiteTheme = (value: string | null): value is SiteTheme => value === "dark" || value === "light";
 
@@ -39,9 +38,6 @@ const storeTheme = (theme: SiteTheme): void => {
   }
 };
 
-const getSystemTheme = (): SiteTheme =>
-  window.matchMedia(THEME_MEDIA_QUERY).matches ? "dark" : "light";
-
 const getMaxRadius = ({ x, y }: TransitionOrigin): number => {
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -57,11 +53,11 @@ export const applyTheme = (theme: SiteTheme): void => {
 export const getActiveTheme = (): SiteTheme => {
   const current = document.documentElement.dataset.theme ?? null;
   if (isSiteTheme(current)) return current;
-  return readStoredTheme() ?? getSystemTheme();
+  return readStoredTheme() ?? "dark";
 };
 
 export const initTheme = (): SiteTheme => {
-  const theme = readStoredTheme() ?? getSystemTheme();
+  const theme = readStoredTheme() ?? "dark";
   applyTheme(theme);
   return theme;
 };

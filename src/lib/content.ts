@@ -60,6 +60,7 @@ export interface GithubRepository {
   description: string;
   language: string;
   topics: string[];
+  startedAt: string | null;
   pushedAt: string | null;
   updatedAt: string | null;
   activityAt: string | null;
@@ -136,6 +137,19 @@ const normalizeRepository = (value: string | undefined): string | undefined => {
   return value.trim().replace(/^https:\/\/github\.com\//i, "").replace(/\/+$/, "");
 };
 
+const normalizeLogoKey = (value: string | undefined): string | undefined => {
+  if (!value) return undefined;
+
+  const normalized = value.trim().toLowerCase();
+  if (!normalized) return undefined;
+
+  if (normalized === "mylogo") {
+    return "brand";
+  }
+
+  return normalized;
+};
+
 const getRepositoryFromLink = (link: string | undefined): string | undefined => {
   if (!link) return undefined;
 
@@ -158,7 +172,7 @@ const createContentEntry = (path: string, raw: string, source: ContentSource): C
   const link = toStringValue(attributes.link);
   const order = toNumberValue(attributes.order);
   const repository = normalizeRepository(toStringValue(attributes.repository) ?? getRepositoryFromLink(link));
-  const logoKey = toStringValue(attributes.logoKey);
+  const logoKey = normalizeLogoKey(toStringValue(attributes.logoKey));
   const section = toStringValue(attributes.section);
 
   return {
@@ -317,6 +331,7 @@ export const getGithubRepositories = (): GithubRepository[] =>
         description: repository.description,
         language: repository.language,
         topics: repository.topics,
+        startedAt: repository.startedAt,
         pushedAt: repository.pushedAt,
         updatedAt: repository.updatedAt,
         activityAt: repository.activityAt,
@@ -338,7 +353,7 @@ const mapGithubRepoToProject = (repository: GithubRepository): ContentEntry => {
   return {
     slug: repository.name.toLowerCase(),
     title: repository.name,
-    date: getRepositoryActivityDate(repository),
+    date: repository.startedAt ?? getRepositoryActivityDate(repository),
     tags: getRepositoryTags(repository),
     summary: repository.description || "Описание проекта не заполнено на GitHub.",
     link: repository.htmlUrl,

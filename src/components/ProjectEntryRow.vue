@@ -24,6 +24,7 @@ type ProjectLogoMeta = {
 
 const PROJECT_LOGOS: Record<string, ProjectLogoMeta> = {
   brand: { src: brandMark, alt: "minkin.tech brand mark" },
+  mylogo: { src: brandMark, alt: "minkin.tech brand mark" },
   stackmirea: { src: stackMireaLogo, alt: "StackMIREA logo" },
   crossroad: { src: crossRoadLogo, alt: "CrossRoad logo" }
 };

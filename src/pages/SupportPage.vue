@@ -22,7 +22,7 @@ const supportCards: SupportCard[] = [
     title: "Поделиться проектом",
     kicker: "Share",
     text: "Репост, ссылка в чате или рекомендация коллегам сильно помогают росту аудитории и поддерживают мотивацию автора.",
-    linkLabel: "Открыть репозиторий проекта",
+    linkLabel: "Репозиторий проекта",
     linkHref: getGithubRepositoryUrl("minkin.tech")
   },
   {

@@ -186,6 +186,7 @@ function mapStoredRepositoryToApiShape(repository) {
     description: repository.description ?? "",
     language: repository.language ?? "",
     topics: repository.topics ?? [],
+    created_at: repository.startedAt ?? null,
     pushed_at: repository.pushedAt ?? null,
     updated_at: repository.updatedAt ?? null,
     activity_at: repository.activityAt ?? null,
@@ -204,6 +205,9 @@ async function main() {
   );
   const pinnedRepositoryNames = new Set(
     pinnedRepositoryRefs.map((value) => value.split("/").at(-1)?.toLowerCase()).filter(Boolean)
+  );
+  const previousRepositoriesMap = new Map(
+    (previous?.repositories ?? []).map((repository) => [repository.fullName.toLowerCase(), repository])
   );
 
   try {
@@ -266,28 +270,42 @@ async function main() {
 
     const repositories = Array.from(repositoriesMap.values())
       .filter((repository) => !repository.private)
-      .map((repository) => ({
-        fullName: repository.full_name,
-        name: repository.name,
-        owner: repository.owner?.login ?? "",
-        htmlUrl: repository.html_url,
-        description: repository.description ?? "",
-        language: repository.language ?? "",
-        topics: repository.topics ?? [],
-        pushedAt: normalizeDate(repository.pushed_at),
-        updatedAt: normalizeDate(repository.updated_at),
-        activityAt: normalizeDate(repository.activity_at ?? repository.pushed_at ?? repository.updated_at),
-        isPinned:
-          pinnedRepositoryFullNames.has(repository.full_name.toLowerCase()) ||
-          pinnedRepositoryNames.has(repository.name.toLowerCase())
-      }))
-      .sort((left, right) => {
-        const leftMs = Date.parse(left.activityAt ?? left.updatedAt ?? left.pushedAt ?? "");
-        const rightMs = Date.parse(right.activityAt ?? right.updatedAt ?? right.pushedAt ?? "");
-        const safeLeftMs = Number.isNaN(leftMs) ? 0 : leftMs;
-        const safeRightMs = Number.isNaN(rightMs) ? 0 : rightMs;
-        return safeRightMs - safeLeftMs;
+      .map((repository) => {
+        const previousRepository = previousRepositoriesMap.get(repository.full_name.toLowerCase());
+        const startedAt = normalizeDate(
+          previousRepository?.startedAt ??
+          repository.created_at ??
+          repository.activity_at ??
+          repository.pushed_at ??
+          repository.updated_at ??
+          null
+        );
+
+        return {
+          fullName: repository.full_name,
+          name: repository.name,
+          owner: repository.owner?.login ?? "",
+          htmlUrl: repository.html_url,
+          description: repository.description ?? "",
+          language: repository.language ?? "",
+          topics: repository.topics ?? [],
+          startedAt,
+          pushedAt: normalizeDate(repository.pushed_at),
+          updatedAt: normalizeDate(repository.updated_at),
+          activityAt: normalizeDate(repository.activity_at ?? repository.pushed_at ?? repository.updated_at),
+          isPinned:
+            pinnedRepositoryFullNames.has(repository.full_name.toLowerCase()) ||
+            pinnedRepositoryNames.has(repository.name.toLowerCase())
+        };
       });
+
+    repositories.sort((left, right) => {
+      const leftMs = Date.parse(left.activityAt ?? left.updatedAt ?? left.pushedAt ?? "");
+      const rightMs = Date.parse(right.activityAt ?? right.updatedAt ?? right.pushedAt ?? "");
+      const safeLeftMs = Number.isNaN(leftMs) ? 0 : leftMs;
+      const safeRightMs = Number.isNaN(rightMs) ? 0 : rightMs;
+      return safeRightMs - safeLeftMs;
+    });
 
     await writeJsonFile(GENERATED_GITHUB_PATH, {
       generatedAt: new Date().toISOString(),

@@ -30,13 +30,6 @@ const channels: ContactChannel[] = [
   }
 ];
 
-const collaborationTopics: string[] = [
-  "Frontend / Fullstack разработка",
-  "Технические консультации и архитектура",
-  "Ревью кода и улучшение DX в проекте",
-  "Контент и совместные технические материалы"
-];
-
 const firstMessageTips: string[] = [
   "Коротко опишите задачу и ожидаемый результат",
   "Если есть сроки, укажите дедлайн сразу",
@@ -111,16 +104,6 @@ usePageMeta(getStaticPageMeta("contact"));
           {{ channel.label }}
         </a>
       </article>
-    </div>
-  </section>
-
-  <section class="list-section reveal home-hero">
-    <h2 class="section-title">Темы для обращения</h2>
-
-    <div class="contact-topic-grid">
-      <p v-for="topic in collaborationTopics" :key="topic" class="contact-topic-chip">
-        {{ topic }}
-      </p>
     </div>
 
     <div class="contact-tip-panel">
