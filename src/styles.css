@@ -1,23 +1,65 @@
 :root {
-  --bg: #050505;
+  color-scheme: dark;
+  --bg: #040404;
   --bg-soft: #090909;
-  --panel: #0d0d0d;
-  --panel-strong: #121212;
-  --text: #f4f1e8;
-  --text-soft: #d5d0c4;
-  --muted: #918d83;
-  --line: #1d1a1a;
-  --line-strong: #2a2a25;
-  --accent: #ff7566;
+  --panel: #101010;
+  --panel-strong: #161616;
+  --text: #f1f1ee;
+  --text-soft: #d3d3ce;
+  --muted: #9a9a94;
+  --line: #232323;
+  --line-strong: #383838;
+  --accent: #ededea;
   --accent-hot: var(--accent);
-  --accent-soft: rgba(200, 255, 102, 0.12);
-  --danger: #ff7a7a;
+  --accent-soft: rgba(255, 255, 255, 0.1);
+  --danger: #d3d3ce;
+  --page-glow: rgba(255, 255, 255, 0.035);
+  --page-start: #060606;
+  --page-end: #020202;
+  --topbar-bg: rgba(5, 5, 5, 0.96);
+  --hover-ring: rgba(255, 255, 255, 0.12);
+  --hover-glow: rgba(255, 255, 255, 0.08);
+  --hover-glow-strong: rgba(255, 255, 255, 0.06);
+  --active-ring: rgba(255, 255, 255, 0.08);
+  --active-glow: rgba(255, 255, 255, 0.06);
+  --row-hover: rgba(255, 255, 255, 0.015);
+  --table-stripe: rgba(255, 255, 255, 0.02);
+  --panel-sheen: rgba(255, 255, 255, 0.02);
   --page-gutter: clamp(1.1rem, 4vw, 2.4rem);
   --content-width: 1040px;
   --home-content-width: 720px;
   --radius: 18px;
   --font-main: "Avenir Next", "Segoe UI Variable", "Helvetica Neue", sans-serif;
   --font-mono: "IBM Plex Mono", "SFMono-Regular", "Menlo", monospace;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f3f3ef;
+  --bg-soft: #ecece7;
+  --panel: #ffffff;
+  --panel-strong: #ecece7;
+  --text: #121211;
+  --text-soft: #2a2a27;
+  --muted: #686863;
+  --line: #d6d6d0;
+  --line-strong: #b8b8b0;
+  --accent: #121211;
+  --accent-hot: var(--accent);
+  --accent-soft: rgba(0, 0, 0, 0.08);
+  --danger: #45453f;
+  --page-glow: rgba(255, 255, 255, 0.72);
+  --page-start: #fafaf7;
+  --page-end: #e7e7e1;
+  --topbar-bg: rgba(243, 243, 239, 0.9);
+  --hover-ring: rgba(0, 0, 0, 0.12);
+  --hover-glow: rgba(0, 0, 0, 0.08);
+  --hover-glow-strong: rgba(0, 0, 0, 0.05);
+  --active-ring: rgba(0, 0, 0, 0.09);
+  --active-glow: rgba(0, 0, 0, 0.05);
+  --row-hover: rgba(0, 0, 0, 0.025);
+  --table-stripe: rgba(0, 0, 0, 0.025);
+  --panel-sheen: rgba(255, 255, 255, 0.45);
 }
 
 * {
@@ -44,7 +86,9 @@ html {
 
 body {
   font-family: var(--font-main);
-  background: var(--bg);
+  background:
+    radial-gradient(circle at top, var(--page-glow), transparent 34%),
+    linear-gradient(180deg, var(--page-start) 0%, var(--bg) 26%, var(--page-end) 100%);
   color: var(--text);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -89,7 +133,8 @@ select {
   position: sticky;
   top: 0;
   z-index: 40;
-  background: rgba(5, 5, 5, 0.96);
+  background: var(--topbar-bg);
+  backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);
 }
 
@@ -115,6 +160,7 @@ select {
   border-radius: 0.7rem;
   border: 1px solid var(--line);
   background: var(--panel);
+  filter: grayscale(1) contrast(1.06);
 }
 
 .nav {
@@ -156,9 +202,9 @@ select {
   border-color: color-mix(in srgb, var(--accent-hot) 38%, var(--line-strong) 62%);
   background: transparent;
   box-shadow:
-    0 0 0 1px rgba(224, 0, 0, 0.12),
-    0 0 12px rgba(224, 0, 0, 0.12),
-    0 0 24px rgba(255, 77, 0, 0.14);
+    0 0 0 1px var(--hover-ring),
+    0 0 12px var(--hover-glow),
+    0 0 24px var(--hover-glow-strong);
 }
 
 .projects-link-chip:hover,
@@ -174,10 +220,17 @@ select {
   border-color: color-mix(in srgb, var(--accent-hot) 20%, var(--line-strong) 80%);
   background: transparent;
   box-shadow:
-    0 0 0 1px rgba(224, 0, 0, 0.08),
-    0 0 10px rgba(255, 77, 0, 0.08);
+    0 0 0 1px var(--active-ring),
+    0 0 10px var(--active-glow);
 }
 
+.topbar-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.theme-toggle,
 .github-link {
   width: 2.15rem;
   height: 2.15rem;
@@ -188,19 +241,42 @@ select {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+  transition: border-color 0.18s ease, color 0.18s ease, background-color 0.18s ease, transform 0.18s ease;
 }
 
+.theme-toggle {
+  padding: 0;
+  cursor: pointer;
+  appearance: none;
+}
+
+.theme-toggle:hover,
 .github-link:hover {
   color: var(--text);
   border-color: var(--line-strong);
+  background: var(--panel-strong);
   transform: translateY(-1px);
 }
 
-.github-icon {
+.theme-icon,
+.github-icon,
+.telegram-icon {
   width: 1rem;
   height: 1rem;
+}
+
+.theme-icon,
+.github-icon {
   fill: currentColor;
+}
+
+.telegram-icon {
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .main-content {
@@ -436,6 +512,7 @@ select {
 .projects-link-chip:focus-visible,
 .text-button:focus-visible,
 .nav-link:focus-visible,
+.theme-toggle:focus-visible,
 .github-link:focus-visible,
 .projects-load-more:focus-visible,
 .entry-action:focus-visible,
@@ -454,6 +531,11 @@ select {
   flex-shrink: 0;
 }
 
+img.stack-chip-logo,
+.entry-logo {
+  filter: grayscale(1) contrast(1.08);
+}
+
 .stack-separator {
   color: var(--muted);
   font-size: 0.82rem;
@@ -463,6 +545,10 @@ select {
   fill: currentColor;
   border: 1px solid var(--line);
   background: var(--panel-strong);
+}
+
+.social-logo.telegram-icon {
+  fill: none;
 }
 
 .social-logo-github,
@@ -580,7 +666,7 @@ select {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: color-mix(in srgb, var(--panel) 92%, black 8%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  box-shadow: inset 0 1px 0 var(--panel-sheen);
 }
 
 .project-section-head-plain {
@@ -654,7 +740,7 @@ select {
 }
 
 .entry-row:hover {
-  background: rgba(255, 255, 255, 0.015);
+  background: var(--row-hover);
   transform: translateX(4px);
 }
 
@@ -977,7 +1063,7 @@ select {
 }
 
 .markdown-body tbody tr:nth-child(even) {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--table-stripe);
 }
 
 .markdown-body a {
@@ -1019,6 +1105,20 @@ select {
   animation: reveal 0.3s ease both;
 }
 
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 0;
+}
+
+::view-transition-new(root) {
+  z-index: 1;
+}
+
 @keyframes reveal {
   from {
     opacity: 0;
@@ -1053,7 +1153,7 @@ select {
     display: none;
   }
 
-  .github-link {
+  .topbar-actions {
     margin-left: auto;
   }
 
@@ -1173,6 +1273,7 @@ select {
   .nav-link,
   .projects-link-chip,
   .text-button,
+  .theme-toggle,
   .github-link,
   .stack-chip,
   .projects-load-more,

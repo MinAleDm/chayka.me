@@ -1,9 +1,9 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import { router } from "./router";
-import { applyRandomPalette } from "./lib/theme";
+import { initTheme } from "./lib/theme";
 import "./styles.css";
 
-applyRandomPalette();
+initTheme();
 
 createApp(App).use(router).mount("#app");

@@ -1,17 +1,43 @@
 {
-  "generatedAt": "2026-04-07T14:02:58.508Z",
+  "generatedAt": "2026-04-07T14:27:45.210Z",
   "source": "github",
   "username": "minkinad",
   "activity": {
-    "createdAt": "2026-04-07T13:48:10.000Z",
-    "commitSha": "09cc677",
-    "commitUrl": "https://github.com/minkinad/minkin.tech/commit/09cc67783558313963f5a5afa68024ac7a637464",
-    "commitMessage": "feat(projects): reorganize projects page into curated sections",
+    "createdAt": "2026-04-07T14:14:42.000Z",
+    "commitSha": "8ecf5ab",
+    "commitUrl": "https://github.com/minkinad/minkin.tech/commit/8ecf5abc47eaf51d3c89b886dbb7800290246901",
+    "commitMessage": "fix(site): refresh github profile data and home spacing",
     "repoName": "minkinad/minkin.tech",
     "repoUrl": "https://github.com/minkinad/minkin.tech",
     "projectDescription": "My personal website"
   },
   "repositories": [
+    {
+      "fullName": "minkinad/oz-test",
+      "name": "oz-test",
+      "owner": "minkinad",
+      "htmlUrl": "https://github.com/minkinad/oz-test",
+      "description": "",
+      "language": "",
+      "topics": [],
+      "pushedAt": null,
+      "updatedAt": null,
+      "activityAt": "2026-04-07T14:19:28.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "minkinad/minkin.tech",
+      "name": "minkin.tech",
+      "owner": "minkinad",
+      "htmlUrl": "https://github.com/minkinad/minkin.tech",
+      "description": "My personal website",
+      "language": "Vue",
+      "topics": [],
+      "pushedAt": "2026-04-07T14:14:41.000Z",
+      "updatedAt": "2026-04-07T14:15:41.000Z",
+      "activityAt": "2026-04-07T14:14:38.000Z",
+      "isPinned": false
+    },
     {
       "fullName": "nppweb/contracts",
       "name": "contracts",
@@ -172,19 +198,6 @@
       "updatedAt": "2026-04-04T11:04:03.000Z",
       "activityAt": "2026-04-04T11:03:41.000Z",
       "isPinned": true
-    },
-    {
-      "fullName": "minkinad/minkin.tech",
-      "name": "minkin.tech",
-      "owner": "minkinad",
-      "htmlUrl": "https://github.com/minkinad/minkin.tech",
-      "description": "My personal website",
-      "language": "Vue",
-      "topics": [],
-      "pushedAt": "2026-04-07T13:48:10.000Z",
-      "updatedAt": "2026-04-07T13:48:23.000Z",
-      "activityAt": "2026-04-03T19:51:34.000Z",
-      "isPinned": false
     },
     {
       "fullName": "minkinad/focusboard",
