@@ -276,6 +276,11 @@ select {
   gap: 0.88rem;
 }
 
+.home-support {
+  display: grid;
+  gap: 1.5rem;
+}
+
 .home-hero .page-title,
 .home-hero .page-lead,
 .home-hero .home-line {

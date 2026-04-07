@@ -4,6 +4,15 @@ import { GENERATED_GITHUB_PATH, readSiteConfig, writeJsonFile } from "./site-uti
 const REPOS_PER_PAGE = 100;
 const SEARCH_RESULTS_PER_PAGE = 100;
 const MAX_PAGES = 10;
+const FETCH_RETRY_COUNT = 3;
+const FETCH_RETRY_DELAY_MS = 500;
+
+function normalizeRepositoryReference(value) {
+  if (typeof value !== "string") return null;
+
+  const normalized = value.trim().replace(/^https:\/\/github\.com\//i, "").replace(/\/+$/, "");
+  return normalized || null;
+}
 
 function normalizeDate(value) {
   if (!value) return null;
@@ -13,19 +22,34 @@ function normalizeDate(value) {
 }
 
 async function fetchJson(url, headers = {}) {
-  const response = await fetch(url, {
-    headers: {
-      Accept: "application/vnd.github+json",
-      "User-Agent": "minkin.tech-build-script",
-      ...headers
-    }
-  });
+  let lastError = null;
 
-  if (!response.ok) {
-    throw new Error(`GitHub request failed: ${response.status} ${response.statusText}`);
+  for (let attempt = 1; attempt <= FETCH_RETRY_COUNT; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        headers: {
+          Accept: "application/vnd.github+json",
+          "User-Agent": "minkin.tech-build-script",
+          ...headers
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`GitHub request failed: ${response.status} ${response.statusText}`);
+      }
+
+      return response.json();
+    } catch (error) {
+      lastError = error;
+      if (attempt >= FETCH_RETRY_COUNT) break;
+
+      await new Promise((resolve) => {
+        setTimeout(resolve, FETCH_RETRY_DELAY_MS * attempt);
+      });
+    }
   }
 
-  return response.json();
+  throw lastError;
 }
 
 async function fetchPublicRepos(username) {
@@ -41,6 +65,10 @@ async function fetchPublicRepos(username) {
   }
 
   return repositories;
+}
+
+async function fetchRepositoryByFullName(fullName) {
+  return fetchJson(`https://api.github.com/repos/${fullName}`);
 }
 
 async function fetchContributedRepos(username) {
@@ -149,9 +177,34 @@ function payloadMatchesUsername(payload, username) {
   return typeof payload?.username === "string" && payload.username.toLowerCase() === username.toLowerCase();
 }
 
+function mapStoredRepositoryToApiShape(repository) {
+  return {
+    full_name: repository.fullName,
+    name: repository.name,
+    owner: { login: repository.owner },
+    html_url: repository.htmlUrl,
+    description: repository.description ?? "",
+    language: repository.language ?? "",
+    topics: repository.topics ?? [],
+    pushed_at: repository.pushedAt ?? null,
+    updated_at: repository.updatedAt ?? null,
+    activity_at: repository.activityAt ?? null,
+    private: false
+  };
+}
+
 async function main() {
   const siteConfig = await readSiteConfig();
   const previous = await readPreviousPayload();
+  const pinnedRepositoryRefs = Array.isArray(siteConfig.pinnedRepositories)
+    ? siteConfig.pinnedRepositories.map(normalizeRepositoryReference).filter(Boolean)
+    : [];
+  const pinnedRepositoryFullNames = new Set(
+    pinnedRepositoryRefs.filter((value) => value.includes("/")).map((value) => value.toLowerCase())
+  );
+  const pinnedRepositoryNames = new Set(
+    pinnedRepositoryRefs.map((value) => value.split("/").at(-1)?.toLowerCase()).filter(Boolean)
+  );
 
   try {
     const [activity, contributedRepositories, publicRepositories] = await Promise.all([
@@ -179,6 +232,38 @@ async function main() {
       }
     }
 
+    const missingPinnedRepositories = pinnedRepositoryRefs.filter(
+      (repositoryRef) => repositoryRef.includes("/") && !repositoriesMap.has(repositoryRef.toLowerCase())
+    );
+
+    if (missingPinnedRepositories.length > 0) {
+      const pinnedResponses = await Promise.allSettled(
+        missingPinnedRepositories.map((repositoryRef) => fetchRepositoryByFullName(repositoryRef))
+      );
+
+      pinnedResponses.forEach((result) => {
+        if (result.status !== "fulfilled") return;
+
+        const repository = result.value;
+        if (!repository?.full_name || repository.private) return;
+        repositoriesMap.set(repository.full_name.toLowerCase(), repository);
+      });
+    }
+
+    if (previous && payloadMatchesUsername(previous, siteConfig.githubUsername)) {
+      for (const repository of previous.repositories ?? []) {
+        const normalizedFullName = normalizeRepositoryReference(repository.fullName)?.toLowerCase();
+        const normalizedName = typeof repository.name === "string" ? repository.name.toLowerCase() : "";
+        if (!normalizedFullName || repositoriesMap.has(normalizedFullName)) continue;
+
+        const isConfiguredPinned =
+          pinnedRepositoryFullNames.has(normalizedFullName) || pinnedRepositoryNames.has(normalizedName);
+
+        if (!isConfiguredPinned) continue;
+        repositoriesMap.set(normalizedFullName, mapStoredRepositoryToApiShape(repository));
+      }
+    }
+
     const repositories = Array.from(repositoriesMap.values())
       .filter((repository) => !repository.private)
       .map((repository) => ({
@@ -192,7 +277,9 @@ async function main() {
         pushedAt: normalizeDate(repository.pushed_at),
         updatedAt: normalizeDate(repository.updated_at),
         activityAt: normalizeDate(repository.activity_at ?? repository.pushed_at ?? repository.updated_at),
-        isPinned: siteConfig.pinnedRepositories.includes(repository.name)
+        isPinned:
+          pinnedRepositoryFullNames.has(repository.full_name.toLowerCase()) ||
+          pinnedRepositoryNames.has(repository.name.toLowerCase())
       }))
       .sort((left, right) => {
         const leftMs = Date.parse(left.activityAt ?? left.updatedAt ?? left.pushedAt ?? "");

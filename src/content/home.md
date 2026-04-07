@@ -7,8 +7,8 @@ supportTitle: Поддержка open source
 supportText: Если вам нравится моя работа и вы находите её полезной, можно поддержать меня обратной связью, репостом или предложением о сотрудничестве.
 stackGroups: [
   {"title":"Working at","separator":"/","items":[{"name":"Easy Commerce","href":"https://easycomm.ru/"}]},
-  {"title":"Creator of","items":[{"name":"StackMIREA","href":"https://github.com/minkinad/StackMIREA"},{"name":"aimsora","href":"https://github.com/aimsora"}]},
-  {"title":"Maintaining","items":[{"name":"StackMIREA","href":"https://github.com/minkinad/StackMIREA"},{"name":"DailyBoost","href":"https://github.com/minkinad/DailyBoost"},{"name":"TeamSync Pro","href":"https://github.com/minkinad/TeamSync-Pro"}]}
+  {"title":"Creator of","items":[{"name":"StackMIREA","href":"https://github.com/minkinad/StackMIREA"},{"name":"NimJS","href":"https://github.com/nimjs"},{"name":"NPP Web","href":"https://github.com/nppweb"}]},
+  {"title":"Maintaining","items":[{"name":"adm-parser","href":"https://github.com/minkinad/adm-parser"},{"name":"pulseboard","href":"https://github.com/minkinad/pulseboard"},{"name":"focusboard","href":"https://github.com/minkinad/focusboard"}]}
 ]
 ---
 

@@ -9,7 +9,14 @@
   "ogLocale": "ru_RU",
   "timezone": "Europe/Moscow",
   "githubUsername": "minkinad",
-  "pinnedRepositories": ["StackMIREA", "minkin.tech"],
+  "pinnedRepositories": [
+    "minkinad/adm-parser",
+    "nimjs/nim-ui",
+    "nppweb/npp-web",
+    "minkinad/pulseboard",
+    "minkinad/focusboard",
+    "minkinad/StackMIREA"
+  ],
   "social": {
     "github": "https://github.com/minkinad",
     "telegram": "https://t.me/MinAleDm"
