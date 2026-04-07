@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-07T15:07:31.047Z",
+  "generatedAt": "2026-04-07T15:18:52.381Z",
   "source": "github",
   "username": "minkinad",
   "activity": {
@@ -24,7 +24,7 @@
       "updatedAt": null,
       "activityAt": "2026-04-07T14:19:28.000Z",
       "isPinned": false,
-      "startedAt": "2026-04-07T17:19:28+03:00"
+      "startedAt": null
     },
     {
       "fullName": "minkinad/minkin.tech",
@@ -38,7 +38,7 @@
       "updatedAt": "2026-04-07T14:15:41.000Z",
       "activityAt": "2026-04-07T14:14:38.000Z",
       "isPinned": false,
-      "startedAt": "2026-02-18T19:05:33+03:00"
+      "startedAt": null
     },
     {
       "fullName": "nppweb/contracts",
@@ -52,7 +52,7 @@
       "updatedAt": null,
       "activityAt": "2026-04-07T13:30:40.000Z",
       "isPinned": false,
-      "startedAt": "2026-03-11T13:00:27+03:00"
+      "startedAt": null
     },
     {
       "fullName": "nppweb/npp-web",
@@ -122,7 +122,7 @@
       "updatedAt": null,
       "activityAt": "2026-04-06T21:12:35.000Z",
       "isPinned": false,
-      "startedAt": null
+      "startedAt": "2026-04-05T01:19:33+03:00"
     },
     {
       "fullName": "minkinad/.github",
@@ -136,7 +136,7 @@
       "updatedAt": null,
       "activityAt": "2026-04-06T18:13:41.000Z",
       "isPinned": false,
-      "startedAt": "2026-04-06T21:13:41+03:00"
+      "startedAt": null
     },
     {
       "fullName": "minkinad/contribute",
@@ -150,7 +150,7 @@
       "updatedAt": null,
       "activityAt": "2026-04-06T18:12:30.000Z",
       "isPinned": false,
-      "startedAt": null
+      "startedAt": "2026-04-06T21:12:30+03:00"
     },
     {
       "fullName": "nppweb/infra",
@@ -164,7 +164,7 @@
       "updatedAt": null,
       "activityAt": "2026-04-05T18:55:50.000Z",
       "isPinned": false,
-      "startedAt": "2026-03-11T13:00:26+03:00"
+      "startedAt": null
     },
     {
       "fullName": "minkinad/pulseboard",
@@ -181,7 +181,7 @@
       "updatedAt": "2026-04-04T12:43:19.000Z",
       "activityAt": "2026-04-04T12:43:02.000Z",
       "isPinned": true,
-      "startedAt": "2026-03-18T21:53:37+03:00"
+      "startedAt": null
     },
     {
       "fullName": "minkinad/minkinad",
@@ -195,7 +195,7 @@
       "updatedAt": null,
       "activityAt": "2026-04-04T11:12:06.000Z",
       "isPinned": false,
-      "startedAt": "2024-10-18T22:29:30+03:00"
+      "startedAt": null
     },
     {
       "fullName": "minkinad/StackMIREA",
@@ -225,7 +225,7 @@
       "updatedAt": "2026-04-03T18:06:48.000Z",
       "activityAt": "2026-04-03T18:03:17.000Z",
       "isPinned": true,
-      "startedAt": null
+      "startedAt": "2024-11-13T16:40:23+03:00"
     },
     {
       "fullName": "minkinad/1990",
@@ -267,7 +267,7 @@
       "updatedAt": null,
       "activityAt": "2026-03-25T15:56:24.000Z",
       "isPinned": false,
-      "startedAt": "2026-03-25T18:52:55+03:00"
+      "startedAt": null
     },
     {
       "fullName": "mnplyeoman/.github",
@@ -281,7 +281,7 @@
       "updatedAt": null,
       "activityAt": "2026-03-24T18:26:44.000Z",
       "isPinned": false,
-      "startedAt": "2026-03-24T21:26:44+03:00"
+      "startedAt": null
     },
     {
       "fullName": "pyorbit/.github",
@@ -295,7 +295,7 @@
       "updatedAt": null,
       "activityAt": "2026-03-24T18:22:55.000Z",
       "isPinned": false,
-      "startedAt": "2026-03-24T21:22:55+03:00"
+      "startedAt": null
     },
     {
       "fullName": "nimjs/nimjs",
@@ -309,7 +309,7 @@
       "updatedAt": null,
       "activityAt": "2026-03-23T23:57:17.000Z",
       "isPinned": false,
-      "startedAt": "2026-03-24T02:57:17+03:00"
+      "startedAt": null
     },
     {
       "fullName": "mnplyeoman/yeoman-feedback",
@@ -323,7 +323,7 @@
       "updatedAt": null,
       "activityAt": "2026-03-23T23:29:12.000Z",
       "isPinned": false,
-      "startedAt": "2026-03-23T23:01:08+03:00"
+      "startedAt": null
     },
     {
       "fullName": "minkinad/tracker",
@@ -339,7 +339,7 @@
       "updatedAt": "2026-03-24T18:39:37.000Z",
       "activityAt": "2026-03-22T18:23:12.000Z",
       "isPinned": false,
-      "startedAt": null
+      "startedAt": "2025-09-07T19:19:19+03:00"
     },
     {
       "fullName": "minkinad/resume",
@@ -430,7 +430,7 @@
       "updatedAt": "2026-03-24T18:43:29.000Z",
       "activityAt": "2026-02-21T16:28:24.000Z",
       "isPinned": false,
-      "startedAt": null
+      "startedAt": "2025-06-29T15:20:35+03:00"
     },
     {
       "fullName": "pyorbit/pyorbit",
@@ -444,7 +444,7 @@
       "updatedAt": "2026-04-04T09:18:20.000Z",
       "activityAt": "2025-10-15T18:14:10.000Z",
       "isPinned": false,
-      "startedAt": null
+      "startedAt": "2025-09-03T23:24:58+03:00"
     }
   ]
 }
