@@ -55,8 +55,8 @@ usePageMeta(getStaticPageMeta("support"));
     <p class="eyebrow">Support</p>
     <h1 class="page-title">Поддержка автора проекта</h1>
     <p class="page-lead">
-      Эта страница предназначена для поддержки меня как автора minkin.tech:
-      обратной связи, распространения проекта и предложений по сотрудничеству.
+      Поддержки меня как автора:
+      обратной связи, pr проектов и предложений по сотрудничеству.
     </p>
 
     <div class="support-quick-grid" aria-label="Support summary">
@@ -66,7 +66,7 @@ usePageMeta(getStaticPageMeta("support"));
       </article>
       <article class="support-quick-item">
         <p class="support-quick-title">Лучшая поддержка</p>
-        <p class="home-status">Конкретный фидбек и репост</p>
+        <p class="home-status">Конкретный фидбек и репост)</p>
       </article>
       <article class="support-quick-item">
         <p class="support-quick-title">Формат</p>
