@@ -205,10 +205,10 @@ const buildEntriesAsync = async (
   return buildEntries(Object.fromEntries(loadedModules), source);
 };
 
-const getRepositoryTags = (repository: GithubRepository): string[] =>
-  [repository.language, ...repository.topics].filter(Boolean).slice(0, 5);
+export const getRepositoryTags = (repository: GithubRepository, limit = 5): string[] =>
+  [repository.language, ...repository.topics].filter(Boolean).slice(0, limit);
 
-const getRepositoryActivityDate = (repository: GithubRepository): string | undefined =>
+export const getRepositoryActivityDate = (repository: GithubRepository): string | undefined =>
   repository.isPinned ? "Pinned" : repository.activityAt ?? repository.updatedAt ?? repository.pushedAt ?? undefined;
 
 const getRepositoryKey = (repository: Pick<GithubRepository, "fullName">): string => repository.fullName.toLowerCase();
@@ -339,7 +339,7 @@ export const getGithubRepositories = (): GithubRepository[] =>
       }))
     : [];
 
-const shouldExposeRepository = (repository: GithubRepository): boolean => {
+export const shouldExposeRepository = (repository: GithubRepository): boolean => {
   const normalizedName = repository.name.trim().toLowerCase();
   const normalizedOwner = repository.owner.trim().toLowerCase();
 
@@ -348,6 +348,12 @@ const shouldExposeRepository = (repository: GithubRepository): boolean => {
 
   return true;
 };
+
+export const getPublicGithubProjectRepositories = (): GithubRepository[] =>
+  getGithubRepositories().filter(
+    (repository) =>
+      repository.name.toLowerCase() !== siteConfig.githubUsername.toLowerCase() && shouldExposeRepository(repository)
+  );
 
 const mapGithubRepoToProject = (repository: GithubRepository): ContentEntry => {
   return {
@@ -395,11 +401,7 @@ const mergeProjectWithRepository = (project: ContentEntry, repository: GithubRep
 
 export const getProjects = async (): Promise<ContentEntry[]> => {
   projectEntriesPromise ??= buildEntriesAsync(projectModules).then((localProjects) => {
-    const repositories = getGithubRepositories().filter(
-      (repository) =>
-        repository.name.toLowerCase() !== siteConfig.githubUsername.toLowerCase() &&
-        shouldExposeRepository(repository)
-    );
+    const repositories = getPublicGithubProjectRepositories();
 
     const matchedRepositories = new Set<string>();
     const mergedLocalProjects = localProjects.map((project) => {
