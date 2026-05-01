@@ -12,9 +12,9 @@ const yearSections = getProjectYearSections();
   <section class="page-header reveal projects-catalog-hero">
     <div class="projects-catalog-copy">
       <p class="eyebrow">Projects</p>
-      <h1 class="page-title">Живая карта проектов на github</h1>
+      <h1 class="page-title">Живая карта проектов на GitHub</h1>
       <p class="page-lead">
-        Мои проекты по году старта и активности.
+        Репозитории и личные проекты, сгруппированные по году старта и активности.
       </p>
     </div>
   </section>
@@ -28,7 +28,7 @@ const yearSections = getProjectYearSections();
     <header class="projects-year-head">
       <p class="project-section-kicker">Year</p>
       <h2 :id="section.anchorId" class="projects-year-title">{{ section.year }}</h2>
-      <p class="projects-year-summary">{{ section.projects.length }} repositories started in this year.</p>
+      <p class="projects-year-summary">{{ section.projects.length }} проектов в этом разделе.</p>
     </header>
 
     <div class="projects-card-grid">

@@ -56,7 +56,7 @@ usePageMeta(getStaticPageMeta("support"));
     <h1 class="page-title">Поддержка автора проекта</h1>
     <p class="page-lead">
       Поддержка меня как автора:
-      обратная связь, pr проекта и предложения по сотрудничеству.
+      обратная связь, рекомендации проекта и предложения по сотрудничеству.
     </p>
 
     <div class="support-quick-grid" aria-label="Support summary">
@@ -70,7 +70,7 @@ usePageMeta(getStaticPageMeta("support"));
       </article>
       <article class="support-quick-item">
         <p class="support-quick-title">Формат</p>
-        <p class="home-status">Коротко и по делу)</p>
+        <p class="home-status">Коротко и по делу</p>
       </article>
     </div>
   </section>

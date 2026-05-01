@@ -7,7 +7,7 @@ section: experiments
 link: https://github.com/minkinad/CrossRoad
 repository: minkinad/CrossRoad
 logoKey: crossroad
-summary: Веб-сервис предназначенный для создания обсуждений и публикации статей
+summary: Веб-сервис для публикации статей и создания обсуждений вокруг материалов.
 ---
 
 Платформа для публикации материалов и ведения обсуждений вокруг контента.

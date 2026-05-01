@@ -6,7 +6,7 @@ order: 13
 section: systems
 link: https://github.com/minkinad/Client-Server-application-monitoring-work-activity
 repository: minkinad/Client-Server-application-monitoring-work-activity
-summary: Client-server application for monitoring work activity. Explanation A simple application for displaying the current work activity of all employers in an organization.
+summary: Клиент-серверное приложение для мониторинга рабочей активности сотрудников внутри организации.
 ---
 
 Клиент-серверное приложение для наблюдения за рабочей активностью сотрудников в организации.

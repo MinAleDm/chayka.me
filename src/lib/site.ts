@@ -45,17 +45,17 @@ const STATIC_PAGE_META: Record<StaticPageKey, PageMeta> = {
   },
   projects: {
     title: buildSectionTitle("Projects"),
-    description: "Рабочие и pet-проекты: от идеи до реального релиза, с акцентом на продукт и инженерную практику.",
+    description: "Backend, API, автоматизация и pet-проекты: от идеи до рабочего релиза.",
     path: "/projects"
   },
   blog: {
     title: buildSectionTitle("Blog"),
-    description: "Статьи про инженерную практику, архитектуру, DX и процесс разработки.",
+    description: "Статьи про backend-разработку, архитектуру, автоматизацию и инженерную практику.",
     path: "/blog"
   },
   talks: {
     title: buildSectionTitle("Talks"),
-    description: "Раздел с лекциями, заметками и будущими выпусками podcast lab.",
+    description: "Лекции, заметки и будущие выпуски Podcast Lab про backend и инженерную практику.",
     path: "/talks"
   },
   support: {
@@ -65,7 +65,7 @@ const STATIC_PAGE_META: Record<StaticPageKey, PageMeta> = {
   },
   contact: {
     title: buildSectionTitle("Contact"),
-    description: "Каналы связи для сотрудничества, технических вопросов и продуктовых обсуждений.",
+    description: "Каналы связи для backend-задач, технических вопросов и сотрудничества.",
     path: "/contact"
   },
   "not-found": {
