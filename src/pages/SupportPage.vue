@@ -55,22 +55,22 @@ usePageMeta(getStaticPageMeta("support"));
     <p class="eyebrow">Support</p>
     <h1 class="page-title">Поддержка автора проекта</h1>
     <p class="page-lead">
-      Поддержки меня как автора:
-      обратной связи, pr проектов и предложений по сотрудничеству.
+      Поддержка меня как автора:
+      обратная связь, pr проекта и предложения по сотрудничеству.
     </p>
 
     <div class="support-quick-grid" aria-label="Support summary">
       <article class="support-quick-item">
         <p class="support-quick-title">Куда писать</p>
-        <p class="home-status">Telegram и GitHub</p>
+        <p class="home-status">Telegram</p>
       </article>
       <article class="support-quick-item">
         <p class="support-quick-title">Лучшая поддержка</p>
-        <p class="home-status">Конкретный фидбек и репост)</p>
+        <p class="home-status">Фидбек и предложения сотрудничества</p>
       </article>
       <article class="support-quick-item">
         <p class="support-quick-title">Формат</p>
-        <p class="home-status">Коротко и по делу</p>
+        <p class="home-status">Коротко и по делу)</p>
       </article>
     </div>
   </section>

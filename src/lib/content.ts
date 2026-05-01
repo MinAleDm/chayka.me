@@ -273,11 +273,11 @@ export const getHomePageContent = (): HomeContent => {
   const { attributes, body, html } = parseMarkdown(raw);
 
   return {
-    eyebrow: toStringValue(attributes.eyebrow) ?? "Frontend / Fullstack Engineer",
+    eyebrow: toStringValue(attributes.eyebrow) ?? "Backend Developer",
     title: toStringValue(attributes.title) ?? siteConfig.displayName,
     lead: toStringValue(attributes.lead) ?? siteConfig.defaultDescription,
     subtitle: toStringValue(attributes.subtitle) ?? "",
-    supportTitle: toStringValue(attributes.supportTitle) ?? "Поддержка open source",
+    supportTitle: toStringValue(attributes.supportTitle) ?? "Поддержка",
     supportText: toStringValue(attributes.supportText) ?? "",
     stackGroups: normalizeHomeStackGroups(attributes.stackGroups),
     html: body ? html : ""

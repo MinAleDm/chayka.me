@@ -11,7 +11,7 @@ const githubStatus = getGithubDataStatus();
 const offerCards = [
   {
     title: "Frontend и product engineering",
-    text: "Беру продуктовые интерфейсы, сложные состояния, контентные витрины и доведение пользовательского опыта до цельной системы."
+    text: "Создаю продуктовые интерфейсы, контентные витрины и довожу пользовательский опыт до цельной системы."
   },
   {
     title: "Архитектура и DX",
@@ -19,7 +19,7 @@ const offerCards = [
   },
   {
     title: "Контент и техническая подача",
-    text: "Собираю инженерные идеи в понятные материалы, демо и страницы, которые можно показать пользователям, коллегам или работодателю."
+    text: "Собираю инженерные идеи в понятные материалы, демо и страницы."
   }
 ];
 
@@ -81,7 +81,7 @@ usePageMeta({
     </div>
 
     <article class="support-panel">
-      <h3 class="support-panel-title">Когда особенно полезно написать</h3>
+      <h3 class="support-panel-title">Когда точно полезно написать?</h3>
       <ul class="support-checklist">
         <li v-for="signal in workSignals" :key="signal">{{ signal }}</li>
       </ul>

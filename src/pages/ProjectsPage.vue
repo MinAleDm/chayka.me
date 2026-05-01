@@ -192,8 +192,7 @@ const yearSections = computed<ProjectYearSection[]>(() => {
       <p class="eyebrow">Projects</p>
       <h1 class="page-title">Живая карта проектов на github</h1>
       <p class="page-lead">
-        Каждый публичный проект с GitHub, сгруппированный
-        по году старта
+       Мои проекты по году старта и активности.
       </p>
     </div>
   </section>
