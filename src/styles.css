@@ -152,16 +152,6 @@ select {
   overflow: visible;
 }
 
-.root-background-cluster {
-  animation: rootDrift var(--root-duration, 34s) ease-in-out infinite alternate;
-  animation-delay: var(--root-delay, 0s);
-  transform-origin: center;
-}
-
-.root-background.is-reduced-motion .root-background-cluster {
-  animation: none;
-}
-
 .root-background-path {
   fill: none;
   stroke-linecap: round;
@@ -1388,16 +1378,6 @@ img.stack-chip-logo,
   }
 }
 
-@keyframes rootDrift {
-  from {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-
-  to {
-    transform: translate3d(var(--root-drift-x, 0), var(--root-drift-y, 0), 0) scale(1.012);
-  }
-}
-
 @keyframes rootPathGrow {
   0% {
     stroke-dashoffset: 100;
@@ -1567,10 +1547,6 @@ img.stack-chip-logo,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .root-background-cluster {
-    animation: none;
-  }
-
   .root-background-path {
     animation: none;
     stroke-dashoffset: 0;

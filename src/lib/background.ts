@@ -8,10 +8,6 @@ export interface RootPath {
 
 export interface RootCluster {
   paths: RootPath[];
-  driftX: number;
-  driftY: number;
-  duration: number;
-  delay: number;
 }
 
 export interface RootScene {
@@ -30,6 +26,11 @@ type ClusterPreset = {
   xRatio: number;
   yRatio: number;
   spread: number;
+};
+
+type ClusterBuildState = {
+  pathCount: number;
+  maxPaths: number;
 };
 
 const clamp = (value: number, min: number, max: number): number => Math.min(max, Math.max(min, value));
@@ -135,11 +136,12 @@ const generateBranch = (
   depth: number,
   startDelay: number,
   random: () => number,
+  state: ClusterBuildState,
   into: RootPath[]
 ): void => {
-  if (depth > 4 || thickness < 0.35 || length < 20) return;
+  if (depth > 3 || thickness < 0.42 || length < 24 || state.pathCount >= state.maxPaths) return;
 
-  const steps = Math.max(3, Math.round(range(random, 4, 7)));
+  const steps = Math.max(3, Math.round(range(random, 3, 5)));
   const points: Point[] = [start];
   let cursor = { ...start };
   let angle = baseAngle;
@@ -168,21 +170,34 @@ const generateBranch = (
       delay: Number(startDelay.toFixed(2)),
       duration: Number(clamp(length / 220 + random() * 0.9, 0.9, 2.8).toFixed(2))
     });
+    state.pathCount += 1;
   }
 
-  const branchChance = clamp(0.88 - depth * 0.14, 0.28, 0.88);
+  const branchChance = clamp(0.68 - depth * 0.14, 0.2, 0.68);
 
   for (let index = 1; index < points.length - 1; index += 1) {
-    if (random() > branchChance) continue;
+    if (random() > branchChance || state.pathCount >= state.maxPaths) continue;
 
     const pivot = points[index]!;
     const direction = pick(random, [-1, 1]);
     const childAngle = angle + direction * range(random, 0.35, 0.92);
-    const childLength = length * range(random, 0.34, 0.62);
-    const childThickness = thickness * range(random, 0.52, 0.8);
+    const childLength = length * range(random, 0.3, 0.52);
+    const childThickness = thickness * range(random, 0.5, 0.72);
     const childDelay = startDelay + range(random, 0.16, 0.42) + depth * 0.06;
 
-    generateBranch(width, height, pivot, childAngle, childLength, childThickness, depth + 1, childDelay, random, into);
+    generateBranch(
+      width,
+      height,
+      pivot,
+      childAngle,
+      childLength,
+      childThickness,
+      depth + 1,
+      childDelay,
+      random,
+      state,
+      into
+    );
   }
 };
 
@@ -190,7 +205,11 @@ const createCluster = (width: number, height: number, preset: ClusterPreset, see
   const random = createRandom(seed);
   const origin = getOrigin(width, height, preset, random);
   const paths: RootPath[] = [];
-  const primaryBranches = Math.round(range(random, 3, 5));
+  const state: ClusterBuildState = {
+    pathCount: 0,
+    maxPaths: width < 900 ? 8 : 12
+  };
+  const primaryBranches = Math.round(range(random, 2, 3));
 
   for (let index = 0; index < primaryBranches; index += 1) {
     const spreadFactor = primaryBranches === 1 ? 0.5 : index / (primaryBranches - 1);
@@ -202,21 +221,18 @@ const createCluster = (width: number, height: number, preset: ClusterPreset, see
       height,
       origin,
       branchAngle,
-      Math.min(width, height) * range(random, 0.22, 0.34),
-      range(random, 1.35, 2.8),
+      Math.min(width, height) * range(random, 0.18, 0.26),
+      range(random, 1.1, 2),
       0,
       index * 0.18,
       random,
+      state,
       paths
     );
   }
 
   return {
-    paths,
-    driftX: Number(range(random, -10, 10).toFixed(2)),
-    driftY: Number(range(random, -8, 8).toFixed(2)),
-    duration: Number(range(random, 26, 44).toFixed(2)),
-    delay: Number(range(random, -8, 0).toFixed(2))
+    paths
   };
 };
 

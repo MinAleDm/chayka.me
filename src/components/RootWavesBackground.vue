@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
-import { createRootScene, type RootCluster, type RootPath } from "../lib/background";
+import { createRootScene, type RootPath } from "../lib/background";
 
 type ViewportSize = {
   width: number;
@@ -49,12 +49,6 @@ const updateReducedMotion = (): void => {
 
 const scene = computed(() => createRootScene(viewport.value.width, viewport.value.height, seed.value));
 const viewBox = computed(() => `0 0 ${viewport.value.width} ${viewport.value.height}`);
-const clusterStyle = (cluster: RootCluster): Record<string, string> => ({
-  "--root-drift-x": `${cluster.driftX}px`,
-  "--root-drift-y": `${cluster.driftY}px`,
-  "--root-duration": `${cluster.duration}s`,
-  "--root-delay": `${cluster.delay}s`
-});
 const pathStyle = (path: RootPath, opacityScale = 1): Record<string, string> => ({
   "--path-delay": `${path.delay}s`,
   "--path-duration": `${path.duration}s`,
@@ -99,36 +93,18 @@ onBeforeUnmount(() => {
     <svg class="root-background-svg" :viewBox="viewBox" preserveAspectRatio="none">
       <defs>
         <filter id="root-soft-blur" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="1.2" />
-        </filter>
-        <filter id="root-wide-blur" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="3.4" />
+          <feGaussianBlur stdDeviation="0.8" />
         </filter>
       </defs>
 
-      <g
-        v-for="(cluster, clusterIndex) in scene.clusters"
-        :key="clusterIndex"
-        class="root-background-cluster"
-        :style="clusterStyle(cluster)"
-      >
-        <path
-          v-for="(path, pathIndex) in cluster.paths"
-          :key="`${clusterIndex}-${pathIndex}-glow`"
-          class="root-background-path root-background-path-glow"
-          :d="path.d"
-          :stroke-width="path.width * 2.6"
-          :style="pathStyle(path, 0.22)"
-          pathLength="100"
-          filter="url(#root-wide-blur)"
-        />
+      <g v-for="(cluster, clusterIndex) in scene.clusters" :key="clusterIndex" class="root-background-cluster">
         <path
           v-for="(path, pathIndex) in cluster.paths"
           :key="`${clusterIndex}-${pathIndex}-soft`"
           class="root-background-path root-background-path-soft"
           :d="path.d"
-          :stroke-width="path.width * 1.12"
-          :style="pathStyle(path, 0.88)"
+          :stroke-width="path.width"
+          :style="pathStyle(path, 0.52)"
           pathLength="100"
           filter="url(#root-soft-blur)"
         />
