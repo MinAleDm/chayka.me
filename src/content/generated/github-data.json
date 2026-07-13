@@ -1,29 +1,91 @@
 {
-  "generatedAt": "2026-05-29T16:29:52.842Z",
+  "generatedAt": "2026-07-13T10:28:34.178Z",
   "source": "github",
   "username": "minkinad",
   "activity": {
-    "createdAt": "2026-05-29T16:20:12.000Z",
-    "commitSha": "b75469a",
-    "commitUrl": "https://github.com/minkinad/minkin.tech/commit/b75469a1836b5bdf6da504d5b44e2d46686cac79",
-    "commitMessage": "feat: add animated root background",
-    "repoName": "minkinad/minkin.tech",
-    "repoUrl": "https://github.com/minkinad/minkin.tech",
-    "projectDescription": "My personal website"
+    "createdAt": "2026-07-11T11:32:16.000Z",
+    "commitSha": "48d1ee6",
+    "commitUrl": "https://github.com/minkinad/tracker/commit/48d1ee674443af5526c3de565a500268d41740ab",
+    "commitMessage": "docs(readme): add page screenshots",
+    "repoName": "minkinad/tracker",
+    "repoUrl": "https://github.com/minkinad/tracker",
+    "projectDescription": "Lightweight TypeScript-based tracking service for monitoring and managing events or user activity.tracker"
   },
   "repositories": [
     {
-      "fullName": "minkinad/minkin.tech",
-      "name": "minkin.tech",
+      "fullName": "minkinad/tracker",
+      "name": "tracker",
       "owner": "minkinad",
-      "htmlUrl": "https://github.com/minkinad/minkin.tech",
-      "description": "My personal website",
-      "language": "Vue",
+      "htmlUrl": "https://github.com/minkinad/tracker",
+      "description": "Lightweight TypeScript-based tracking service for monitoring and managing events or user activity.tracker",
+      "language": "TypeScript",
+      "topics": [
+        "tracker"
+      ],
+      "startedAt": "2025-09-07T16:19:19.000Z",
+      "pushedAt": "2026-07-11T12:04:00.000Z",
+      "updatedAt": "2026-07-11T11:59:14.000Z",
+      "activityAt": "2026-07-11T11:32:16.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "minkinad/web-config-guard",
+      "name": "web-config-guard",
+      "owner": "minkinad",
+      "htmlUrl": "https://github.com/minkinad/web-config-guard",
+      "description": "A Go-based CLI utility for analyzing web application YAML/JSON configurations and identifying potentially dangerous settings.",
+      "language": "Go",
+      "topics": [
+        "cli",
+        "danger",
+        "test"
+      ],
+      "startedAt": "2026-07-06T10:27:09.000Z",
+      "pushedAt": "2026-07-07T08:44:01.000Z",
+      "updatedAt": "2026-07-11T12:09:22.000Z",
+      "activityAt": "2026-07-07T08:43:31.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "nimjs/ui",
+      "name": "ui",
+      "owner": "nimjs",
+      "htmlUrl": "https://github.com/nimjs/ui",
+      "description": "🌐Open-source React component ecosystem by nimjs with design tokens, typed registry, CLI scaffolding, and system-first docs.",
+      "language": "",
       "topics": [],
-      "startedAt": "2024-10-30T08:55:02.000Z",
-      "pushedAt": "2026-05-29T16:20:38.000Z",
-      "updatedAt": "2026-05-29T16:20:42.000Z",
-      "activityAt": "2026-05-29T16:20:12.000Z",
+      "startedAt": "2026-03-23T22:20:57.000Z",
+      "pushedAt": null,
+      "updatedAt": null,
+      "activityAt": "2026-07-06T17:15:41.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "nimjs/.github",
+      "name": ".github",
+      "owner": "nimjs",
+      "htmlUrl": "https://github.com/nimjs/.github",
+      "description": "About",
+      "language": "",
+      "topics": [],
+      "startedAt": "2026-03-25T15:56:24.000Z",
+      "pushedAt": null,
+      "updatedAt": null,
+      "activityAt": "2026-07-03T08:48:53.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "nimjs/nim-lint",
+      "name": "nim-lint",
+      "owner": "nimjs",
+      "htmlUrl": "https://github.com/nimjs/nim-lint",
+      "description": "",
+      "language": "",
+      "topics": [],
+      "startedAt": "2026-07-02T15:56:27.000Z",
+      "pushedAt": null,
+      "updatedAt": null,
+      "activityAt": "2026-07-02T15:56:27.000Z",
       "isPinned": false
     },
     {
@@ -37,37 +99,7 @@
       "startedAt": "2024-10-18T19:29:30.000Z",
       "pushedAt": null,
       "updatedAt": null,
-      "activityAt": "2026-05-28T08:24:06.000Z",
-      "isPinned": false
-    },
-    {
-      "fullName": "minkinad/tracker",
-      "name": "tracker",
-      "owner": "minkinad",
-      "htmlUrl": "https://github.com/minkinad/tracker",
-      "description": "Lightweight TypeScript-based tracking service for monitoring and managing events or user activity.tracker",
-      "language": "TypeScript",
-      "topics": [
-        "tracker"
-      ],
-      "startedAt": "2025-09-07T16:19:19.000Z",
-      "pushedAt": "2026-05-27T16:25:50.000Z",
-      "updatedAt": "2026-05-27T16:25:54.000Z",
-      "activityAt": "2026-05-27T16:25:41.000Z",
-      "isPinned": false
-    },
-    {
-      "fullName": "minkinad/scripts-cluster-ceph-g-p",
-      "name": "scripts-cluster-ceph-g-p",
-      "owner": "minkinad",
-      "htmlUrl": "https://github.com/minkinad/scripts-cluster-ceph-g-p",
-      "description": "",
-      "language": "Shell",
-      "topics": [],
-      "startedAt": "2026-05-24T19:42:14.000Z",
-      "pushedAt": "2026-05-24T21:14:36.000Z",
-      "updatedAt": "2026-05-24T21:14:40.000Z",
-      "activityAt": "2026-05-24T20:33:50.000Z",
+      "activityAt": "2026-07-02T12:47:58.000Z",
       "isPinned": false
     },
     {
@@ -82,9 +114,41 @@
         "sdk"
       ],
       "startedAt": "2026-05-05T15:46:39.000Z",
-      "pushedAt": "2026-05-27T15:33:29.000Z",
-      "updatedAt": "2026-05-20T18:52:37.000Z",
-      "activityAt": "2026-05-20T18:52:32.000Z",
+      "pushedAt": "2026-07-08T12:45:29.000Z",
+      "updatedAt": "2026-07-01T20:27:57.000Z",
+      "activityAt": "2026-07-01T20:27:45.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "minkinad/crm-system",
+      "name": "crm-system",
+      "owner": "minkinad",
+      "htmlUrl": "https://github.com/minkinad/crm-system",
+      "description": "💻⚠️ Multi-user CRM platform with RBAC, authentication, audit logs, and API versioning.",
+      "language": "TypeScript",
+      "topics": [],
+      "startedAt": "2025-06-29T12:20:35.000Z",
+      "pushedAt": "2026-07-01T20:28:07.000Z",
+      "updatedAt": "2026-07-01T20:28:13.000Z",
+      "activityAt": "2026-07-01T18:42:38.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "minkinad/market-data-quality-monitor",
+      "name": "market-data-quality-monitor",
+      "owner": "minkinad",
+      "htmlUrl": "https://github.com/minkinad/market-data-quality-monitor",
+      "description": "Production-style fullstack TypeScript monorepo for monitoring external data collection quality, incidents and source health.",
+      "language": "TypeScript",
+      "topics": [
+        "data-quality",
+        "fullstack",
+        "incident-management"
+      ],
+      "startedAt": "2026-06-26T12:10:36.000Z",
+      "pushedAt": "2026-06-26T14:38:56.000Z",
+      "updatedAt": "2026-06-26T14:39:00.000Z",
+      "activityAt": "2026-06-26T14:38:43.000Z",
       "isPinned": false
     },
     {
@@ -94,11 +158,48 @@
       "htmlUrl": "https://github.com/minkinad/notification-hub",
       "description": "Event-driven notification service built with TypeScript and NestJS. Supports async processing, multi-channel delivery (Email, Telegram, Webhooks), and scalable queue-based architecture.",
       "language": "TypeScript",
-      "topics": [],
+      "topics": [
+        "notifications"
+      ],
       "startedAt": "2026-05-02T14:11:20.000Z",
-      "pushedAt": "2026-05-20T18:32:44.000Z",
-      "updatedAt": "2026-05-29T11:11:30.000Z",
-      "activityAt": "2026-05-20T18:31:10.000Z",
+      "pushedAt": "2026-06-20T16:37:23.000Z",
+      "updatedAt": "2026-06-26T14:56:10.000Z",
+      "activityAt": "2026-06-20T16:36:45.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "minkinad/git-profile-stats",
+      "name": "git-profile-stats",
+      "owner": "minkinad",
+      "htmlUrl": "https://github.com/minkinad/git-profile-stats",
+      "description": "📊 Minimalist GitHub analytics dashboard to explore profiles, repos, and stats.",
+      "language": "TypeScript",
+      "topics": [
+        "github",
+        "stats"
+      ],
+      "startedAt": "2026-04-14T21:39:34.000Z",
+      "pushedAt": "2026-06-19T15:00:50.000Z",
+      "updatedAt": "2026-06-19T15:01:04.000Z",
+      "activityAt": "2026-06-19T15:00:36.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "minkinad/data-quality-monitoring-system",
+      "name": "data-quality-monitoring-system",
+      "owner": "minkinad",
+      "htmlUrl": "https://github.com/minkinad/data-quality-monitoring-system",
+      "description": "Production-style data quality monitoring system for external data sources with Python, PostgreSQL, Pandera, Streamlit, Grafana, CI/CD, automated quality metrics, and incident tracking.",
+      "language": "Python",
+      "topics": [
+        "data-monitoring",
+        "data-quality",
+        "postgresql"
+      ],
+      "startedAt": "2026-06-16T13:52:17.000Z",
+      "pushedAt": "2026-06-18T18:10:07.000Z",
+      "updatedAt": "2026-06-18T18:15:27.000Z",
+      "activityAt": "2026-06-18T18:09:36.000Z",
       "isPinned": false
     },
     {
@@ -110,9 +211,9 @@
       "language": "TypeScript",
       "topics": [],
       "startedAt": "2026-03-18T18:39:46.000Z",
-      "pushedAt": "2026-05-19T16:21:31.000Z",
-      "updatedAt": "2026-05-19T16:21:36.000Z",
-      "activityAt": "2026-05-19T16:21:12.000Z",
+      "pushedAt": "2026-06-13T19:35:49.000Z",
+      "updatedAt": "2026-06-13T19:35:53.000Z",
+      "activityAt": "2026-06-13T19:24:31.000Z",
       "isPinned": true
     },
     {
@@ -131,9 +232,26 @@
         "typescript"
       ],
       "startedAt": "2026-05-08T18:00:57.000Z",
-      "pushedAt": "2026-05-19T16:10:38.000Z",
-      "updatedAt": "2026-05-19T16:12:38.000Z",
-      "activityAt": "2026-05-19T16:10:18.000Z",
+      "pushedAt": "2026-06-09T21:46:10.000Z",
+      "updatedAt": "2026-06-09T21:46:15.000Z",
+      "activityAt": "2026-06-09T21:45:38.000Z",
+      "isPinned": false
+    },
+    {
+      "fullName": "pyorbit/pyorbit",
+      "name": "pyorbit",
+      "owner": "pyorbit",
+      "htmlUrl": "https://github.com/pyorbit/pyorbit",
+      "description": "pymastery main dashboard",
+      "language": "TypeScript",
+      "topics": [
+        "python",
+        "study"
+      ],
+      "startedAt": "2025-09-03T20:24:58.000Z",
+      "pushedAt": "2026-06-09T21:44:49.000Z",
+      "updatedAt": "2026-06-26T14:57:53.000Z",
+      "activityAt": "2026-06-09T21:28:23.000Z",
       "isPinned": false
     },
     {
@@ -147,10 +265,24 @@
         "education"
       ],
       "startedAt": "2024-10-23T14:04:39.000Z",
-      "pushedAt": "2026-05-16T20:14:50.000Z",
-      "updatedAt": "2026-05-16T20:14:54.000Z",
-      "activityAt": "2026-05-16T20:13:45.000Z",
+      "pushedAt": "2026-06-09T17:52:32.000Z",
+      "updatedAt": "2026-06-09T17:52:37.000Z",
+      "activityAt": "2026-06-09T17:52:31.000Z",
       "isPinned": true
+    },
+    {
+      "fullName": "minkinad/minkin.tech",
+      "name": "minkin.tech",
+      "owner": "minkinad",
+      "htmlUrl": "https://github.com/minkinad/minkin.tech",
+      "description": "My personal website",
+      "language": "Vue",
+      "topics": [],
+      "startedAt": "2024-10-30T08:55:02.000Z",
+      "pushedAt": "2026-05-29T16:36:15.000Z",
+      "updatedAt": "2026-07-13T09:41:38.000Z",
+      "activityAt": "2026-05-29T16:36:10.000Z",
+      "isPinned": false
     },
     {
       "fullName": "g10bus/myInventory",
@@ -195,20 +327,6 @@
       "updatedAt": null,
       "activityAt": "2026-05-11T10:05:35.000Z",
       "isPinned": true
-    },
-    {
-      "fullName": "minkinad/crm-system",
-      "name": "crm-system",
-      "owner": "minkinad",
-      "htmlUrl": "https://github.com/minkinad/crm-system",
-      "description": "💻⚠️ Multi-user CRM platform with RBAC, authentication, audit logs, and API versioning.",
-      "language": "TypeScript",
-      "topics": [],
-      "startedAt": "2025-06-29T12:20:35.000Z",
-      "pushedAt": "2026-05-10T17:09:13.000Z",
-      "updatedAt": "2026-05-11T10:42:54.000Z",
-      "activityAt": "2026-05-10T17:09:01.000Z",
-      "isPinned": false
     },
     {
       "fullName": "minkinad/frontend-interview-prep",
@@ -270,23 +388,6 @@
       "pushedAt": "2026-05-05T14:56:26.000Z",
       "updatedAt": "2026-05-27T16:53:45.000Z",
       "activityAt": "2026-05-05T14:53:30.000Z",
-      "isPinned": false
-    },
-    {
-      "fullName": "minkinad/git-profile-stats",
-      "name": "git-profile-stats",
-      "owner": "minkinad",
-      "htmlUrl": "https://github.com/minkinad/git-profile-stats",
-      "description": "📊 Minimalist GitHub analytics dashboard to explore profiles, repos, and stats.",
-      "language": "TypeScript",
-      "topics": [
-        "github",
-        "stats"
-      ],
-      "startedAt": "2026-04-14T21:39:34.000Z",
-      "pushedAt": "2026-05-04T19:37:13.000Z",
-      "updatedAt": "2026-05-11T11:03:49.000Z",
-      "activityAt": "2026-05-04T19:37:00.000Z",
       "isPinned": false
     },
     {
@@ -519,34 +620,6 @@
       "isPinned": false
     },
     {
-      "fullName": "minkinad/1990",
-      "name": "1990",
-      "owner": "minkinad",
-      "htmlUrl": "https://github.com/minkinad/1990",
-      "description": "",
-      "language": "",
-      "topics": [],
-      "startedAt": "2026-03-25T21:49:43.000Z",
-      "pushedAt": "2026-03-25T21:49:43.000Z",
-      "updatedAt": "2026-03-25T21:49:43.000Z",
-      "activityAt": "2026-03-25T21:49:43.000Z",
-      "isPinned": false
-    },
-    {
-      "fullName": "nimjs/.github",
-      "name": ".github",
-      "owner": "nimjs",
-      "htmlUrl": "https://github.com/nimjs/.github",
-      "description": "About",
-      "language": "",
-      "topics": [],
-      "startedAt": "2026-03-25T15:56:24.000Z",
-      "pushedAt": null,
-      "updatedAt": null,
-      "activityAt": "2026-03-25T15:56:24.000Z",
-      "isPinned": false
-    },
-    {
       "fullName": "mnplyeoman/.github",
       "name": ".github",
       "owner": "mnplyeoman",
@@ -633,23 +706,6 @@
       "pushedAt": "2026-03-02T20:06:27.000Z",
       "updatedAt": "2026-03-24T18:43:09.000Z",
       "activityAt": "2026-03-02T20:06:26.000Z",
-      "isPinned": false
-    },
-    {
-      "fullName": "pyorbit/pyorbit",
-      "name": "pyorbit",
-      "owner": "pyorbit",
-      "htmlUrl": "https://github.com/pyorbit/pyorbit",
-      "description": "pymastery main dashboard",
-      "language": "TypeScript",
-      "topics": [
-        "python",
-        "study"
-      ],
-      "startedAt": "2025-09-03T20:24:58.000Z",
-      "pushedAt": "2025-10-15T18:14:11.000Z",
-      "updatedAt": "2026-04-14T21:55:58.000Z",
-      "activityAt": "2025-10-15T18:14:10.000Z",
       "isPinned": false
     }
   ]
