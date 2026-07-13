@@ -5,11 +5,20 @@ import {
   DIST_DIR,
   GENERATED_GITHUB_PATH,
   PROJECTS_DIR,
+  createSiteUrl,
+  getBasePath,
   readSiteConfig,
   readMarkdownEntries
 } from "./site-utils.mjs";
 
 const verifyDist = process.argv.includes("--dist");
+
+function getRoutePathFromHtmlFile(relativePath) {
+  if (relativePath === "index.html") return "/";
+  if (relativePath === "404.html") return "/404";
+  if (relativePath.endsWith(`${path.sep}index.html`)) return `/${path.dirname(relativePath).replaceAll(path.sep, "/")}`;
+  return `/${relativePath.replace(/\.html$/, "")}`;
+}
 
 function assert(condition, message) {
   if (!condition) {
@@ -47,6 +56,8 @@ async function verifyGeneratedGithubPayload() {
 }
 
 async function verifyBuildOutput() {
+  const siteConfig = await readSiteConfig();
+  const basePath = getBasePath(siteConfig.baseUrl);
   const [blogEntries, projectEntries] = await Promise.all([
     readMarkdownEntries(BLOG_DIR),
     readMarkdownEntries(PROJECTS_DIR)
@@ -55,7 +66,6 @@ async function verifyBuildOutput() {
     "index.html",
     "404.html",
     path.join("404", "index.html"),
-    "CNAME",
     "sitemap.xml",
     "robots.txt",
     path.join("blog", "index.html"),
@@ -80,6 +90,15 @@ async function verifyBuildOutput() {
     assert(!html.includes("https://minaledm.github.io"), `Outdated GitHub Pages URL found in ${relativePath}`);
     assert(html.includes('property="og:title"'), `Missing Open Graph title tag in ${relativePath}`);
     assert(html.includes('name="twitter:title"'), `Missing Twitter title tag in ${relativePath}`);
+    assert(
+      html.includes(`href="${createSiteUrl(getRoutePathFromHtmlFile(relativePath), siteConfig.baseUrl)}"`),
+      `Canonical URL must preserve configured base path in ${relativePath}`
+    );
+
+    if (relativePath === "index.html") {
+      assert(html.includes(`src="${basePath}assets/`), `Script assets must use configured base path in ${relativePath}`);
+      assert(html.includes(`href="${basePath}assets/`), `Style assets must use configured base path in ${relativePath}`);
+    }
   }
 }
 
