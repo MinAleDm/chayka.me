@@ -37,11 +37,17 @@ const ensureCanonical = (): HTMLLinkElement => {
 
 const ensureDescriptionTag = (): HTMLMetaElement => ensureMetaTag('meta[name="description"]', "name", "description");
 
+const createSiteUrl = (routePath: string): string => {
+  const baseUrl = siteConfig.baseUrl.endsWith("/") ? siteConfig.baseUrl : `${siteConfig.baseUrl}/`;
+  const relativePath = routePath.replace(/^\/+/, "");
+  return new URL(relativePath, baseUrl).toString();
+};
+
 const applyMeta = (meta: Required<PageMeta>): void => {
   const title = meta.title || defaultMeta.title;
   const description = meta.description || defaultMeta.description;
-  const canonicalUrl = new URL(meta.path || "/", `${siteConfig.baseUrl}/`).toString();
-  const imageUrl = new URL("/favicon.svg", `${siteConfig.baseUrl}/`).toString();
+  const canonicalUrl = createSiteUrl(meta.path || "/");
+  const imageUrl = createSiteUrl("/favicon.svg");
 
   document.title = title;
   ensureDescriptionTag().content = description;

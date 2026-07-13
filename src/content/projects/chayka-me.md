@@ -4,7 +4,7 @@ date: Pinned
 tags: [Vue, Vite, Content, Personal Website]
 order: 2
 section: current-focus
-link: https://minkin.tech
+link: https://minkinad.github.io/minkin.tech/
 repository: minkinad/minkin.tech
 logoKey: brand
 summary: Личный сайт backend-разработчика на Vue и Vite с Markdown-контентом, статической генерацией route pages, build-time синхронизацией GitHub-данных и акцентом на понятный DX.

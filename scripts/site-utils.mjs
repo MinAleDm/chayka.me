@@ -21,6 +21,17 @@ export async function readSiteConfig() {
   return JSON.parse(await readFile(SITE_CONFIG_PATH, "utf8"));
 }
 
+export function getBasePath(baseUrl) {
+  const pathname = new URL(baseUrl).pathname || "/";
+  return pathname.endsWith("/") ? pathname : `${pathname}/`;
+}
+
+export function createSiteUrl(routePath, baseUrl) {
+  const base = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+  const relativePath = String(routePath || "/").replace(/^\/+/, "");
+  return new URL(relativePath, base).toString();
+}
+
 export async function ensureDir(target) {
   await mkdir(target, { recursive: true });
 }

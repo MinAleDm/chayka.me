@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://minkin.tech/sitemap.xml
+Sitemap: https://minkinad.github.io/minkin.tech/sitemap.xml

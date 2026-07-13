@@ -5,6 +5,7 @@ import {
   DIST_DIR,
   HOME_CONTENT_PATH,
   PROJECTS_DIR,
+  createSiteUrl,
   createSummary,
   ensureDir,
   parseMarkdownFile,
@@ -41,8 +42,8 @@ function ensureMetaTag(head, matcher, tag) {
 function buildMetaTags(meta, siteConfig) {
   const title = meta.title || siteConfig.defaultTitle;
   const description = meta.description || siteConfig.defaultDescription;
-  const canonicalUrl = new URL(meta.path || "/", `${siteConfig.baseUrl}/`).toString();
-  const imageUrl = new URL("/favicon.svg", `${siteConfig.baseUrl}/`).toString();
+  const canonicalUrl = createSiteUrl(meta.path || "/", siteConfig.baseUrl);
+  const imageUrl = createSiteUrl("/favicon.svg", siteConfig.baseUrl);
 
   return {
     title,
@@ -169,7 +170,7 @@ async function createProjectPages(indexHtml, siteConfig) {
 
 async function writeSitemap(siteConfig, staticRoutes, blogPosts, projectPages) {
   const items = [...staticRoutes, ...blogPosts, ...projectPages].map((entry) => {
-      const url = new URL(entry.path || "/", `${siteConfig.baseUrl}/`).toString();
+      const url = createSiteUrl(entry.path || "/", siteConfig.baseUrl);
       const lastModified = formatLastModified(entry.date);
       const lastmod = lastModified ? `\n    <lastmod>${lastModified}</lastmod>` : "";
     return `  <url>\n    <loc>${escapeXml(url)}</loc>${lastmod}\n  </url>`;
@@ -184,7 +185,7 @@ async function writeRss(siteConfig, blogPosts) {
 
   const items = blogPosts
     .map((post) => {
-      const url = new URL(post.path, `${siteConfig.baseUrl}/`).toString();
+      const url = createSiteUrl(post.path, siteConfig.baseUrl);
       return `    <item>
       <title>${escapeXml(post.title)}</title>
       <link>${escapeXml(url)}</link>
@@ -195,13 +196,13 @@ async function writeRss(siteConfig, blogPosts) {
     })
     .join("\n");
 
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n  <channel>\n    <title>${escapeXml(`${siteConfig.displayName} — Blog`)}</title>\n    <link>${escapeXml(new URL("/blog", `${siteConfig.baseUrl}/`).toString())}</link>\n    <description>${escapeXml(siteConfig.defaultDescription)}</description>\n${items}\n  </channel>\n</rss>\n`;
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n  <channel>\n    <title>${escapeXml(`${siteConfig.displayName} — Blog`)}</title>\n    <link>${escapeXml(createSiteUrl("/blog", siteConfig.baseUrl))}</link>\n    <description>${escapeXml(siteConfig.defaultDescription)}</description>\n${items}\n  </channel>\n</rss>\n`;
 
   await writeFile(path.join(BLOG_OUTPUT_DIR, "rss.xml"), xml, "utf8");
 }
 
 async function writeRobots(siteConfig) {
-  const content = `User-agent: *\nAllow: /\n\nSitemap: ${new URL("/sitemap.xml", `${siteConfig.baseUrl}/`).toString()}\n`;
+  const content = `User-agent: *\nAllow: /\n\nSitemap: ${createSiteUrl("/sitemap.xml", siteConfig.baseUrl)}\n`;
   await writeFile(path.join(DIST_DIR, "robots.txt"), content, "utf8");
 }
 
