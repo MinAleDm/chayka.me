@@ -13,6 +13,20 @@ const isLoadingCaseStudies = ref(true);
 const yearSections = getProjectYearSections();
 const hasCaseStudies = computed(() => caseStudies.value.length > 0);
 
+const formatProjectCount = (count: number): string => {
+  const modulo100 = count % 100;
+  const modulo10 = count % 10;
+  const form = modulo100 >= 11 && modulo100 <= 14
+    ? "проектов"
+    : modulo10 === 1
+      ? "проект"
+      : modulo10 >= 2 && modulo10 <= 4
+        ? "проекта"
+        : "проектов";
+
+  return `${count} ${form}`;
+};
+
 onMounted(async () => {
   const projects = await getProjects();
   caseStudies.value = projects.filter((project) => project.source === "local");
@@ -35,7 +49,7 @@ onMounted(async () => {
   <section class="list-section reveal">
     <h2 class="section-title">Оформленные кейсы</h2>
     <p class="home-status">
-      Здесь собраны проекты, для которых уже есть отдельные страницы с описанием, summary и ссылками.
+      Здесь собраны проекты, для которых уже есть отдельные страницы с кратким описанием и ссылками.
     </p>
 
     <p v-if="isLoadingCaseStudies" class="gh-muted">Загружаю кейсы...</p>
@@ -67,7 +81,7 @@ onMounted(async () => {
     <header class="projects-year-head">
       <p class="project-section-kicker">Year</p>
       <h2 :id="section.anchorId" class="projects-year-title">{{ section.year }}</h2>
-      <p class="projects-year-summary">{{ section.projects.length }} проектов в этом разделе.</p>
+      <p class="projects-year-summary">{{ formatProjectCount(section.projects.length) }} в этом разделе.</p>
     </header>
 
     <div class="projects-card-grid">

@@ -55,8 +55,8 @@ usePageMeta(getStaticPageMeta("support"));
     <p class="eyebrow">Support</p>
     <h1 class="page-title">Поддержка автора проекта</h1>
     <p class="page-lead">
-      Поддержка меня как автора:
-      обратная связь, рекомендации проекта и предложения по сотрудничеству.
+      Лучший способ поддержать мою работу — поделиться обратной связью,
+      порекомендовать проект или предложить сотрудничество.
     </p>
 
     <div class="support-quick-grid" aria-label="Support summary">

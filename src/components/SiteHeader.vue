@@ -24,7 +24,7 @@ const handleThemeToggle = async (event: MouseEvent): Promise<void> => {
 <template>
   <header class="topbar">
     <div class="topbar-inner">
-      <RouterLink class="brand" to="/" aria-label="Alexander Minkin home">
+      <RouterLink class="brand" to="/" aria-label="Aleksandr Minkin home">
         <img :src="brandMark" alt="minkin.tech brand mark" class="brand-logo" />
       </RouterLink>
 
