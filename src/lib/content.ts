@@ -33,6 +33,11 @@ export interface HomeStackGroup {
   items: HomeStackItem[];
 }
 
+export interface HomeOfferCard {
+  title: string;
+  text: string;
+}
+
 export interface HomeContent {
   eyebrow: string;
   title: string;
@@ -40,6 +45,8 @@ export interface HomeContent {
   subtitle: string;
   supportTitle: string;
   supportText: string;
+  offerCards: HomeOfferCard[];
+  workSignals: string[];
   stackGroups: HomeStackGroup[];
   html: string;
 }
@@ -253,6 +260,18 @@ const normalizeHomeStackGroups = (value: FrontmatterValue | undefined): HomeStac
     .filter((group) => group.title && group.items.length > 0);
 };
 
+const normalizeHomeOfferCards = (value: FrontmatterValue | undefined): HomeOfferCard[] => {
+  if (!Array.isArray(value)) return [];
+
+  return value
+    .filter(isObjectValue)
+    .map((card) => ({
+      title: toStringValue(card.title) ?? "",
+      text: toStringValue(card.text) ?? ""
+    }))
+    .filter((card) => card.title && card.text);
+};
+
 const homeModules = import.meta.glob("../content/home.md", {
   eager: true,
   query: "?raw",
@@ -277,12 +296,14 @@ export const getHomePageContent = (): HomeContent => {
   const { attributes, body, html } = parseMarkdown(raw);
 
   return {
-    eyebrow: toStringValue(attributes.eyebrow) ?? "FullStack Developer",
+    eyebrow: toStringValue(attributes.eyebrow) ?? "Backend Node.js Developer",
     title: toStringValue(attributes.title) ?? siteConfig.displayName,
     lead: toStringValue(attributes.lead) ?? siteConfig.defaultDescription,
     subtitle: toStringValue(attributes.subtitle) ?? "",
     supportTitle: toStringValue(attributes.supportTitle) ?? "Поддержка",
     supportText: toStringValue(attributes.supportText) ?? "",
+    offerCards: normalizeHomeOfferCards(attributes.offerCards),
+    workSignals: toStringArray(attributes.workSignals),
     stackGroups: normalizeHomeStackGroups(attributes.stackGroups),
     html: body ? html : ""
   };

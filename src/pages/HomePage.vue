@@ -8,27 +8,6 @@ import { GITHUB_AVATAR_URL, getStaticPageMeta } from "../lib/site";
 const home = getHomePageContent();
 const activity = getGithubActivity();
 const githubStatus = getGithubDataStatus();
-const offerCards = [
-  {
-    title: "Backend и API",
-    text: "Проектирую серверную логику, REST API, интеграции и сервисы, которые удобно сопровождать."
-  },
-  {
-    title: "Архитектура и надёжность",
-    text: "Помогаю выстроить структуру проекта, снизить хрупкость кода и сделать backend предсказуемым для команды."
-  },
-  {
-    title: "Автоматизация и данные",
-    text: "Собираю очереди, фоновые процессы, обработку данных и понятные технические материалы вокруг решений."
-  }
-];
-
-const workSignals = [
-  "Нужен аккуратный backend без ощущения временного решения",
-  "Команде важно качество кода, API и данных, а не только скорость релиза",
-  "Хочется собрать сервис, интеграцию или внутренний инструмент",
-  "Нужен человек, который может думать про архитектуру, доменную логику и поддержку проекта"
-];
 
 usePageMeta({
   ...getStaticPageMeta("home"),
@@ -94,7 +73,7 @@ usePageMeta({
   <section class="reveal home-support">
     <h2 class="section-title">Чем могу помочь</h2>
     <div class="support-card-grid home-offer-grid">
-      <article v-for="card in offerCards" :key="card.title" class="support-card home-offer-card">
+      <article v-for="card in home.offerCards" :key="card.title" class="support-card home-offer-card">
         <h3 class="support-card-title">{{ card.title }}</h3>
         <p class="home-status">{{ card.text }}</p>
       </article>
@@ -103,7 +82,7 @@ usePageMeta({
     <article class="support-panel">
       <h3 class="support-panel-title">Когда точно полезно написать?</h3>
       <ul class="support-checklist">
-        <li v-for="signal in workSignals" :key="signal">{{ signal }}</li>
+        <li v-for="signal in home.workSignals" :key="signal">{{ signal }}</li>
       </ul>
     </article>
   </section>
