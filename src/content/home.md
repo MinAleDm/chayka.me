@@ -2,7 +2,6 @@
 eyebrow: Backend Node.js Developer
 title: Aleksandr Minkin
 lead: Проектирую и разрабатываю backend-сервисы на Node.js — от доменной модели и API до интеграций и эксплуатации.
-subtitle: Архитектор информационных систем; сейчас работаю Backend Node.js Developer.
 supportTitle: Поддержка open source
 supportText: Если вам нравится моя работа и вы находите её полезной, можно поддержать меня обратной связью, репостом или предложением о сотрудничестве.
 offerCards: [
