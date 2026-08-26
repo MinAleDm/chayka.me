@@ -1,5 +1,6 @@
 import type { PageMeta } from "./meta";
 import { siteMetadata } from "./content";
+import pageMetaConfig from "../content/page-meta.json";
 
 export type NavigationItemName = "home" | "projects" | "blog" | "talks" | "support" | "contact";
 export type StaticPageKey = NavigationItemName | "not-found";
@@ -40,42 +41,23 @@ export const PRIMARY_NAV_ITEMS: NavigationItem[] = [
 
 export const HEADER_NAV_ITEMS: NavigationItem[] = PRIMARY_NAV_ITEMS.filter((item) => item.name !== "talks");
 
-const STATIC_PAGE_META: Record<StaticPageKey, PageMeta> = {
-  home: {
-    title: siteMetadata.defaultTitle,
-    description: siteMetadata.defaultDescription,
-    path: "/"
-  },
-  projects: {
-    title: buildSectionTitle("Projects"),
-    description: "Backend, API, автоматизация и pet-проекты: от идеи до рабочего релиза.",
-    path: "/projects"
-  },
-  blog: {
-    title: buildSectionTitle("Blog"),
-    description: "Статьи про backend-разработку, архитектуру, автоматизацию и инженерную практику.",
-    path: "/blog"
-  },
-  talks: {
-    title: buildSectionTitle("Talks"),
-    description: "Лекции, заметки и будущие выпуски Podcast Lab про backend и инженерную практику.",
-    path: "/talks"
-  },
-  support: {
-    title: buildSectionTitle("Support"),
-    description: "Как поддержать автора сайта: обратная связь, репосты, сотрудничество и идеи.",
-    path: "/support"
-  },
-  contact: {
-    title: buildSectionTitle("Contact"),
-    description: "Каналы связи для backend-задач, технических вопросов и сотрудничества.",
-    path: "/contact"
-  },
-  "not-found": {
-    title: `Страница не найдена — ${siteMetadata.displayName}`,
-    description: "Запрошенная страница не найдена. Вернитесь на главную или откройте список материалов.",
-    path: "/404"
-  }
+type StaticPageConfig = {
+  path: string;
+  title: string | null;
+  description: string | null;
+  indexable: boolean;
 };
+
+const staticPageConfig = pageMetaConfig as Record<StaticPageKey, StaticPageConfig>;
+const STATIC_PAGE_META = Object.fromEntries(
+  Object.entries(staticPageConfig).map(([key, page]) => [
+    key,
+    {
+      title: page.title ? buildSectionTitle(page.title) : siteMetadata.defaultTitle,
+      description: page.description ?? siteMetadata.defaultDescription,
+      path: page.path
+    }
+  ])
+) as Record<StaticPageKey, PageMeta>;
 
 export const getStaticPageMeta = (page: StaticPageKey): PageMeta => STATIC_PAGE_META[page];

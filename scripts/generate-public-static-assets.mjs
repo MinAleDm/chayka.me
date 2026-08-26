@@ -7,6 +7,7 @@ import {
   createSiteUrl,
   createSummary,
   ensureDir,
+  readPageMetaConfig,
   readMarkdownEntries,
   readSiteConfig
 } from "./site-utils.mjs";
@@ -95,8 +96,10 @@ async function writeRobots(siteConfig) {
   await writeFile(path.join(PUBLIC_DIR, "robots.txt"), content, "utf8");
 }
 
-async function writeSitemap(siteConfig, blogPosts, projectPages) {
-  const staticRoutes = ["/", "/projects", "/blog", "/support", "/contact"];
+async function writeSitemap(siteConfig, pageMetaConfig, blogPosts, projectPages) {
+  const staticRoutes = Object.values(pageMetaConfig)
+    .filter((page) => page.indexable)
+    .map((page) => page.path);
   const items = [
     ...staticRoutes.map((routePath) => ({ path: routePath })),
     ...blogPosts,
@@ -113,13 +116,13 @@ async function writeSitemap(siteConfig, blogPosts, projectPages) {
 }
 
 async function main() {
-  const siteConfig = await readSiteConfig();
+  const [siteConfig, pageMetaConfig] = await Promise.all([readSiteConfig(), readPageMetaConfig()]);
   const blogPosts = await getBlogPosts(siteConfig);
   const projectPages = await getProjectPages(siteConfig);
 
   await writeRss(siteConfig, blogPosts);
   await writeRobots(siteConfig);
-  await writeSitemap(siteConfig, blogPosts, projectPages);
+  await writeSitemap(siteConfig, pageMetaConfig, blogPosts, projectPages);
 
   console.log("Generated public static assets for dev server.");
 }

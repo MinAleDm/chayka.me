@@ -9,6 +9,7 @@ import {
   createSummary,
   ensureDir,
   parseMarkdownFile,
+  readPageMetaConfig,
   readMarkdownEntries,
   readSiteConfig
 } from "./site-utils.mjs";
@@ -207,7 +208,7 @@ async function writeRobots(siteConfig) {
 }
 
 async function main() {
-  const siteConfig = await readSiteConfig();
+  const [siteConfig, pageMetaConfig] = await Promise.all([readSiteConfig(), readPageMetaConfig()]);
   const indexHtmlPath = path.join(DIST_DIR, "index.html");
   const indexHtml = await readFile(indexHtmlPath, "utf8");
   const homeSource = await readFile(HOME_CONTENT_PATH, "utf8");
@@ -217,50 +218,12 @@ async function main() {
       ? homeAttributes.lead.trim()
       : siteConfig.defaultDescription;
 
-  const staticRoutes = [
-    {
-      path: "/",
-      title: siteConfig.defaultTitle,
-      description: homeDescription,
-      indexable: true
-    },
-    {
-      path: "/projects",
-      title: `Projects — ${siteConfig.displayName}`,
-      description: "Рабочие и pet-проекты: продуктовые интерфейсы, fullstack-системы и инженерные эксперименты.",
-      indexable: true
-    },
-    {
-      path: "/blog",
-      title: `Blog — ${siteConfig.displayName}`,
-      description: "Статьи про инженерную практику, архитектуру, DX и процесс разработки.",
-      indexable: true
-    },
-    {
-      path: "/talks",
-      title: `Talks — ${siteConfig.displayName}`,
-      description: "Раздел с лекциями, выпусками и заметками о публичных выступлениях.",
-      indexable: false
-    },
-    {
-      path: "/support",
-      title: `Support — ${siteConfig.displayName}`,
-      description: "Как поддержать автора сайта, дать обратную связь или предложить сотрудничество.",
-      indexable: true
-    },
-    {
-      path: "/contact",
-      title: `Contact — ${siteConfig.displayName}`,
-      description: "Каналы связи для сотрудничества, технических вопросов и продуктовых обсуждений.",
-      indexable: true
-    },
-    {
-      path: "/404",
-      title: `Страница не найдена — ${siteConfig.displayName}`,
-      description: siteConfig.defaultDescription,
-      indexable: false
-    }
-  ];
+  const staticRoutes = Object.values(pageMetaConfig).map((page) => ({
+    path: page.path,
+    title: page.title ? `${page.title} — ${siteConfig.displayName}` : siteConfig.defaultTitle,
+    description: page.path === "/" ? homeDescription : (page.description ?? siteConfig.defaultDescription),
+    indexable: page.indexable
+  }));
 
   for (const route of staticRoutes) {
     await writeRouteHtml(route.path, applyPageMeta(indexHtml, route, siteConfig));

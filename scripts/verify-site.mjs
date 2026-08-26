@@ -5,8 +5,10 @@ import {
   DIST_DIR,
   GENERATED_GITHUB_PATH,
   PROJECTS_DIR,
+  ROOT_DIR,
   createSiteUrl,
   getBasePath,
+  readPageMetaConfig,
   readSiteConfig,
   readMarkdownEntries
 } from "./site-utils.mjs";
@@ -43,6 +45,31 @@ async function verifyMarkdownEntries() {
   }
 }
 
+async function verifySiteMetadata() {
+  const [siteConfig, pageMetaConfig, indexHtml] = await Promise.all([
+    readSiteConfig(),
+    readPageMetaConfig(),
+    readFile(path.join(ROOT_DIR, "index.html"), "utf8")
+  ]);
+  const pages = Object.values(pageMetaConfig);
+  const paths = pages.map((page) => page.path);
+
+  assert(pages.length > 0, "Static page metadata is empty.");
+  assert(new Set(paths).size === paths.length, "Static page metadata contains duplicate paths.");
+  assert(paths.includes("/"), "Static page metadata must include the home route.");
+  assert(paths.includes("/404"), "Static page metadata must include the not-found route.");
+  assert(indexHtml.includes(`<title>${siteConfig.defaultTitle}</title>`), "index.html title must match site config.");
+  assert(
+    indexHtml.includes(`content="${siteConfig.defaultDescription}"`),
+    "index.html description must match site config."
+  );
+
+  for (const page of pages) {
+    assert(typeof page.path === "string" && page.path.startsWith("/"), "Each static page needs an absolute path.");
+    assert(typeof page.indexable === "boolean", `Missing indexable flag for ${page.path}.`);
+  }
+}
+
 async function verifyGeneratedGithubPayload() {
   const siteConfig = await readSiteConfig();
   const payload = JSON.parse(await readFile(GENERATED_GITHUB_PATH, "utf8"));
@@ -56,24 +83,21 @@ async function verifyGeneratedGithubPayload() {
 }
 
 async function verifyBuildOutput() {
-  const siteConfig = await readSiteConfig();
+  const [siteConfig, pageMetaConfig] = await Promise.all([readSiteConfig(), readPageMetaConfig()]);
   const basePath = getBasePath(siteConfig.baseUrl);
   const [blogEntries, projectEntries] = await Promise.all([
     readMarkdownEntries(BLOG_DIR),
     readMarkdownEntries(PROJECTS_DIR)
   ]);
+  const staticPageFiles = Object.values(pageMetaConfig).map((page) =>
+    page.path === "/" ? "index.html" : path.join(page.path.replace(/^\//, ""), "index.html")
+  );
   const requiredFiles = [
-    "index.html",
+    ...staticPageFiles,
     "404.html",
-    path.join("404", "index.html"),
     "sitemap.xml",
     "robots.txt",
-    path.join("blog", "index.html"),
-    path.join("blog", "rss.xml"),
-    path.join("talks", "index.html"),
-    path.join("support", "index.html"),
-    path.join("projects", "index.html"),
-    path.join("contact", "index.html")
+    path.join("blog", "rss.xml")
   ]
     .concat(blogEntries.map((entry) => path.join("blog", entry.slug, "index.html")))
     .concat(projectEntries.map((entry) => path.join("projects", entry.slug, "index.html")));
@@ -103,6 +127,7 @@ async function verifyBuildOutput() {
 }
 
 async function main() {
+  await verifySiteMetadata();
   await verifyMarkdownEntries();
   await verifyGeneratedGithubPayload();
 

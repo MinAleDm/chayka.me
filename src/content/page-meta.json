@@ -1,0 +1,44 @@
+{
+  "home": {
+    "path": "/",
+    "title": null,
+    "description": null,
+    "indexable": true
+  },
+  "projects": {
+    "path": "/projects",
+    "title": "Projects",
+    "description": "Backend-сервисы, API, интеграции и pet-проекты: от архитектуры до рабочего релиза.",
+    "indexable": true
+  },
+  "blog": {
+    "path": "/blog",
+    "title": "Blog",
+    "description": "Статьи про backend-разработку, архитектуру, автоматизацию и инженерную практику.",
+    "indexable": true
+  },
+  "talks": {
+    "path": "/talks",
+    "title": "Talks",
+    "description": "Лекции, заметки и будущие выпуски Podcast Lab про backend и инженерную практику.",
+    "indexable": false
+  },
+  "support": {
+    "path": "/support",
+    "title": "Support",
+    "description": "Как поддержать автора сайта: обратная связь, репосты, сотрудничество и идеи.",
+    "indexable": true
+  },
+  "contact": {
+    "path": "/contact",
+    "title": "Contact",
+    "description": "Каналы связи для backend-задач, технических вопросов и сотрудничества.",
+    "indexable": true
+  },
+  "not-found": {
+    "path": "/404",
+    "title": "Страница не найдена",
+    "description": "Запрошенная страница не найдена. Вернитесь на главную или откройте список материалов.",
+    "indexable": false
+  }
+}

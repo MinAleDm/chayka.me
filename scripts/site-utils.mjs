@@ -11,6 +11,7 @@ export const CONTENT_DIR = path.join(ROOT_DIR, "src", "content");
 export const BLOG_DIR = path.join(CONTENT_DIR, "blog");
 export const HOME_CONTENT_PATH = path.join(CONTENT_DIR, "home.md");
 export const PROJECTS_DIR = path.join(CONTENT_DIR, "projects");
+export const PAGE_META_CONFIG_PATH = path.join(CONTENT_DIR, "page-meta.json");
 export const SITE_CONFIG_PATH = path.join(CONTENT_DIR, "site-config.json");
 export const GENERATED_GITHUB_PATH = path.join(CONTENT_DIR, "generated", "github-data.json");
 
@@ -19,6 +20,10 @@ const keyLineRegex = /^([A-Za-z0-9_-]+):(.*)$/;
 
 export async function readSiteConfig() {
   return JSON.parse(await readFile(SITE_CONFIG_PATH, "utf8"));
+}
+
+export async function readPageMetaConfig() {
+  return JSON.parse(await readFile(PAGE_META_CONFIG_PATH, "utf8"));
 }
 
 export function getBasePath(baseUrl) {
